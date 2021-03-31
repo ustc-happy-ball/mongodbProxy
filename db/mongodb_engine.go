@@ -2,7 +2,7 @@ package db
 
 import (
 	"context"
-	"github.com/LILILIhuahuahua/ustc_tencent_game/configs"
+	"github.com/TianqiS/database_for_happyball/configs"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"log"

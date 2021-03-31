@@ -1,0 +1,31 @@
+syntax = "proto3";
+package databaseGrpc;
+
+enum REQUEST_TYPE {
+  ADD = 0;
+  DELETE = 1;
+  UPDATE = 3;
+  FIND = 4;
+}
+
+enum RESPONSE_TYPE {
+  ADD_RESPONSE = 0;
+  DELETE_RESPONSE = 1;
+  UPDATE_RESPONSE = 2;
+  FIND_RESPONSE = 3;
+}
+
+enum RESPONSE_STATUS {
+  SUCCESS = 0;
+  FAIL = 1;
+}
+
+
+enum MESSAGE_TYPE {
+  REQUEST = 0;
+  RESPONSE = 1;
+}
+
+enum ITEM { // 更新的对象
+  PLAYER = 0;
+}

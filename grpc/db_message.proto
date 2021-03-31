@@ -1,0 +1,9 @@
+syntax = "proto3";
+package databaseGrpc;
+import "type_enum.proto";
+
+message DbMessage {
+  int64 id = 1;
+  MESSAGE_TYPE messageType = 2;
+
+}

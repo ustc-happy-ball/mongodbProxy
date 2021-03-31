@@ -1,0 +1,27 @@
+syntax = "proto3";
+package databaseGrpc;
+import "type_enum.proto";
+import "google/protobuf/any.proto";
+
+message Response {
+  RESPONSE_TYPE responseType = 1;
+}
+
+message AddResponse {
+
+}
+
+message DeleteResponse {
+
+}
+
+message UpdateResponse {
+
+}
+
+message FindResponse {
+  RESPONSE_STATUS responseStatus = 1;
+  map<string, google.protobuf.Any> results = 2;
+  string error = 3; // 错误信息
+}
+

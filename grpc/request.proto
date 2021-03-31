@@ -1,0 +1,51 @@
+syntax = "proto3";
+package databaseGrpc;
+import "type_enum.proto";
+import "google/protobuf/any.proto";
+
+message Request {
+  REQUEST_TYPE requestType = 1;
+  UpdateItemById updateItemById = 2;
+  UpdateItemByKey updateItemByKey = 3;
+  AddItem addItem = 4;
+  FindItemById findItemById = 5;
+  FindItemByKey findItemByKey = 6;
+  DeleteItemById deleteItemById = 7;
+  DeleteItemByKey deleteItemByKey = 8;
+}
+
+message UpdateItemById {
+  string objectId = 1;
+  ITEM updateItem = 2; // 更新的对象
+  map<string, google.protobuf.Any> items = 3;
+}
+
+message UpdateItemByKey {
+  ITEM updateItem = 1;
+  string key = 2; // 查询的key
+  google.protobuf.Any value = 3; // key对应的value
+  map<string, google.protobuf.Any> item = 4;
+}
+
+message AddItem {
+  ITEM addItem = 1;
+  map<string, google.protobuf.Any> item = 2;
+}
+
+message FindItemById {
+  ITEM item = 1;
+  string itemId = 2;
+}
+
+message FindItemByKey {
+
+}
+
+message DeleteItemById {
+
+}
+
+message DeleteItemByKey {
+
+}
+

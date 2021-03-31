@@ -1,0 +1,8 @@
+syntax = "proto3";
+package databaseGrpc;
+import "request.proto";
+import "response.proto";
+
+service DbService {
+  rpc SendRequest(Request) returns (Response) {}
+}
