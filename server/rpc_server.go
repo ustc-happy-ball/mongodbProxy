@@ -3,8 +3,8 @@ package server
 import (
 	"context"
 	"fmt"
+	"github.com/TianqiS/database_for_happyball/database_grpc"
 	"github.com/TianqiS/database_for_happyball/db"
-	databaseGrpc "github.com/TianqiS/database_for_happyball/grpc"
 	"log"
 )
 

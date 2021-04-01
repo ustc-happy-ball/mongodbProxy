@@ -2,8 +2,8 @@ package main
 
 import (
 	"github.com/TianqiS/database_for_happyball/configs"
+	"github.com/TianqiS/database_for_happyball/database_grpc"
 	"github.com/TianqiS/database_for_happyball/db"
-	databaseGrpc "github.com/TianqiS/database_for_happyball/grpc"
 	"github.com/TianqiS/database_for_happyball/server"
 	"google.golang.org/grpc"
 	"log"
