@@ -5,6 +5,8 @@ import "google/protobuf/any.proto";
 
 message Response {
   RESPONSE_TYPE responseType = 1;
+  FindResponse findResponse = 2;
+
 }
 
 message AddResponse {
@@ -21,7 +23,7 @@ message UpdateResponse {
 
 message FindResponse {
   RESPONSE_STATUS responseStatus = 1;
-  map<string, google.protobuf.Any> results = 2;
+  google.protobuf.Any results = 2;
   string error = 3; // 错误信息
 }
 

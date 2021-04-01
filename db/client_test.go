@@ -4,13 +4,15 @@ import (
 	"context"
 	databaseGrpc "github.com/TianqiS/database_for_happyball/database_grpc"
 	"google.golang.org/grpc"
+	"google.golang.org/protobuf/proto"
+	"google.golang.org/protobuf/types/known/anypb"
 	"log"
 	"testing"
 	"time"
 )
 
 const (
-	address     = "localhost:50051"
+	address = "localhost:50051"
 )
 
 func TestClient(t *testing.T) {
@@ -26,13 +28,19 @@ func TestClient(t *testing.T) {
 
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
-	r, err := c.SendRequest(ctx, &databaseGrpc.Request{FindItemById: &databaseGrpc.FindItemById{
-		Item:   databaseGrpc.ITEM_PLAYER,
-		ItemId: "605b7267be255a7618e38d6a",
-	}})
+	requestMsg := &databaseGrpc.DbMessage{Id: 1,
+		MessageType: databaseGrpc.MESSAGE_TYPE_REQUEST,
+		Request: &databaseGrpc.Request{
+			FindItemById: &databaseGrpc.FindItemById{
+				Item:   databaseGrpc.ITEM_PLAYER,
+				ItemId: "605b7267be255a7618e38d6a",
+			},
+		}}
+	r, err := c.SendRequest(ctx, requestMsg)
 	if err != nil {
 		log.Fatalf("could not greet: %v", err)
 	}
-	log.Printf("Greeting: %s", r.GetResponseType())
+	accountPb := &databaseGrpc.Account{}
+	anypb.UnmarshalTo(r.GetResponse().FindResponse.Results, accountPb, proto.UnmarshalOptions{})
+	log.Printf("Greeting: %s", r.GetResponse())
 }
-

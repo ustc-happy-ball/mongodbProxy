@@ -1,0 +1,14 @@
+syntax = "proto3";
+package databaseGrpc;
+
+message Account {
+  string objectId = 1;
+  string name = 2;
+  string loginPassword = 3;
+  int64 level = 4;
+  bool delete = 5;
+  string region = 6;
+  string phone = 7;
+  int64 createAt = 8;
+  int64 updateAt = 9;
+}

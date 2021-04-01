@@ -1,9 +1,12 @@
 syntax = "proto3";
 package databaseGrpc;
 import "type_enum.proto";
+import "request.proto";
+import "response.proto";
 
 message DbMessage {
   int64 id = 1;
   MESSAGE_TYPE messageType = 2;
-
+  Request request = 3;
+  Response response = 4;
 }
