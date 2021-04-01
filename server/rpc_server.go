@@ -19,21 +19,13 @@ func GetServer() *RpcServer {
 
 func (s *RpcServer) SendRequest(ctx context.Context, in *databaseGrpc.DbMessage) (*databaseGrpc.DbMessage, error) {
 	if in.GetRequest().GetFindItemById() != nil {
-		acc, err := db.AccountCollection.FindAccount(in.GetRequest().GetFindItemById().ItemId)
+		objectId := in.GetRequest().GetFindItemById().ItemId
+		acc, err := db.AccountCollection.FindAccount(objectId)
 		if err != nil {
 			log.Fatal("查找时发生了错误", err)
 		}
-		accPb := databaseGrpc.Account{
-			Name:          acc.Name,
-			LoginPassword: acc.LoginPassword,
-			Level:         acc.Level,
-			Delete:        acc.Delete,
-			Region:        acc.Region,
-			Phone:         acc.Phone,
-			CreateAt:      0,
-			UpdateAt:      0,
-		}
-		accAny, _ := anypb.New(&accPb)
+		accPb := acc.EncodeToProto(objectId)
+		accAny, _ := anypb.New(accPb)
 		fmt.Println("获取的acc为", acc)
 		return &databaseGrpc.DbMessage{
 			MessageType: databaseGrpc.MESSAGE_TYPE_RESPONSE,

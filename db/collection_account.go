@@ -2,6 +2,7 @@ package db
 
 import (
 	"context"
+	"github.com/TianqiS/database_for_happyball/model"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -9,17 +10,6 @@ import (
 
 type accountCollection struct {}
 
-type Account struct { // 里面的字段名一定要大写开头
-	Name string
-	LoginPassword string // 登录密码
-	AccountAvatar string // 头像
-	Level int64 // 当前等级
-	Delete bool // 当前账号是否注销
-	Region string // 用户的地区
-	Phone string // 电话
-	CreateAt int64
-	UpdateAt int64
-}
 
 var AccountCollection = &accountCollection{}
 
@@ -27,7 +17,7 @@ func (this *accountCollection) getCollection() *mongo.Collection {
 	return Mc.GetCollection("Account", nil)
 }
 
-func (this *accountCollection) InsertAccount(account *Account) (string, error) {
+func (this *accountCollection) InsertAccount(account *model.Account) (string, error) {
 	collection := this.getCollection()
 	insertResult, err := collection.InsertOne(context.TODO(), account)
 	if err != nil {
@@ -36,7 +26,7 @@ func (this *accountCollection) InsertAccount(account *Account) (string, error) {
 	return insertResult.InsertedID.(primitive.ObjectID).String(), nil
 }
 
-func (this *accountCollection) FindAccount(accountId string) (*Account, error) {
+func (this *accountCollection) FindAccount(accountId string) (*model.Account, error) {
 	collection := this.getCollection()
 	accIdObject, err := primitive.ObjectIDFromHex(accountId)
 	if err != nil {
@@ -46,7 +36,7 @@ func (this *accountCollection) FindAccount(accountId string) (*Account, error) {
 	if result.Err() != nil {
 		return nil, result.Err()
 	}
-	findAcc := &Account{}
+	findAcc := &model.Account{}
 	err = result.Decode(findAcc)
 	if err != nil {
 		return nil, err
@@ -54,7 +44,7 @@ func (this *accountCollection) FindAccount(accountId string) (*Account, error) {
 	return findAcc, nil
 }
 
-func (this *accountCollection) UpdateAccount(accountId string, account *Account) {
+func (this *accountCollection) UpdateAccount(accountId string, account *model.Account) {
 	collection := this.getCollection()
 	accIdObject, err := primitive.ObjectIDFromHex(accountId)
 	update := bson.M{

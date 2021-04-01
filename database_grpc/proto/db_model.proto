@@ -11,4 +11,5 @@ message Account {
   string phone = 7;
   int64 createAt = 8;
   int64 updateAt = 9;
+  string accountAvatar = 10;
 }
