@@ -2,6 +2,7 @@ package db
 
 import (
 	"fmt"
+	"github.com/TianqiS/database_for_happyball/model"
 	"log"
 	"testing"
 	"time"
@@ -10,7 +11,7 @@ import (
 func TestInsertAccount(t *testing.T) {
 	InitClient()
 
-	id, err := AccountCollection.InsertAccount(&Account{
+	id, err := AccountCollection.InsertAccount(&model.Account{
 		Name:          "song",
 		LoginPassword: "ttt",
 		AccountAvatar: "www.baidu.com",

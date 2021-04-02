@@ -30,7 +30,6 @@ func (s *RpcServer) SendRequest(ctx context.Context, in *databaseGrpc.DbMessage)
 		return &databaseGrpc.DbMessage{
 			MessageType: databaseGrpc.MESSAGE_TYPE_RESPONSE,
 			Response:    &databaseGrpc.Response{
-				ResponseType: databaseGrpc.RESPONSE_TYPE_FIND_RESPONSE,
 				FindResponse: &databaseGrpc.FindResponse{
 					ResponseStatus: databaseGrpc.RESPONSE_STATUS_SUCCESS,
 					Results:        accAny,

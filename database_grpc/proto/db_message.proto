@@ -7,6 +7,7 @@ import "response.proto";
 message DbMessage {
   int64 id = 1;
   MESSAGE_TYPE messageType = 2;
-  Request request = 3;
-  Response response = 4;
+  MESSAGE_CODE messageCode = 3;
+  Request request = 4;
+  Response response = 5;
 }

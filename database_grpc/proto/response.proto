@@ -4,9 +4,7 @@ import "type_enum.proto";
 import "google/protobuf/any.proto";
 
 message Response {
-  RESPONSE_TYPE responseType = 1;
-  FindResponse findResponse = 2;
-
+  FindResponse findResponse = 1;
 }
 
 message AddResponse {

@@ -4,14 +4,13 @@ import "type_enum.proto";
 import "google/protobuf/any.proto";
 
 message Request {
-  REQUEST_TYPE requestType = 1;
-  UpdateItemById updateItemById = 2;
-  UpdateItemByKey updateItemByKey = 3;
-  AddItem addItem = 4;
-  FindItemById findItemById = 5;
-  FindItemByKey findItemByKey = 6;
-  DeleteItemById deleteItemById = 7;
-  DeleteItemByKey deleteItemByKey = 8;
+  UpdateItemById updateItemById = 1;
+  UpdateItemByKey updateItemByKey = 2;
+  AddItem addItem = 3;
+  FindItemById findItemById = 4;
+  FindItemByKey findItemByKey = 5;
+  DeleteItemById deleteItemById = 6;
+  DeleteItemByKey deleteItemByKey = 7;
 }
 
 message UpdateItemById {
