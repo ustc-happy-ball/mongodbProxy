@@ -1,6 +1,6 @@
 package event
 
 type EventDispatcher interface {
-	FireEvent()
+	FireEvent(event Event)
 	Close()
 }

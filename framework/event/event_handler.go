@@ -1,5 +1,5 @@
 package event
 
 type EventHandler interface {
-	OnEvent()
+	OnEvent(event Event)
 }

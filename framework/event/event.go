@@ -1,6 +1,8 @@
 package event
 
 type Event interface {
-	ToMessage()
-	FromMessage()
+	GetCode() int64
+	SetCode(int64)
+	ToMessage() interface{}
+	FromMessage(interface{})
 }
