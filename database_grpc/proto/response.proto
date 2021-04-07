@@ -5,6 +5,9 @@ import "google/protobuf/any.proto";
 
 message Response {
   FindResponse findResponse = 1;
+  AddResponse addResponse = 2;
+  UpdateResponse updateResponse = 3;
+  DeleteResponse deleteResponse = 4;
 }
 
 message AddResponse {
