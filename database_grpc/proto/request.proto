@@ -28,7 +28,7 @@ message UpdateItemByKey {
 
 message AddItem {
   ITEM addItem = 1;
-  map<string, google.protobuf.Any> item = 2;
+  google.protobuf.Any item = 2;
 }
 
 message FindItemById {
