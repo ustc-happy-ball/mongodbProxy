@@ -11,9 +11,9 @@ import (
 func TestInsertAccount(t *testing.T) {
 	InitClient()
 
-	id, err := AccountCollection.InsertAccount(&model.Account{
+	id, err := AccountCollection.InsertItem(&model.Account{
 		Name:          "song",
-		LoginPassword: "ttt",
+		LoginPassword: "tttqitian",
 		AccountAvatar: "www.baidu.com",
 		Level:         1,
 		Delete:        false,
@@ -31,8 +31,7 @@ func TestInsertAccount(t *testing.T) {
 
 func TestFindAccount(t *testing.T) {
 	InitClient()
-
-	acc, err := AccountCollection.FindAccount("605b7267be255a7618e38d6a")
+	acc, err := AccountCollection.FindOneItemById("605b7267be255a7618e38d6a")
 	if err != nil {
 		t.Error("查找时发生了错误", err)
 	}

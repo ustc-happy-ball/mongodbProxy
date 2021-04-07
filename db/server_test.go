@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	databaseGrpc "github.com/TianqiS/database_for_happyball/database_grpc"
+	"github.com/TianqiS/database_for_happyball/model"
 	grpc2 "google.golang.org/grpc"
 	"google.golang.org/protobuf/types/known/anypb"
 	"log"
@@ -21,7 +22,9 @@ const (
 
 func (s *server) SendRequest(ctx context.Context, in *databaseGrpc.DbMessage) (*databaseGrpc.DbMessage, error) {
 	if in.GetRequest().GetFindItemById() != nil {
-		acc, err := AccountCollection.FindAccount(in.GetRequest().GetFindItemById().ItemId)
+		obj, err := AccountCollection.FindOneItemById(in.GetRequest().GetFindItemById().ItemId)
+		acc := model.Account{}
+		obj.Decode(acc)
 		if err != nil {
 			log.Fatal("查找时发生了错误", err)
 		}

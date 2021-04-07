@@ -1,60 +1,55 @@
 package db
 
-import (
-	"context"
-	"github.com/TianqiS/database_for_happyball/model"
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/bson/primitive"
-	"go.mongodb.org/mongo-driver/mongo"
-)
+import "go.mongodb.org/mongo-driver/mongo"
 
-type accountCollection struct {}
-
-
-var AccountCollection = &accountCollection{}
-
-func (this *accountCollection) getCollection() *mongo.Collection {
-	return Mc.GetCollection("Account", nil)
+type accountCollection struct {
+	*BaseCollection
 }
 
-func (this *accountCollection) InsertAccount(account *model.Account) (string, error) {
-	collection := this.getCollection()
-	insertResult, err := collection.InsertOne(context.TODO(), account)
+
+var AccountCollection = &accountCollection{
+	BaseCollection: NewBaseCollection("Account"),
+}
+
+func (accountCollection *accountCollection) InsertItem(item interface{}) (string, error) {
+	result, err := accountCollection.BaseCollection.InsertItem(item)
 	if err != nil {
 		return "", err
 	}
-	return insertResult.InsertedID.(primitive.ObjectID).String(), nil
+	return result, nil
 }
 
-func (this *accountCollection) FindAccount(accountId string) (*model.Account, error) {
-	collection := this.getCollection()
-	accIdObject, err := primitive.ObjectIDFromHex(accountId)
+func (accountCollection *accountCollection) GetCollection() *mongo.Collection {
+	panic("implement me")
+}
+
+func (accountCollection *accountCollection) FindOneItemById(objectId string) (*mongo.SingleResult, error) {
+	result, err := accountCollection.BaseCollection.FindOneItemById(objectId)
 	if err != nil {
 		return nil, err
 	}
-	result := collection.FindOne(context.TODO(), bson.M{"_id": accIdObject})
-	if result.Err() != nil {
-		return nil, result.Err()
-	}
-	findAcc := &model.Account{}
-	err = result.Decode(findAcc)
-	if err != nil {
-		return nil, err
-	}
-	return findAcc, nil
+	return result, nil
 }
 
-func (this *accountCollection) UpdateAccount(accountId string, account *model.Account) {
-	collection := this.getCollection()
-	accIdObject, err := primitive.ObjectIDFromHex(accountId)
-	update := bson.M{
-		"$set": bson.M{
-			"phone": account.Phone,
-		},
-	}
-
-	if err != nil {
-		return
-	}
-	collection.UpdateByID(context.TODO(), accIdObject, update)
+func (accountCollection *accountCollection) FindOneItemByKey(key string, value interface{}) (*mongo.SingleResult, error) {
+	panic("implement me")
 }
+
+func (accountCollection *accountCollection) UpdateItemById(objectId string, newItem interface{}) error {
+	panic("implement me")
+}
+
+func (accountCollection *accountCollection) UpdateItemByKey(key string, value interface{}, newItem interface{}) error {
+	panic("implement me")
+}
+
+func (accountCollection *accountCollection) DeleteItemById(objectId string) error {
+	panic("implement me")
+}
+
+func (accountCollection *accountCollection) DeleteItemByKey(key string, value interface{}) error {
+	panic("implement me")
+}
+
+
+
