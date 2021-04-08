@@ -29,11 +29,20 @@ func TestInsertAccount(t *testing.T) {
 	log.Println("获取的ID为", id)
 }
 
-func TestFindAccount(t *testing.T) {
+func TestFindAccountById(t *testing.T) {
 	InitClient()
 	acc, err := AccountCollection.FindOneItemById("605b7267be255a7618e38d6a")
 	if err != nil {
 		t.Error("查找时发生了错误", err)
 	}
 	fmt.Println("获取的acc为", acc)
+}
+
+func TestFindAccountByKey(t *testing.T) {
+	InitClient()
+	_, err := AccountCollection.FindItemsByKey("name", "song")
+	if err != nil {
+		t.Error("查找时发生了错误", err)
+	}
+	//fmt.Println("获取的acc为", acc)
 }

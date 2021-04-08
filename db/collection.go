@@ -6,9 +6,9 @@ type Collection interface {
 	GetCollection() *mongo.Collection
 	InsertItem(item interface{}) (string, error)
 	FindOneItemById(objectId string) (*mongo.SingleResult, error)
-	FindOneItemByKey(key string, value interface{}) (*mongo.SingleResult, error)
+	FindItemsByKey(key string, value string) ([]interface{}, error)
 	UpdateItemById(objectId string, newItem interface{}) error
-	UpdateItemByKey(key string, value interface{}, newItem interface{}) error
+	UpdateItemByKey(key string, value string, newItem interface{}) error
 	DeleteItemById(objectId string) error
-	DeleteItemByKey(key string, value interface{}) error
+	DeleteItemByKey(key string, value string) error
 }

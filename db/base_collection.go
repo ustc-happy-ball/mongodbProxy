@@ -43,16 +43,20 @@ func (baseColl *BaseCollection) FindOneItemById(objectId string) (*mongo.SingleR
 	return result, nil
 }
 
-func (baseColl *BaseCollection) FindOneItemByKey(key string, value interface{}) (*mongo.SingleResult, error) {
-	//collection := baseColl.GetCollection()
-	return nil, nil
+func (baseColl *BaseCollection) GetCursorOnKeyValue(key string, value string) (*mongo.Cursor, error) {
+	collection := baseColl.GetCollection()
+	cursor, err := collection.Find(context.TODO(), bson.M{key: value})
+	if err != nil {
+		return nil, err
+	}
+	return cursor, nil
 }
 
 func (baseColl *BaseCollection) UpdateItemById(objectId string, newItem interface{}) error {
 	panic("implement me")
 }
 
-func (baseColl *BaseCollection) UpdateItemByKey(key string, value interface{}, newItem interface{}) error {
+func (baseColl *BaseCollection) UpdateItemByKey(key string, value string, newItem interface{}) error {
 	panic("implement me")
 }
 
@@ -60,6 +64,6 @@ func (baseColl *BaseCollection) DeleteItemById(objectId string) error {
 	panic("implement me")
 }
 
-func (baseColl *BaseCollection) DeleteItemByKey(key string, value interface{}) error {
+func (baseColl *BaseCollection) DeleteItemByKey(key string, value string) error {
 	panic("implement me")
 }
