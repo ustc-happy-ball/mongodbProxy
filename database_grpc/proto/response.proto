@@ -11,15 +11,19 @@ message Response {
 }
 
 message AddResponse {
-
+  RESPONSE_STATUS responseStatus = 1;
+  string objectId = 2;
+  string error = 3;
 }
 
 message DeleteResponse {
-
+  RESPONSE_STATUS responseStatus = 1;
+  string error = 2;
 }
 
 message UpdateResponse {
-
+  RESPONSE_STATUS responseStatus = 1;
+  string error = 2;
 }
 
 message FindResponse {
