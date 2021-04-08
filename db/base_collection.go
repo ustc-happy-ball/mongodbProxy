@@ -56,14 +56,28 @@ func (baseColl *BaseCollection) UpdateItemById(objectId string, newItem interfac
 	panic("implement me")
 }
 
-func (baseColl *BaseCollection) UpdateItemByKey(key string, value string, newItem interface{}) error {
+func (baseColl *BaseCollection) UpdateItemByKey(key string, value interface{}, newItem interface{}) error {
 	panic("implement me")
 }
 
 func (baseColl *BaseCollection) DeleteItemById(objectId string) error {
-	panic("implement me")
+	collection := baseColl.GetCollection()
+	itemIdObject, err := primitive.ObjectIDFromHex(objectId)
+	if err != nil {
+		return err
+	}
+	_, err = collection.DeleteOne(context.TODO(), bson.M{"_id": itemIdObject})
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
-func (baseColl *BaseCollection) DeleteItemByKey(key string, value string) error {
-	panic("implement me")
+func (baseColl *BaseCollection) DeleteItemByKey(key string, value interface{}) error {
+	collection := baseColl.GetCollection()
+	_, err := collection.DeleteMany(context.TODO(), bson.M{key: value})
+	if err != nil {
+		return err
+	}
+	return nil
 }

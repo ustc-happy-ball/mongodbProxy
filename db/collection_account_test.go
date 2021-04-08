@@ -46,3 +46,19 @@ func TestFindAccountByKey(t *testing.T) {
 	}
 	//fmt.Println("获取的acc为", acc)
 }
+
+func TestDeleteAccountById(t *testing.T) {
+	InitClient()
+	err := AccountCollection.DeleteItemById("605b7267be255a7618e38d6a")
+	if err != nil {
+		t.Error("删除时发生了错误", err)
+	}
+}
+
+func TestDeleteAccountByKey(t *testing.T) {
+	InitClient()
+	err := AccountCollection.DeleteItemByKey("level", 1)
+	if err != nil {
+		t.Error("删除时发生了错误", err)
+	}
+}
