@@ -63,3 +63,16 @@ func (accountEvent *AccountEvent) ToModel() interface{} {
 	return account
 }
 
+func (accountEvent *AccountEvent) FromModel(account *model.Account) {
+	accountEvent.Name = account.Name
+	accountEvent.LoginPassword = account.LoginPassword
+	accountEvent.AccountAvatar = account.AccountAvatar
+	accountEvent.Level = account.Level
+	accountEvent.Delete = account.Delete
+	accountEvent.Region = account.Region
+	accountEvent.Phone = account.Phone
+	accountEvent.MaxScore = account.MaxScore
+	accountEvent.CreateAt = account.CreateAt
+	accountEvent.UpdateAt = account.UpdateAt
+}
+
