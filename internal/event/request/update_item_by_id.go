@@ -7,7 +7,7 @@ import (
 type UpdateItemById struct {
 	*framework.BaseEvent
 	objectId string
-	updateItem int
+	updateItem int32
 	items map[string]interface{}
 }
 

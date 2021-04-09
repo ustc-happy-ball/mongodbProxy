@@ -10,6 +10,8 @@ const (
 	TcpPort string = ":50051"
 
 	// enum类型
-	responseStatusSuccess int32 = 0
-	responseStatusFail int32 = 1
+	ResponseStatusSuccess int32 = 0
+	ResponseStatusFail int32 = 1
+
+	AddItemPlayer int32 = 0
 )

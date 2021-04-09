@@ -4,7 +4,7 @@ import "github.com/TianqiS/database_for_happyball/framework"
 
 type UpdateItemByKey struct {
 	*framework.BaseEvent
-	updateItem int // 更新的item的种类
+	updateItem int32 // 更新的item的种类
 	key string
 	value interface{}
 	items map[string]interface{}

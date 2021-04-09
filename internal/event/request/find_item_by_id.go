@@ -4,7 +4,7 @@ import "github.com/TianqiS/database_for_happyball/framework"
 
 type FindItemById struct {
 	*framework.BaseEvent
-	item int
+	item int32
 	itemId string
 }
 
