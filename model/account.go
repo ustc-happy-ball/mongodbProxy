@@ -1,6 +1,6 @@
 package model
 
-import databaseGrpc "github.com/TianqiS/database_for_happyball/database_grpc"
+import "github.com/TianqiS/database_for_happyball/internal/event/info"
 
 type Account struct { // 里面的字段名一定要大写开头
 	Name string
@@ -15,33 +15,17 @@ type Account struct { // 里面的字段名一定要大写开头
 	UpdateAt int64
 }
 
-func (account *Account) EncodeToProto(objectId string) *databaseGrpc.Account {
-	accountProto := &databaseGrpc.Account{
-		ObjectId:      objectId,
+func (account *Account) ToEvent() interface{} {
+	return &info.AccountEvent{
 		Name:          account.Name,
 		LoginPassword: account.LoginPassword,
+		AccountAvatar: account.AccountAvatar,
 		Level:         account.Level,
 		Delete:        account.Delete,
 		Region:        account.Region,
 		Phone:         account.Phone,
+		MaxScore:      account.MaxScore,
 		CreateAt:      account.CreateAt,
 		UpdateAt:      account.UpdateAt,
-		AccountAvatar: account.AccountAvatar,
 	}
-	return accountProto
-}
-
-func DecodeFromProto(accountProto *databaseGrpc.Account) *Account {
-	account := &Account{
-		Name: accountProto.Name,
-		LoginPassword: accountProto.LoginPassword,
-		AccountAvatar: accountProto.AccountAvatar,
-		Level: accountProto.Level,
-		Delete: accountProto.Delete,
-		Region: accountProto.Region,
-		Phone: accountProto.Phone,
-		CreateAt: accountProto.CreateAt,
-		UpdateAt: accountProto.UpdateAt,
-	}
-	return account
 }

@@ -8,4 +8,8 @@ const (
 
 	// tcp port
 	TcpPort string = ":50051"
+
+	// enum类型
+	responseStatusSuccess int32 = 0
+	responseStatusFail int32 = 1
 )
