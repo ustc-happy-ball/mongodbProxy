@@ -1,6 +1,9 @@
 package response
 
-import "github.com/TianqiS/database_for_happyball/framework"
+import (
+	databaseGrpc "github.com/TianqiS/database_for_happyball/database_grpc"
+	"github.com/TianqiS/database_for_happyball/framework"
+)
 
 type UpdateResponse struct {
 	*framework.BaseEvent
@@ -9,7 +12,10 @@ type UpdateResponse struct {
 }
 
 func (updateResponse *UpdateResponse) ToMessage() interface{} {
-	return nil
+	return &databaseGrpc.UpdateResponse{
+		ResponseStatus: databaseGrpc.RESPONSE_STATUS(updateResponse.responseStatus),
+		Error: updateResponse.error,
+	}
 }
 
 func (updateResponse *UpdateResponse) FromMessage(interface{}) {

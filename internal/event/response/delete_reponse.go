@@ -1,6 +1,9 @@
 package response
 
-import "github.com/TianqiS/database_for_happyball/framework"
+import (
+	databaseGrpc "github.com/TianqiS/database_for_happyball/database_grpc"
+	"github.com/TianqiS/database_for_happyball/framework"
+)
 
 type DeleteResponse struct {
 	*framework.BaseEvent
@@ -9,7 +12,10 @@ type DeleteResponse struct {
 }
 
 func (deleteResponse *DeleteResponse) ToMessage() interface{} {
-	return nil
+	deleteResPb := &databaseGrpc.DeleteResponse{}
+	deleteResPb.ResponseStatus = databaseGrpc.RESPONSE_STATUS(deleteResponse.responseStatus)
+	deleteResPb.Error = deleteResponse.error
+	return deleteResPb
 }
 
 func (deleteResponse *DeleteResponse) FromMessage(interface{}) {

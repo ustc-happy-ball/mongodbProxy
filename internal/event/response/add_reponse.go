@@ -1,6 +1,9 @@
 package response
 
-import "github.com/TianqiS/database_for_happyball/framework"
+import (
+	databaseGrpc "github.com/TianqiS/database_for_happyball/database_grpc"
+	"github.com/TianqiS/database_for_happyball/framework"
+)
 
 type AddResponse struct {
 	*framework.BaseEvent
@@ -10,9 +13,11 @@ type AddResponse struct {
 }
 
 func (addResponse *AddResponse) ToMessage() interface{} {
-	return nil
+	addResPb := &databaseGrpc.AddResponse{}
+	addResPb.Error = addResponse.error
+	addResPb.ObjectId = addResponse.objectId
+	addResPb.ResponseStatus = databaseGrpc.RESPONSE_STATUS(addResponse.responseStatus)
+	return addResPb
 }
 
-func (addResponse *AddResponse) FromMessage(interface{}) {
-
-}
+func (addResponse *AddResponse) FromMessage(message interface{}) {}
