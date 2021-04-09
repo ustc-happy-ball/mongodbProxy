@@ -3,6 +3,7 @@ package response
 import (
 	databaseGrpc "github.com/TianqiS/database_for_happyball/database_grpc"
 	"github.com/TianqiS/database_for_happyball/framework"
+	"github.com/TianqiS/database_for_happyball/internal/event/info"
 	"github.com/TianqiS/database_for_happyball/model"
 	"google.golang.org/protobuf/types/known/anypb"
 	"log"
@@ -38,7 +39,9 @@ func switcher(findResult interface{}, resType string) (*anypb.Any, error){
 	switch resType {
 	case "account":
 		resultModel := findResult.(*model.Account)
-		result, err = anypb.New(resultModel.ToEvent().(*databaseGrpc.Account))
+		resultEvent := &info.AccountEvent{}
+		resultEvent.FromModel(resultModel)
+		result, err = anypb.New(resultEvent.ToMessage().(*databaseGrpc.Account))
 		break
 	default:
 

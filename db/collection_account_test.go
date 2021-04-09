@@ -40,7 +40,7 @@ func TestFindAccountById(t *testing.T) {
 
 func TestFindAccountByKey(t *testing.T) {
 	InitClient()
-	_, err := AccountCollection.FindItemsByKey("name", "song")
+	_, err := AccountCollection.FindItemsByKey("level", "1")
 	if err != nil {
 		t.Error("查找时发生了错误", err)
 	}
