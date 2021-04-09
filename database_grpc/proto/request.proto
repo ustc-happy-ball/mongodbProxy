@@ -40,22 +40,22 @@ message AddItem {
 }
 
 message FindItemById {
-  ITEM item = 1;
+  ITEM findItem = 1;
   string itemId = 2;
 }
 
 message FindItemByKey {
-  ITEM item = 1;
+  ITEM FindItem = 1;
   repeated MatchItem matchItem = 2;
 }
 
 message DeleteItemById {
-  ITEM item = 1;
+  ITEM deleteItem = 1;
   string itemId = 2;
 }
 
 message DeleteItemByKey {
-  ITEM item = 1;
+  ITEM DeleteItem = 1;
   repeated MatchItem matchItem = 2;
 }
 
