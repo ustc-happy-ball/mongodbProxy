@@ -15,11 +15,17 @@ message Request {
 
 message MatchItem {
   string key = 1;
-  string valString = 2;
-  int64 valInt = 3;
-  bool valBool = 4;
-  float valFloat = 5;
-  double valDouble = 6;
+  oneof matchVal {
+    string valString = 2;
+    int64 valInt = 3;
+    bool valBool = 4;
+    float valFloat = 5;
+    double valDouble = 6;
+  }
+}
+
+message Operation {
+  string op = 1;
 }
 
 message UpdateItemById {

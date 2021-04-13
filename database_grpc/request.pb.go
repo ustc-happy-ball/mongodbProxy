@@ -126,12 +126,14 @@ type MatchItem struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Key       string  `protobuf:"bytes,1,opt,name=key,proto3" json:"key,omitempty"`
-	ValString string  `protobuf:"bytes,2,opt,name=valString,proto3" json:"valString,omitempty"`
-	ValInt    int64   `protobuf:"varint,3,opt,name=valInt,proto3" json:"valInt,omitempty"`
-	ValBool   bool    `protobuf:"varint,4,opt,name=valBool,proto3" json:"valBool,omitempty"`
-	ValFloat  float32 `protobuf:"fixed32,5,opt,name=valFloat,proto3" json:"valFloat,omitempty"`
-	ValDouble float64 `protobuf:"fixed64,6,opt,name=valDouble,proto3" json:"valDouble,omitempty"`
+	Key string `protobuf:"bytes,1,opt,name=key,proto3" json:"key,omitempty"`
+	// Types that are assignable to Match:
+	//	*MatchItem_ValString
+	//	*MatchItem_ValInt
+	//	*MatchItem_ValBool
+	//	*MatchItem_ValFloat
+	//	*MatchItem_ValDouble
+	Match isMatchItem_Match `protobuf_oneof:"match"`
 }
 
 func (x *MatchItem) Reset() {
@@ -173,39 +175,127 @@ func (x *MatchItem) GetKey() string {
 	return ""
 }
 
+func (m *MatchItem) GetMatch() isMatchItem_Match {
+	if m != nil {
+		return m.Match
+	}
+	return nil
+}
+
 func (x *MatchItem) GetValString() string {
-	if x != nil {
+	if x, ok := x.GetMatch().(*MatchItem_ValString); ok {
 		return x.ValString
 	}
 	return ""
 }
 
 func (x *MatchItem) GetValInt() int64 {
-	if x != nil {
+	if x, ok := x.GetMatch().(*MatchItem_ValInt); ok {
 		return x.ValInt
 	}
 	return 0
 }
 
 func (x *MatchItem) GetValBool() bool {
-	if x != nil {
+	if x, ok := x.GetMatch().(*MatchItem_ValBool); ok {
 		return x.ValBool
 	}
 	return false
 }
 
 func (x *MatchItem) GetValFloat() float32 {
-	if x != nil {
+	if x, ok := x.GetMatch().(*MatchItem_ValFloat); ok {
 		return x.ValFloat
 	}
 	return 0
 }
 
 func (x *MatchItem) GetValDouble() float64 {
-	if x != nil {
+	if x, ok := x.GetMatch().(*MatchItem_ValDouble); ok {
 		return x.ValDouble
 	}
 	return 0
+}
+
+type isMatchItem_Match interface {
+	isMatchItem_Match()
+}
+
+type MatchItem_ValString struct {
+	ValString string `protobuf:"bytes,2,opt,name=valString,proto3,oneof"`
+}
+
+type MatchItem_ValInt struct {
+	ValInt int64 `protobuf:"varint,3,opt,name=valInt,proto3,oneof"`
+}
+
+type MatchItem_ValBool struct {
+	ValBool bool `protobuf:"varint,4,opt,name=valBool,proto3,oneof"`
+}
+
+type MatchItem_ValFloat struct {
+	ValFloat float32 `protobuf:"fixed32,5,opt,name=valFloat,proto3,oneof"`
+}
+
+type MatchItem_ValDouble struct {
+	ValDouble float64 `protobuf:"fixed64,6,opt,name=valDouble,proto3,oneof"`
+}
+
+func (*MatchItem_ValString) isMatchItem_Match() {}
+
+func (*MatchItem_ValInt) isMatchItem_Match() {}
+
+func (*MatchItem_ValBool) isMatchItem_Match() {}
+
+func (*MatchItem_ValFloat) isMatchItem_Match() {}
+
+func (*MatchItem_ValDouble) isMatchItem_Match() {}
+
+type Operation struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Op string `protobuf:"bytes,1,opt,name=op,proto3" json:"op,omitempty"`
+}
+
+func (x *Operation) Reset() {
+	*x = Operation{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_request_proto_msgTypes[2]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *Operation) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Operation) ProtoMessage() {}
+
+func (x *Operation) ProtoReflect() protoreflect.Message {
+	mi := &file_request_proto_msgTypes[2]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Operation.ProtoReflect.Descriptor instead.
+func (*Operation) Descriptor() ([]byte, []int) {
+	return file_request_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *Operation) GetOp() string {
+	if x != nil {
+		return x.Op
+	}
+	return ""
 }
 
 type UpdateItemById struct {
@@ -221,7 +311,7 @@ type UpdateItemById struct {
 func (x *UpdateItemById) Reset() {
 	*x = UpdateItemById{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_request_proto_msgTypes[2]
+		mi := &file_request_proto_msgTypes[3]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -234,7 +324,7 @@ func (x *UpdateItemById) String() string {
 func (*UpdateItemById) ProtoMessage() {}
 
 func (x *UpdateItemById) ProtoReflect() protoreflect.Message {
-	mi := &file_request_proto_msgTypes[2]
+	mi := &file_request_proto_msgTypes[3]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -247,7 +337,7 @@ func (x *UpdateItemById) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateItemById.ProtoReflect.Descriptor instead.
 func (*UpdateItemById) Descriptor() ([]byte, []int) {
-	return file_request_proto_rawDescGZIP(), []int{2}
+	return file_request_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *UpdateItemById) GetObjectId() string {
@@ -284,7 +374,7 @@ type UpdateItemByKey struct {
 func (x *UpdateItemByKey) Reset() {
 	*x = UpdateItemByKey{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_request_proto_msgTypes[3]
+		mi := &file_request_proto_msgTypes[4]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -297,7 +387,7 @@ func (x *UpdateItemByKey) String() string {
 func (*UpdateItemByKey) ProtoMessage() {}
 
 func (x *UpdateItemByKey) ProtoReflect() protoreflect.Message {
-	mi := &file_request_proto_msgTypes[3]
+	mi := &file_request_proto_msgTypes[4]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -310,7 +400,7 @@ func (x *UpdateItemByKey) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateItemByKey.ProtoReflect.Descriptor instead.
 func (*UpdateItemByKey) Descriptor() ([]byte, []int) {
-	return file_request_proto_rawDescGZIP(), []int{3}
+	return file_request_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *UpdateItemByKey) GetUpdateItem() ITEM {
@@ -346,7 +436,7 @@ type AddItem struct {
 func (x *AddItem) Reset() {
 	*x = AddItem{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_request_proto_msgTypes[4]
+		mi := &file_request_proto_msgTypes[5]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -359,7 +449,7 @@ func (x *AddItem) String() string {
 func (*AddItem) ProtoMessage() {}
 
 func (x *AddItem) ProtoReflect() protoreflect.Message {
-	mi := &file_request_proto_msgTypes[4]
+	mi := &file_request_proto_msgTypes[5]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -372,7 +462,7 @@ func (x *AddItem) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AddItem.ProtoReflect.Descriptor instead.
 func (*AddItem) Descriptor() ([]byte, []int) {
-	return file_request_proto_rawDescGZIP(), []int{4}
+	return file_request_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *AddItem) GetAddItem() ITEM {
@@ -401,7 +491,7 @@ type FindItemById struct {
 func (x *FindItemById) Reset() {
 	*x = FindItemById{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_request_proto_msgTypes[5]
+		mi := &file_request_proto_msgTypes[6]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -414,7 +504,7 @@ func (x *FindItemById) String() string {
 func (*FindItemById) ProtoMessage() {}
 
 func (x *FindItemById) ProtoReflect() protoreflect.Message {
-	mi := &file_request_proto_msgTypes[5]
+	mi := &file_request_proto_msgTypes[6]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -427,7 +517,7 @@ func (x *FindItemById) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use FindItemById.ProtoReflect.Descriptor instead.
 func (*FindItemById) Descriptor() ([]byte, []int) {
-	return file_request_proto_rawDescGZIP(), []int{5}
+	return file_request_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *FindItemById) GetFindItem() ITEM {
@@ -456,7 +546,7 @@ type FindItemByKey struct {
 func (x *FindItemByKey) Reset() {
 	*x = FindItemByKey{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_request_proto_msgTypes[6]
+		mi := &file_request_proto_msgTypes[7]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -469,7 +559,7 @@ func (x *FindItemByKey) String() string {
 func (*FindItemByKey) ProtoMessage() {}
 
 func (x *FindItemByKey) ProtoReflect() protoreflect.Message {
-	mi := &file_request_proto_msgTypes[6]
+	mi := &file_request_proto_msgTypes[7]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -482,7 +572,7 @@ func (x *FindItemByKey) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use FindItemByKey.ProtoReflect.Descriptor instead.
 func (*FindItemByKey) Descriptor() ([]byte, []int) {
-	return file_request_proto_rawDescGZIP(), []int{6}
+	return file_request_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *FindItemByKey) GetFindItem() ITEM {
@@ -511,7 +601,7 @@ type DeleteItemById struct {
 func (x *DeleteItemById) Reset() {
 	*x = DeleteItemById{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_request_proto_msgTypes[7]
+		mi := &file_request_proto_msgTypes[8]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -524,7 +614,7 @@ func (x *DeleteItemById) String() string {
 func (*DeleteItemById) ProtoMessage() {}
 
 func (x *DeleteItemById) ProtoReflect() protoreflect.Message {
-	mi := &file_request_proto_msgTypes[7]
+	mi := &file_request_proto_msgTypes[8]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -537,7 +627,7 @@ func (x *DeleteItemById) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteItemById.ProtoReflect.Descriptor instead.
 func (*DeleteItemById) Descriptor() ([]byte, []int) {
-	return file_request_proto_rawDescGZIP(), []int{7}
+	return file_request_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *DeleteItemById) GetDeleteItem() ITEM {
@@ -566,7 +656,7 @@ type DeleteItemByKey struct {
 func (x *DeleteItemByKey) Reset() {
 	*x = DeleteItemByKey{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_request_proto_msgTypes[8]
+		mi := &file_request_proto_msgTypes[9]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -579,7 +669,7 @@ func (x *DeleteItemByKey) String() string {
 func (*DeleteItemByKey) ProtoMessage() {}
 
 func (x *DeleteItemByKey) ProtoReflect() protoreflect.Message {
-	mi := &file_request_proto_msgTypes[8]
+	mi := &file_request_proto_msgTypes[9]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -592,7 +682,7 @@ func (x *DeleteItemByKey) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteItemByKey.ProtoReflect.Descriptor instead.
 func (*DeleteItemByKey) Descriptor() ([]byte, []int) {
-	return file_request_proto_rawDescGZIP(), []int{8}
+	return file_request_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *DeleteItemByKey) GetDeleteItem() ITEM {
@@ -646,18 +736,21 @@ var file_request_proto_rawDesc = []byte{
 	0x79, 0x18, 0x07, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1d, 0x2e, 0x64, 0x61, 0x74, 0x61, 0x62, 0x61,
 	0x73, 0x65, 0x47, 0x72, 0x70, 0x63, 0x2e, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x49, 0x74, 0x65,
 	0x6d, 0x42, 0x79, 0x4b, 0x65, 0x79, 0x52, 0x0f, 0x64, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x49, 0x74,
-	0x65, 0x6d, 0x42, 0x79, 0x4b, 0x65, 0x79, 0x22, 0xa7, 0x01, 0x0a, 0x09, 0x4d, 0x61, 0x74, 0x63,
+	0x65, 0x6d, 0x42, 0x79, 0x4b, 0x65, 0x79, 0x22, 0xba, 0x01, 0x0a, 0x09, 0x4d, 0x61, 0x74, 0x63,
 	0x68, 0x49, 0x74, 0x65, 0x6d, 0x12, 0x10, 0x0a, 0x03, 0x6b, 0x65, 0x79, 0x18, 0x01, 0x20, 0x01,
-	0x28, 0x09, 0x52, 0x03, 0x6b, 0x65, 0x79, 0x12, 0x1c, 0x0a, 0x09, 0x76, 0x61, 0x6c, 0x53, 0x74,
-	0x72, 0x69, 0x6e, 0x67, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x76, 0x61, 0x6c, 0x53,
-	0x74, 0x72, 0x69, 0x6e, 0x67, 0x12, 0x16, 0x0a, 0x06, 0x76, 0x61, 0x6c, 0x49, 0x6e, 0x74, 0x18,
-	0x03, 0x20, 0x01, 0x28, 0x03, 0x52, 0x06, 0x76, 0x61, 0x6c, 0x49, 0x6e, 0x74, 0x12, 0x18, 0x0a,
-	0x07, 0x76, 0x61, 0x6c, 0x42, 0x6f, 0x6f, 0x6c, 0x18, 0x04, 0x20, 0x01, 0x28, 0x08, 0x52, 0x07,
-	0x76, 0x61, 0x6c, 0x42, 0x6f, 0x6f, 0x6c, 0x12, 0x1a, 0x0a, 0x08, 0x76, 0x61, 0x6c, 0x46, 0x6c,
-	0x6f, 0x61, 0x74, 0x18, 0x05, 0x20, 0x01, 0x28, 0x02, 0x52, 0x08, 0x76, 0x61, 0x6c, 0x46, 0x6c,
-	0x6f, 0x61, 0x74, 0x12, 0x1c, 0x0a, 0x09, 0x76, 0x61, 0x6c, 0x44, 0x6f, 0x75, 0x62, 0x6c, 0x65,
-	0x18, 0x06, 0x20, 0x01, 0x28, 0x01, 0x52, 0x09, 0x76, 0x61, 0x6c, 0x44, 0x6f, 0x75, 0x62, 0x6c,
-	0x65, 0x22, 0xef, 0x01, 0x0a, 0x0e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x49, 0x74, 0x65, 0x6d,
+	0x28, 0x09, 0x52, 0x03, 0x6b, 0x65, 0x79, 0x12, 0x1e, 0x0a, 0x09, 0x76, 0x61, 0x6c, 0x53, 0x74,
+	0x72, 0x69, 0x6e, 0x67, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x48, 0x00, 0x52, 0x09, 0x76, 0x61,
+	0x6c, 0x53, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x12, 0x18, 0x0a, 0x06, 0x76, 0x61, 0x6c, 0x49, 0x6e,
+	0x74, 0x18, 0x03, 0x20, 0x01, 0x28, 0x03, 0x48, 0x00, 0x52, 0x06, 0x76, 0x61, 0x6c, 0x49, 0x6e,
+	0x74, 0x12, 0x1a, 0x0a, 0x07, 0x76, 0x61, 0x6c, 0x42, 0x6f, 0x6f, 0x6c, 0x18, 0x04, 0x20, 0x01,
+	0x28, 0x08, 0x48, 0x00, 0x52, 0x07, 0x76, 0x61, 0x6c, 0x42, 0x6f, 0x6f, 0x6c, 0x12, 0x1c, 0x0a,
+	0x08, 0x76, 0x61, 0x6c, 0x46, 0x6c, 0x6f, 0x61, 0x74, 0x18, 0x05, 0x20, 0x01, 0x28, 0x02, 0x48,
+	0x00, 0x52, 0x08, 0x76, 0x61, 0x6c, 0x46, 0x6c, 0x6f, 0x61, 0x74, 0x12, 0x1e, 0x0a, 0x09, 0x76,
+	0x61, 0x6c, 0x44, 0x6f, 0x75, 0x62, 0x6c, 0x65, 0x18, 0x06, 0x20, 0x01, 0x28, 0x01, 0x48, 0x00,
+	0x52, 0x09, 0x76, 0x61, 0x6c, 0x44, 0x6f, 0x75, 0x62, 0x6c, 0x65, 0x42, 0x07, 0x0a, 0x05, 0x6d,
+	0x61, 0x74, 0x63, 0x68, 0x22, 0x1b, 0x0a, 0x09, 0x4f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x69, 0x6f,
+	0x6e, 0x12, 0x0e, 0x0a, 0x02, 0x6f, 0x70, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x6f,
+	0x70, 0x22, 0xef, 0x01, 0x0a, 0x0e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x49, 0x74, 0x65, 0x6d,
 	0x42, 0x79, 0x49, 0x64, 0x12, 0x1a, 0x0a, 0x08, 0x6f, 0x62, 0x6a, 0x65, 0x63, 0x74, 0x49, 0x64,
 	0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x6f, 0x62, 0x6a, 0x65, 0x63, 0x74, 0x49, 0x64,
 	0x12, 0x32, 0x0a, 0x0a, 0x75, 0x70, 0x64, 0x61, 0x74, 0x65, 0x49, 0x74, 0x65, 0x6d, 0x18, 0x02,
@@ -737,45 +830,46 @@ func file_request_proto_rawDescGZIP() []byte {
 	return file_request_proto_rawDescData
 }
 
-var file_request_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
+var file_request_proto_msgTypes = make([]protoimpl.MessageInfo, 12)
 var file_request_proto_goTypes = []interface{}{
 	(*Request)(nil),         // 0: databaseGrpc.Request
 	(*MatchItem)(nil),       // 1: databaseGrpc.MatchItem
-	(*UpdateItemById)(nil),  // 2: databaseGrpc.UpdateItemById
-	(*UpdateItemByKey)(nil), // 3: databaseGrpc.UpdateItemByKey
-	(*AddItem)(nil),         // 4: databaseGrpc.AddItem
-	(*FindItemById)(nil),    // 5: databaseGrpc.FindItemById
-	(*FindItemByKey)(nil),   // 6: databaseGrpc.FindItemByKey
-	(*DeleteItemById)(nil),  // 7: databaseGrpc.DeleteItemById
-	(*DeleteItemByKey)(nil), // 8: databaseGrpc.DeleteItemByKey
-	nil,                     // 9: databaseGrpc.UpdateItemById.ItemsEntry
-	nil,                     // 10: databaseGrpc.UpdateItemByKey.ItemEntry
-	(ITEM)(0),               // 11: databaseGrpc.ITEM
-	(*anypb.Any)(nil),       // 12: google.protobuf.Any
+	(*Operation)(nil),       // 2: databaseGrpc.Operation
+	(*UpdateItemById)(nil),  // 3: databaseGrpc.UpdateItemById
+	(*UpdateItemByKey)(nil), // 4: databaseGrpc.UpdateItemByKey
+	(*AddItem)(nil),         // 5: databaseGrpc.AddItem
+	(*FindItemById)(nil),    // 6: databaseGrpc.FindItemById
+	(*FindItemByKey)(nil),   // 7: databaseGrpc.FindItemByKey
+	(*DeleteItemById)(nil),  // 8: databaseGrpc.DeleteItemById
+	(*DeleteItemByKey)(nil), // 9: databaseGrpc.DeleteItemByKey
+	nil,                     // 10: databaseGrpc.UpdateItemById.ItemsEntry
+	nil,                     // 11: databaseGrpc.UpdateItemByKey.ItemEntry
+	(ITEM)(0),               // 12: databaseGrpc.ITEM
+	(*anypb.Any)(nil),       // 13: google.protobuf.Any
 }
 var file_request_proto_depIdxs = []int32{
-	2,  // 0: databaseGrpc.Request.updateItemById:type_name -> databaseGrpc.UpdateItemById
-	3,  // 1: databaseGrpc.Request.updateItemByKey:type_name -> databaseGrpc.UpdateItemByKey
-	4,  // 2: databaseGrpc.Request.addItem:type_name -> databaseGrpc.AddItem
-	5,  // 3: databaseGrpc.Request.findItemById:type_name -> databaseGrpc.FindItemById
-	6,  // 4: databaseGrpc.Request.findItemByKey:type_name -> databaseGrpc.FindItemByKey
-	7,  // 5: databaseGrpc.Request.deleteItemById:type_name -> databaseGrpc.DeleteItemById
-	8,  // 6: databaseGrpc.Request.deleteItemByKey:type_name -> databaseGrpc.DeleteItemByKey
-	11, // 7: databaseGrpc.UpdateItemById.updateItem:type_name -> databaseGrpc.ITEM
-	9,  // 8: databaseGrpc.UpdateItemById.items:type_name -> databaseGrpc.UpdateItemById.ItemsEntry
-	11, // 9: databaseGrpc.UpdateItemByKey.updateItem:type_name -> databaseGrpc.ITEM
+	3,  // 0: databaseGrpc.Request.updateItemById:type_name -> databaseGrpc.UpdateItemById
+	4,  // 1: databaseGrpc.Request.updateItemByKey:type_name -> databaseGrpc.UpdateItemByKey
+	5,  // 2: databaseGrpc.Request.addItem:type_name -> databaseGrpc.AddItem
+	6,  // 3: databaseGrpc.Request.findItemById:type_name -> databaseGrpc.FindItemById
+	7,  // 4: databaseGrpc.Request.findItemByKey:type_name -> databaseGrpc.FindItemByKey
+	8,  // 5: databaseGrpc.Request.deleteItemById:type_name -> databaseGrpc.DeleteItemById
+	9,  // 6: databaseGrpc.Request.deleteItemByKey:type_name -> databaseGrpc.DeleteItemByKey
+	12, // 7: databaseGrpc.UpdateItemById.updateItem:type_name -> databaseGrpc.ITEM
+	10, // 8: databaseGrpc.UpdateItemById.items:type_name -> databaseGrpc.UpdateItemById.ItemsEntry
+	12, // 9: databaseGrpc.UpdateItemByKey.updateItem:type_name -> databaseGrpc.ITEM
 	1,  // 10: databaseGrpc.UpdateItemByKey.matchItem:type_name -> databaseGrpc.MatchItem
-	10, // 11: databaseGrpc.UpdateItemByKey.item:type_name -> databaseGrpc.UpdateItemByKey.ItemEntry
-	11, // 12: databaseGrpc.AddItem.addItem:type_name -> databaseGrpc.ITEM
-	12, // 13: databaseGrpc.AddItem.item:type_name -> google.protobuf.Any
-	11, // 14: databaseGrpc.FindItemById.findItem:type_name -> databaseGrpc.ITEM
-	11, // 15: databaseGrpc.FindItemByKey.FindItem:type_name -> databaseGrpc.ITEM
+	11, // 11: databaseGrpc.UpdateItemByKey.item:type_name -> databaseGrpc.UpdateItemByKey.ItemEntry
+	12, // 12: databaseGrpc.AddItem.addItem:type_name -> databaseGrpc.ITEM
+	13, // 13: databaseGrpc.AddItem.item:type_name -> google.protobuf.Any
+	12, // 14: databaseGrpc.FindItemById.findItem:type_name -> databaseGrpc.ITEM
+	12, // 15: databaseGrpc.FindItemByKey.FindItem:type_name -> databaseGrpc.ITEM
 	1,  // 16: databaseGrpc.FindItemByKey.matchItem:type_name -> databaseGrpc.MatchItem
-	11, // 17: databaseGrpc.DeleteItemById.deleteItem:type_name -> databaseGrpc.ITEM
-	11, // 18: databaseGrpc.DeleteItemByKey.DeleteItem:type_name -> databaseGrpc.ITEM
+	12, // 17: databaseGrpc.DeleteItemById.deleteItem:type_name -> databaseGrpc.ITEM
+	12, // 18: databaseGrpc.DeleteItemByKey.DeleteItem:type_name -> databaseGrpc.ITEM
 	1,  // 19: databaseGrpc.DeleteItemByKey.matchItem:type_name -> databaseGrpc.MatchItem
-	12, // 20: databaseGrpc.UpdateItemById.ItemsEntry.value:type_name -> google.protobuf.Any
-	12, // 21: databaseGrpc.UpdateItemByKey.ItemEntry.value:type_name -> google.protobuf.Any
+	13, // 20: databaseGrpc.UpdateItemById.ItemsEntry.value:type_name -> google.protobuf.Any
+	13, // 21: databaseGrpc.UpdateItemByKey.ItemEntry.value:type_name -> google.protobuf.Any
 	22, // [22:22] is the sub-list for method output_type
 	22, // [22:22] is the sub-list for method input_type
 	22, // [22:22] is the sub-list for extension type_name
@@ -815,7 +909,7 @@ func file_request_proto_init() {
 			}
 		}
 		file_request_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*UpdateItemById); i {
+			switch v := v.(*Operation); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -827,7 +921,7 @@ func file_request_proto_init() {
 			}
 		}
 		file_request_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*UpdateItemByKey); i {
+			switch v := v.(*UpdateItemById); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -839,7 +933,7 @@ func file_request_proto_init() {
 			}
 		}
 		file_request_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*AddItem); i {
+			switch v := v.(*UpdateItemByKey); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -851,7 +945,7 @@ func file_request_proto_init() {
 			}
 		}
 		file_request_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*FindItemById); i {
+			switch v := v.(*AddItem); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -863,7 +957,7 @@ func file_request_proto_init() {
 			}
 		}
 		file_request_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*FindItemByKey); i {
+			switch v := v.(*FindItemById); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -875,7 +969,7 @@ func file_request_proto_init() {
 			}
 		}
 		file_request_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*DeleteItemById); i {
+			switch v := v.(*FindItemByKey); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -887,6 +981,18 @@ func file_request_proto_init() {
 			}
 		}
 		file_request_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*DeleteItemById); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_request_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*DeleteItemByKey); i {
 			case 0:
 				return &v.state
@@ -899,13 +1005,20 @@ func file_request_proto_init() {
 			}
 		}
 	}
+	file_request_proto_msgTypes[1].OneofWrappers = []interface{}{
+		(*MatchItem_ValString)(nil),
+		(*MatchItem_ValInt)(nil),
+		(*MatchItem_ValBool)(nil),
+		(*MatchItem_ValFloat)(nil),
+		(*MatchItem_ValDouble)(nil),
+	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_request_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   11,
+			NumMessages:   12,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
