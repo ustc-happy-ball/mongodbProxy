@@ -1,6 +1,9 @@
 package request
 
-import "github.com/TianqiS/database_for_happyball/framework"
+import (
+	databaseGrpc "github.com/TianqiS/database_for_happyball/database_grpc"
+	"github.com/TianqiS/database_for_happyball/framework"
+)
 
 type FindItemById struct {
 	*framework.BaseEvent
@@ -12,6 +15,8 @@ func (findItemById *FindItemById) ToMessage() interface{} {
 	return nil
 }
 
-func (findItemById *FindItemById) FromMessage(interface{}) {
-
+func (findItemById *FindItemById) FromMessage(message interface{}) {
+	messagePb := message.(*databaseGrpc.FindItemById)
+	findItemById.itemId = messagePb.GetItemId()
+	findItemById.item = int32(messagePb.GetFindItem())
 }
