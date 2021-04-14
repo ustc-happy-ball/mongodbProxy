@@ -12,8 +12,10 @@ type DbMessage struct {
 	*framework.BaseEvent
 	MessageType int32
 	MessageCode int32
-	request *request.BaseRequest
-	response *response.BaseResponse
+	Request *request.BaseRequest
+	Response *response.BaseResponse
+	ResResult chan *DbMessage
+	Error chan error
 }
 
 func (dbMessage *DbMessage) ToMessage() interface{} {
@@ -28,7 +30,7 @@ func (dbMessage *DbMessage) ToMessage() interface{} {
 func (dbMessage *DbMessage) FromMessage(message interface{}) {
 	messagePb := message.(*databaseGrpc.DbMessage)
 	req := switcher(messagePb)
-	dbMessage.request = req
+	dbMessage.Request = req
 	dbMessage.MessageType = int32(messagePb.MessageType)
 	dbMessage.MessageCode = int32(messagePb.MessageCode)
 }
@@ -37,19 +39,19 @@ func resEncoder(dbMessage *DbMessage, dbMessagePb *databaseGrpc.DbMessage) {
 	dbMessagePb.Response = &databaseGrpc.Response{}
 	switch dbMessage.MessageCode {
 	case configs.ResponseFind:
-		findRes := dbMessage.response.FindResponse.ToMessage().(*databaseGrpc.FindResponse)
+		findRes := dbMessage.Response.FindResponse.ToMessage().(*databaseGrpc.FindResponse)
 		dbMessagePb.Response.FindResponse = findRes
 		break
 	case configs.ResponseAdd:
-		resRes := dbMessage.response.AddResponse.ToMessage().(*databaseGrpc.AddResponse)
+		resRes := dbMessage.Response.AddResponse.ToMessage().(*databaseGrpc.AddResponse)
 		dbMessagePb.Response.AddResponse = resRes
 		break
 	case configs.ResponseUpdate:
-		updateRes := dbMessage.response.UpdateResponse.ToMessage().(*databaseGrpc.UpdateResponse)
+		updateRes := dbMessage.Response.UpdateResponse.ToMessage().(*databaseGrpc.UpdateResponse)
 		dbMessagePb.Response.UpdateResponse = updateRes
 		break
 	case configs.ResponseDelete:
-		deleteRes := dbMessage.response.DeleteResponse.ToMessage().(*databaseGrpc.DeleteResponse)
+		deleteRes := dbMessage.Response.DeleteResponse.ToMessage().(*databaseGrpc.DeleteResponse)
 		dbMessagePb.Response.DeleteResponse = deleteRes
 		break
 	}

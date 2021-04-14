@@ -23,22 +23,22 @@ var (
 
 func (s *RpcServer) SendRequest(ctx context.Context, in *databaseGrpc.DbMessage) (*databaseGrpc.DbMessage, error) {
 	var timeout <-chan time.Time
-	var responseMes chan *databaseGrpc.DbMessage
-	var handleErr chan error
 	timeout = time.After(500 * time.Millisecond)
-
+	dbMessageEvent := &event.DbMessage{
+		ResResult: make(chan *event.DbMessage),
+		Error: make(chan error),
+	}
+	dbMessageEvent.FromMessage(in)
+	go framework.BaseDispatcher.FireEvent(dbMessageEvent)
 	select {
-	case res := <- responseMes:
-		return res, nil
-	case err := <-handleErr:
+	case res := <- dbMessageEvent.ResResult:
+		return res.ToMessage().(*databaseGrpc.DbMessage), nil
+	case err := <- dbMessageEvent.Error:
 		return nil, err
 	case <-timeout:
 		return nil, errors.WithStack(timeoutErr)
 	}
 }
 
-func handlerRequest(in *databaseGrpc.DbMessage, response chan *databaseGrpc.DbMessage, handleErr chan error) {
-	dbMessageEvent := &event.DbMessage{}
-	dbMessageEvent.FromMessage(in)
-	framework.BaseDispatcher.FireEvent(dbMessageEvent)
+func handlerRequest(req *event.DbMessage) {
 }
