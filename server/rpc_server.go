@@ -2,11 +2,11 @@ package server
 
 import (
 	"context"
-	"fmt"
 	"github.com/TianqiS/database_for_happyball/database_grpc"
-	"github.com/TianqiS/database_for_happyball/db"
-	"google.golang.org/protobuf/types/known/anypb"
-	"log"
+	"github.com/TianqiS/database_for_happyball/framework"
+	"github.com/TianqiS/database_for_happyball/internal/event"
+	"github.com/pkg/errors"
+	"time"
 )
 
 type RpcServer struct {
@@ -17,26 +17,28 @@ func GetServer() *RpcServer {
 	return &RpcServer{}
 }
 
+var (
+	timeoutErr = errors.New("grpc handle request time out!")
+)
+
 func (s *RpcServer) SendRequest(ctx context.Context, in *databaseGrpc.DbMessage) (*databaseGrpc.DbMessage, error) {
-	if in.GetRequest().GetFindItemById() != nil {
-		objectId := in.GetRequest().GetFindItemById().ItemId
-		acc, err := db.AccountCollection.FindAccount(objectId)
-		if err != nil {
-			log.Fatal("查找时发生了错误", err)
-		}
-		accPb := acc.EncodeToProto(objectId)
-		accAny, _ := anypb.New(accPb)
-		fmt.Println("获取的acc为", acc)
-		return &databaseGrpc.DbMessage{
-			MessageType: databaseGrpc.MESSAGE_TYPE_RESPONSE,
-			Response:    &databaseGrpc.Response{
-				FindResponse: &databaseGrpc.FindResponse{
-					ResponseStatus: databaseGrpc.RESPONSE_STATUS_SUCCESS,
-					Results:        accAny,
-					Error:          "",
-				},
-			},
-		}, nil
+	var timeout <-chan time.Time
+	var responseMes chan *databaseGrpc.DbMessage
+	var handleErr chan error
+	timeout = time.After(500 * time.Millisecond)
+
+	select {
+	case res := <- responseMes:
+		return res, nil
+	case err := <-handleErr:
+		return nil, err
+	case <-timeout:
+		return nil, errors.WithStack(timeoutErr)
 	}
-	return nil, nil
+}
+
+func handlerRequest(in *databaseGrpc.DbMessage, response chan *databaseGrpc.DbMessage, handleErr chan error) {
+	dbMessageEvent := &event.DbMessage{}
+	dbMessageEvent.FromMessage(in)
+	framework.BaseDispatcher.FireEvent(dbMessageEvent)
 }

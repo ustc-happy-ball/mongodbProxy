@@ -4,8 +4,7 @@ import "sync"
 
 type EventManager struct {
 	rw         *sync.RWMutex
-	handlerMap map[int64]EventHandler
-	eventMap   map[int64]Event
+	handlerMap map[int32]EventHandler
 }
 
 var EManager = newManager()
@@ -13,12 +12,11 @@ var EManager = newManager()
 func newManager() *EventManager {
 	return &EventManager{
 		rw:         &sync.RWMutex{},
-		handlerMap: make(map[int64]EventHandler),
-		eventMap:   make(map[int64]Event),
+		handlerMap: make(map[int32]EventHandler),
 	}
 }
 
-func (this *EventManager) Register(msgCode int64, event Event, handler EventHandler) {
+func (this *EventManager) Register(msgCode int32, handler EventHandler) {
 	if nil != this.handlerMap[msgCode] {
 		return
 	}
@@ -27,21 +25,10 @@ func (this *EventManager) Register(msgCode int64, event Event, handler EventHand
 		this.handlerMap[msgCode] = handler
 		this.rw.Unlock()
 	}
-	if nil != this.eventMap[msgCode] {
-		return
-	}
-	if nil != event {
-		this.rw.Lock()
-		this.eventMap[msgCode] = event
-		this.rw.Unlock()
-	}
 }
 
-func (this *EventManager) FetchHandler(msgCode int64) EventHandler {
+func (this *EventManager) FetchHandler(msgCode int32) EventHandler {
 	return this.handlerMap[msgCode]
 }
 
-func (this *EventManager) FetchEvent(msgCode int64) Event {
-	return this.eventMap[msgCode]
-}
 

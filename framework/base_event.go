@@ -1,13 +1,13 @@
 package framework
 
 type BaseEvent struct {
-	Code int64
+	Code int32
 }
 
-func (be *BaseEvent) GetCode() int64 {
+func (be *BaseEvent) GetCode() int32 {
 	return be.Code
 }
 
-func (be *BaseEvent) SetCode(code int64) {
+func (be *BaseEvent) SetCode(code int32) {
 	be.Code = code
 }
