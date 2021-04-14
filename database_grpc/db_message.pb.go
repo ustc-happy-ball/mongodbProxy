@@ -87,7 +87,7 @@ func (x *DbMessage) GetMessageCode() MESSAGE_CODE {
 	if x != nil {
 		return x.MessageCode
 	}
-	return MESSAGE_CODE_FIND_REQUEST
+	return MESSAGE_CODE_FIND_BY_ID_REQUEST
 }
 
 func (x *DbMessage) GetRequest() *Request {
