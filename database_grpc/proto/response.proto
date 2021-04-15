@@ -28,7 +28,8 @@ message UpdateResponse {
 
 message FindResponse {
   RESPONSE_STATUS responseStatus = 1;
-  google.protobuf.Any results = 2;
-  string error = 3; // 错误信息
+  ITEM item = 2;
+  google.protobuf.Any results = 3;
+  string error = 4; // 错误信息
 }
 
