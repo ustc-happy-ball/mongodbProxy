@@ -24,6 +24,6 @@ message UpdateResponse {
 
 message FindResponse {
   ITEM item = 1;
-  google.protobuf.Any results = 2;
+  repeated google.protobuf.Any results = 2;
 }
 

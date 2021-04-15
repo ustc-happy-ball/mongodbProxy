@@ -2,6 +2,7 @@ package db
 
 import (
 	"fmt"
+	"github.com/TianqiS/database_for_happyball/internal/event/request"
 	"github.com/TianqiS/database_for_happyball/model"
 	"log"
 	"testing"
@@ -40,7 +41,7 @@ func TestFindAccountById(t *testing.T) {
 
 func TestFindAccountByKey(t *testing.T) {
 	InitClient()
-	_, err := AccountCollection.FindItemsByKey("level", "1")
+	_, err := AccountCollection.FindItemsByKey([]*request.MatchItem{})
 	if err != nil {
 		t.Error("查找时发生了错误", err)
 	}

@@ -30,6 +30,6 @@ func (handler *FindByIdRequestHandler) OnEvent(e event.Event) {
 		dbMessageEvent.Error <- err
 		return
 	}
-	findResponseMsg := event2.NewFindResMsg(findResult, itemType, configs.ResponseStatusOk, "")
+	findResponseMsg := event2.NewFindResMsg([]interface{}{findResult}, itemType, configs.ResponseStatusOk, "")
 	dbMessageEvent.ResResult <- findResponseMsg
 }

@@ -7,8 +7,8 @@ import (
 
 type FindItemByKey struct {
 	framework.BaseEvent
-	deleteItem int32
-	matchItem []*MatchItem
+	FindItem int32
+	MatchItem []*MatchItem
 }
 
 func (findItemByKey *FindItemByKey) ToMessage() interface{} {
@@ -16,13 +16,13 @@ func (findItemByKey *FindItemByKey) ToMessage() interface{} {
 }
 
 func (findItemByKey *FindItemByKey) FromMessage(message interface{}) {
-	messagePb := message.(*databaseGrpc.DeleteItemByKey)
-	findItemByKey.deleteItem = int32(messagePb.DeleteItem)
+	messagePb := message.(*databaseGrpc.FindItemByKey)
+	findItemByKey.FindItem = int32(messagePb.FindItem)
 	matchItemArr := messagePb.GetMatchItem()
-	findItemByKey.matchItem = make([]*MatchItem, len(matchItemArr))
+	findItemByKey.MatchItem = make([]*MatchItem, len(matchItemArr))
 	for i, itemPb := range matchItemArr {
 		item := &MatchItem{}
 		item.FromMessage(itemPb)
-		findItemByKey.matchItem[i] = item
+		findItemByKey.MatchItem[i] = item
 	}
 }

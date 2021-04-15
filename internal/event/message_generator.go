@@ -17,7 +17,7 @@ func NewDeleteResMsg(responseStatus int32, err string) *DbMessage {
 	return newDbMsg
 }
 
-func NewFindResMsg(result interface{}, itemType int32, responseStatus int32, err string) *DbMessage {
+func NewFindResMsg(result []interface{}, itemType int32, responseStatus int32, err string) *DbMessage {
 	findRes := response.NewFindResponse(result, itemType, responseStatus, err)
 	newDbMsg := NewDbMessage(configs.ResponseFind, findRes)
 	return newDbMsg

@@ -2,6 +2,7 @@ package db
 
 import (
 	"context"
+	"github.com/TianqiS/database_for_happyball/internal/event/request"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -43,9 +44,13 @@ func (baseColl *BaseCollection) FindOneItemById(objectId string) (*mongo.SingleR
 	return result, nil
 }
 
-func (baseColl *BaseCollection) GetCursorOnKeyValue(key string, value string) (*mongo.Cursor, error) {
+func (baseColl *BaseCollection) GetCursorOnKeyValue(matchArr []*request.MatchItem) (*mongo.Cursor, error) {
 	collection := baseColl.GetCollection()
-	cursor, err := collection.Find(context.TODO(), bson.M{key: value})
+	findFilter := make(bson.M)
+	for _, mItem := range matchArr {
+		findFilter[mItem.Key] = mItem.MatchVal
+	}
+	cursor, err := collection.Find(context.TODO(), findFilter)
 	if err != nil {
 		return nil, err
 	}

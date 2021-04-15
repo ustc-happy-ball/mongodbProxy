@@ -12,7 +12,7 @@ import (
 
 type FindResponse struct {
 	framework.BaseEvent
-	Results interface{}
+	Results []interface{}
 	item int32
 }
 
@@ -30,31 +30,33 @@ func (findResponse *FindResponse) FromMessage(interface{}) {
 
 }
 
-func switcher(findResult interface{}, resType int32) (*anypb.Any, error){
-	var result *anypb.Any
-	var err error
+func switcher(findResult []interface{}, resType int32) ([]*anypb.Any, error){
+	result := make([]*anypb.Any, len(findResult))
 	switch resType {
 	case configs.ItemPlayer:
-		resultModel := findResult.(*model.Account)
-		resultEvent := &info.AccountEvent{}
-		resultEvent.FromModel(resultModel)
-		result, err = anypb.New(resultEvent.ToMessage().(*databaseGrpc.Account))
+		for i, resultItem := range findResult {
+			resultModel := resultItem.(*model.Account)
+			resultEvent := &info.AccountEvent{}
+			resultEvent.FromModel(resultModel)
+			accAny, err := anypb.New(resultEvent.ToMessage().(*databaseGrpc.Account))
+			if err != nil {
+				return nil, err
+			}
+			result[i] = accAny
+		}
 		break
 	default:
 
 	}
-	if err != nil {
-		return nil, err
-	}
 	return result, nil
 }
 
-func NewFindResponse(result interface{}, itemType int32, responseStatus int32, err string) *BaseResponse {
+func NewFindResponse(result []interface{}, itemType int32, responseStatus int32, err string) *BaseResponse {
 	return &BaseResponse{
 		ResponseStatus: responseStatus,
 		Error: err,
 		FindResponse: &FindResponse{
-			Results:        result,
+			Results: result,
 			item:   itemType,
 		},
 	}
