@@ -27,8 +27,9 @@ const (
 	ResponseDelete int32 = 9
 	ResponseUpdate int32 = 10
 
-	ResponseStatusSuccess int32 = 0
-	ResponseStatusFail int32 = 1
+	ResponseStatusOk int32 = 0
+	ResponseStatusTimeOut int32 = 1
+	ResponseStatusUnexpectedError int32 = 2
 
 	// item类型
 	ItemPlayer int32 = 0

@@ -12,21 +12,17 @@ import (
 
 type FindResponse struct {
 	*framework.BaseEvent
-	ResponseStatus int32
 	Results interface{}
 	item int32
-	Error string
 }
 
 func (findResponse *FindResponse) ToMessage() interface{} {
 	findResPb := &databaseGrpc.FindResponse{}
-	findResPb.ResponseStatus = databaseGrpc.RESPONSE_STATUS(findResponse.ResponseStatus)
 	resultAny, err := switcher(findResponse.Results, findResponse.item)
 	if err != nil {
 		log.Println("find response error: ", err)
 	}
 	findResPb.Results = resultAny
-	findResPb.Error = findResponse.Error
 	return findResPb
 }
 
@@ -53,13 +49,13 @@ func switcher(findResult interface{}, resType int32) (*anypb.Any, error){
 	return result, nil
 }
 
-func NewFindResponse(responseStatus int32, result interface{}, responseType int32, err string) *BaseResponse {
+func NewFindResponse(result interface{}, responseType int32, responseStatus int32, err string) *BaseResponse {
 	return &BaseResponse{
+		ResponseStatus: responseStatus,
+		Error: err,
 		FindResponse: &FindResponse{
-			ResponseStatus: responseStatus,
 			Results:        result,
 			item:   responseType,
-			Error:          err,
 		},
 	}
 }

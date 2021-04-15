@@ -5,8 +5,8 @@ import (
 	"github.com/TianqiS/database_for_happyball/internal/event/response"
 )
 
-func NewAddResMsg(responseStatus int32, ObjectId string, err string) *DbMessage {
-	addRes := response.NewAddResponse(responseStatus, ObjectId, err)
+func NewAddResMsg(ObjectId string, responseStatus int32,  err string) *DbMessage {
+	addRes := response.NewAddResponse(ObjectId, responseStatus, err)
 	newDbMsg := NewDbMessage(configs.ResponseAdd, addRes)
 	return newDbMsg
 }
@@ -17,8 +17,8 @@ func NewDeleteResMsg(responseStatus int32, err string) *DbMessage {
 	return newDbMsg
 }
 
-func NewFindResMsg(responseStatus int32, result interface{}, responseType int32, err string) *DbMessage {
-	findRes := response.NewFindResponse(responseStatus, result, responseType, err)
+func NewFindResMsg(result interface{}, responseType int32, responseStatus int32, err string) *DbMessage {
+	findRes := response.NewFindResponse(result, responseType, responseStatus, err)
 	newDbMsg := NewDbMessage(configs.ResponseFind, findRes)
 	return newDbMsg
 }
@@ -26,5 +26,11 @@ func NewFindResMsg(responseStatus int32, result interface{}, responseType int32,
 func NewUpdateResMsg(responseStatus int32, err string) *DbMessage {
 	updateRes := response.NewDeleteResponse(responseStatus, err)
 	newDbMsg := NewDbMessage(configs.ResponseUpdate, updateRes)
+	return newDbMsg
+}
+
+func NewErrResMsg(responseType int32, responseStatus int32, err string) *DbMessage {
+	errRes := response.NewErrResponse(responseStatus, err)
+	newDbMsg := NewDbMessage(responseType, errRes)
 	return newDbMsg
 }

@@ -2,8 +2,9 @@ syntax = "proto3";
 package databaseGrpc;
 
 enum RESPONSE_STATUS {
-  SUCCESS = 0;
-  FAIL = 1;
+  OK = 0;
+  TIMEOUT = 1;
+  UNEXPECTED_ERROR = 2;
 }
 
 

@@ -39,6 +39,3 @@ func (s *RpcServer) SendRequest(ctx context.Context, in *databaseGrpc.DbMessage)
 		return nil, errors.WithStack(timeoutErr)
 	}
 }
-
-func handlerRequest(req *event.DbMessage) {
-}
