@@ -4,6 +4,7 @@ import (
 	"github.com/TianqiS/database_for_happyball/configs"
 	databaseGrpc "github.com/TianqiS/database_for_happyball/database_grpc"
 	"github.com/TianqiS/database_for_happyball/framework"
+	"github.com/TianqiS/database_for_happyball/internal/event/info"
 	proto2 "google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/types/known/anypb"
 	"log"
@@ -34,9 +35,12 @@ func itemDecoder(item *anypb.Any, addItem int32) interface{}{
 	}()
 	switch addItem {
 	case configs.ItemPlayer:
-		result := &databaseGrpc.AddItem{}
+		result := &databaseGrpc.Account{}
 		err = anypb.UnmarshalTo(item, result, proto2.UnmarshalOptions{})
-		return result
+		accountEvent := &info.AccountEvent{}
+		accountEvent.FromMessage(result)
+		accountModel := accountEvent.ToModel()
+		return accountModel
 		break
 	default:
 	}
