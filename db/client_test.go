@@ -104,3 +104,34 @@ func TestClientDeleteById(t *testing.T) {
 	}
 	log.Printf("Greeting: %s", r.GetResponse())
 }
+
+func TestClientDeleteByKey(t *testing.T) {
+	conn, err := grpc.Dial(address, grpc.WithInsecure(), grpc.WithBlock())
+	if err != nil {
+		log.Fatalf("did not connect: %v", err)
+	}
+	defer conn.Close()
+	c := databaseGrpc.NewDbServiceClient(conn)
+
+	// Contact the server and print out its response.
+
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+	defer cancel()
+	requestMsg := &databaseGrpc.DbMessage{Id: 1,
+		MessageCode: databaseGrpc.MESSAGE_CODE_DELETE_BY_KEY_REQUEST,
+		MessageType: databaseGrpc.MESSAGE_TYPE_REQUEST,
+		Request: &databaseGrpc.Request{DeleteItemByKey: &databaseGrpc.DeleteItemByKey{
+			DeleteItem: databaseGrpc.ITEM_PLAYER,
+			MatchItem:  []*databaseGrpc.MatchItem{
+				&databaseGrpc.MatchItem{
+					Key:   "name",
+					Match: &databaseGrpc.MatchItem_ValString{ValString: "song"},
+				},
+			},
+		}}}
+	r, err := c.SendRequest(ctx, requestMsg)
+	if err != nil {
+		log.Fatalf("could not greet: %v", err)
+	}
+	log.Printf("Greeting: %s", r.GetResponse())
+}

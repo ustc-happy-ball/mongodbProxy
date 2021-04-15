@@ -17,7 +17,7 @@ func (handler *FindByKeyRequestHandler) OnEvent(e event.Event) {
 	}
 	dbMessageEvent := e.(*event2.DbMessage)
 	findByKeyRequest := dbMessageEvent.Request.FindItemByKey
-	itemType := dbMessageEvent.Request.FindItemByKey.FindItem
+	itemType := findByKeyRequest.FindItem
 	collection := db.CollectionMap[itemType]
 	res, err := collection.FindItemsByKey(findByKeyRequest.MatchItem)
 	if err != nil {

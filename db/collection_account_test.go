@@ -58,7 +58,7 @@ func TestDeleteAccountById(t *testing.T) {
 
 func TestDeleteAccountByKey(t *testing.T) {
 	InitClient()
-	err := AccountCollection.DeleteItemByKey("level", 1)
+	err := AccountCollection.DeleteItemByKey([]*request.MatchItem{})
 	if err != nil {
 		t.Error("删除时发生了错误", err)
 	}

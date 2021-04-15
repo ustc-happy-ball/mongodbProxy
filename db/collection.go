@@ -13,6 +13,6 @@ type Collection interface {
 	UpdateItemById(objectId string, newItem interface{}) error
 	UpdateItemByKey(key string, value interface{}, newItem interface{}) error
 	DeleteItemById(objectId string) error
-	DeleteItemByKey(key string, value interface{}) error
+	DeleteItemByKey(matchArr []*request.MatchItem) error
 	GetModel() interface{}
 }

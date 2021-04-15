@@ -78,9 +78,13 @@ func (baseColl *BaseCollection) DeleteItemById(objectId string) error {
 	return nil
 }
 
-func (baseColl *BaseCollection) DeleteItemByKey(key string, value interface{}) error {
+func (baseColl *BaseCollection) DeleteItemByKey(matchArr []*request.MatchItem) error {
 	collection := baseColl.GetCollection()
-	_, err := collection.DeleteMany(context.TODO(), bson.M{key: value})
+	deleteFilter := make(bson.M)
+	for _, mItem := range matchArr {
+		deleteFilter[mItem.Key] = mItem.MatchVal
+	}
+	_, err := collection.DeleteMany(context.TODO(), deleteFilter)
 	if err != nil {
 		return err
 	}
