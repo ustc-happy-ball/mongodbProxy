@@ -7,14 +7,14 @@ import (
 
 type UpdateResponse struct {
 	*framework.BaseEvent
-	responseStatus int32
-	error string
+	ResponseStatus int32
+	Error string
 }
 
 func (updateResponse *UpdateResponse) ToMessage() interface{} {
 	return &databaseGrpc.UpdateResponse{
-		ResponseStatus: databaseGrpc.RESPONSE_STATUS(updateResponse.responseStatus),
-		Error: updateResponse.error,
+		ResponseStatus: databaseGrpc.RESPONSE_STATUS(updateResponse.ResponseStatus),
+		Error: updateResponse.Error,
 	}
 }
 

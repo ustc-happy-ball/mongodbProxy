@@ -7,8 +7,8 @@ import (
 
 type MatchItem struct {
 	*framework.BaseEvent
-	key string
-	matchVal interface{}
+	Key string
+	MatchVal interface{}
 }
 
 func (findItemByKey *MatchItem) ToMessage() interface{} {
@@ -17,8 +17,8 @@ func (findItemByKey *MatchItem) ToMessage() interface{} {
 
 func (findItemByKey *MatchItem) FromMessage(message interface{}) {
 	messagePb := message.(*databaseGrpc.MatchItem)
-	findItemByKey.key = messagePb.GetKey()
-	findItemByKey.matchVal =parseOneOf(messagePb)
+	findItemByKey.Key = messagePb.GetKey()
+	findItemByKey.MatchVal =parseOneOf(messagePb)
 }
 
 func parseOneOf(matchItem *databaseGrpc.MatchItem) interface{} {

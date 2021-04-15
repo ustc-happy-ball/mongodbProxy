@@ -7,8 +7,8 @@ import (
 
 type FindItemById struct {
 	*framework.BaseEvent
-	item int32
-	itemId string
+	Item int32
+	ItemId string
 }
 
 func (findItemById *FindItemById) ToMessage() interface{} {
@@ -17,6 +17,6 @@ func (findItemById *FindItemById) ToMessage() interface{} {
 
 func (findItemById *FindItemById) FromMessage(message interface{}) {
 	messagePb := message.(*databaseGrpc.FindItemById)
-	findItemById.itemId = messagePb.GetItemId()
-	findItemById.item = int32(messagePb.GetFindItem())
+	findItemById.ItemId = messagePb.GetItemId()
+	findItemById.Item = int32(messagePb.GetFindItem())
 }

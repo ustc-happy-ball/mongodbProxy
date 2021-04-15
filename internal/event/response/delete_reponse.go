@@ -7,14 +7,14 @@ import (
 
 type DeleteResponse struct {
 	*framework.BaseEvent
-	responseStatus int32
-	error string
+	ResponseStatus int32
+	Error string
 }
 
 func (deleteResponse *DeleteResponse) ToMessage() interface{} {
 	deleteResPb := &databaseGrpc.DeleteResponse{}
-	deleteResPb.ResponseStatus = databaseGrpc.RESPONSE_STATUS(deleteResponse.responseStatus)
-	deleteResPb.Error = deleteResponse.error
+	deleteResPb.ResponseStatus = databaseGrpc.RESPONSE_STATUS(deleteResponse.ResponseStatus)
+	deleteResPb.Error = deleteResponse.Error
 	return deleteResPb
 }
 

@@ -6,8 +6,8 @@ import (
 )
 
 type DeleteItemById struct {
-	deleteItem int32
-	itemId string
+	DeleteItem int32
+	ItemId string
 	*framework.BaseEvent
 }
 
@@ -17,8 +17,8 @@ func (deleteItemById *DeleteItemById) ToMessage() interface{} {
 
 func (deleteItemById *DeleteItemById) FromMessage(message interface{}) {
 	messagePb := message.(*databaseGrpc.DeleteItemById)
-	deleteItemById.deleteItem = int32(messagePb.GetDeleteItem())
-	deleteItemById.itemId = messagePb.GetItemId()
+	deleteItemById.DeleteItem = int32(messagePb.GetDeleteItem())
+	deleteItemById.ItemId = messagePb.GetItemId()
 }
 
 

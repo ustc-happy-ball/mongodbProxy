@@ -7,17 +7,18 @@ import (
 
 type AddResponse struct {
 	*framework.BaseEvent
-	responseStatus int32
-	objectId string
-	error string
+	ResponseStatus int32
+	ObjectId string
+	Error string
 }
 
 func (addResponse *AddResponse) ToMessage() interface{} {
 	addResPb := &databaseGrpc.AddResponse{}
-	addResPb.Error = addResponse.error
-	addResPb.ObjectId = addResponse.objectId
-	addResPb.ResponseStatus = databaseGrpc.RESPONSE_STATUS(addResponse.responseStatus)
+	addResPb.Error = addResponse.Error
+	addResPb.ObjectId = addResponse.ObjectId
+	addResPb.ResponseStatus = databaseGrpc.RESPONSE_STATUS(addResponse.ResponseStatus)
 	return addResPb
 }
 
 func (addResponse *AddResponse) FromMessage(message interface{}) {}
+

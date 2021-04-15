@@ -6,9 +6,9 @@ import (
 
 type UpdateItemById struct {
 	*framework.BaseEvent
-	objectId string
-	updateItem int32
-	items map[string]interface{}
+	ObjectId string
+	UpdateItem int32
+	Items map[string]interface{}
 }
 
 func (updateItemById *UpdateItemById) ToMessage() interface{} {

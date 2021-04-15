@@ -11,8 +11,8 @@ import (
 
 type AddItem struct {
 	*framework.BaseEvent
-	addItem int32 // 添加的Item的类型
-	item interface{}
+	AddItem int32 // 添加的Item的类型
+	Item interface{}
 }
 
 func (addItemReq *AddItem) ToMessage() interface{} {
@@ -21,8 +21,8 @@ func (addItemReq *AddItem) ToMessage() interface{} {
 
 func (addItemReq *AddItem) FromMessage(message interface{}) {
 	addItemReqPb := message.(*databaseGrpc.AddItem)
-	addItemReq.addItem = int32(addItemReqPb.AddItem)
-	addItemReq.item = itemDecoder(addItemReqPb.Item, addItemReq.addItem)
+	addItemReq.AddItem = int32(addItemReqPb.AddItem)
+	addItemReq.Item = itemDecoder(addItemReqPb.Item, addItemReq.AddItem)
 }
 
 func itemDecoder(item *anypb.Any, addItem int32) interface{}{
@@ -33,7 +33,7 @@ func itemDecoder(item *anypb.Any, addItem int32) interface{}{
 		}
 	}()
 	switch addItem {
-	case configs.AddItemPlayer:
+	case configs.ItemPlayer:
 		result := &databaseGrpc.AddItem{}
 		err = anypb.UnmarshalTo(item, result, proto2.UnmarshalOptions{})
 		return result

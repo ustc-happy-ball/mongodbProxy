@@ -6,8 +6,8 @@ import (
 )
 
 type DeleteItemByKey struct {
-	deleteItem int32
-	matchItem []*MatchItem
+	DeleteItem int32
+	MatchItem []*MatchItem
 	*framework.BaseEvent
 }
 
@@ -17,12 +17,12 @@ func (deleteItemByKey *DeleteItemByKey) ToMessage() interface{} {
 
 func (deleteItemByKey *DeleteItemByKey) FromMessage(message interface{}) {
 	messagePb := message.(*databaseGrpc.DeleteItemByKey)
-	deleteItemByKey.deleteItem = int32(messagePb.GetDeleteItem())
+	deleteItemByKey.DeleteItem = int32(messagePb.GetDeleteItem())
 	matchItemArr := messagePb.GetMatchItem()
-	deleteItemByKey.matchItem = make([]*MatchItem, len(matchItemArr))
+	deleteItemByKey.MatchItem = make([]*MatchItem, len(matchItemArr))
 	for i, itemPb := range matchItemArr {
 		item := &MatchItem{}
 		item.FromMessage(itemPb)
-		deleteItemByKey.matchItem[i] = item
+		deleteItemByKey.MatchItem[i] = item
 	}
 }
