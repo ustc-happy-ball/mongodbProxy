@@ -5,7 +5,7 @@ import (
 )
 
 type UpdateItemById struct {
-	*framework.BaseEvent
+	framework.BaseEvent
 	ObjectId string
 	UpdateItem int32
 	Items map[string]interface{}

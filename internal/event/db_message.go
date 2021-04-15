@@ -9,7 +9,7 @@ import (
 )
 
 type DbMessage struct {
-	*framework.BaseEvent
+	framework.BaseEvent
 	MessageType int32
 	MessageCode int32
 	Request *request.BaseRequest
@@ -33,24 +33,34 @@ func (dbMessage *DbMessage) FromMessage(message interface{}) {
 	dbMessage.Request = req
 	dbMessage.MessageType = int32(messagePb.MessageType)
 	dbMessage.MessageCode = int32(messagePb.MessageCode)
+	dbMessage.SetCode(dbMessage.MessageCode)
 }
 
 func resEncoder(dbMessage *DbMessage, dbMessagePb *databaseGrpc.DbMessage) {
 	dbMessagePb.Response = &databaseGrpc.Response{}
+	dbMessagePb.Response.ResponseStatus = databaseGrpc.RESPONSE_STATUS(dbMessage.Response.ResponseStatus)
+	dbMessagePb.Response.Error = dbMessage.Response.Error
+	if dbMessage.Response.ResponseStatus != configs.ResponseStatusOk {
+		return
+	}
 	switch dbMessage.MessageCode {
 	case configs.ResponseFind:
+		dbMessagePb.Response.FindResponse = &databaseGrpc.FindResponse{}
 		findRes := dbMessage.Response.FindResponse.ToMessage().(*databaseGrpc.FindResponse)
 		dbMessagePb.Response.FindResponse = findRes
 		break
 	case configs.ResponseAdd:
+		dbMessagePb.Response.AddResponse = &databaseGrpc.AddResponse{}
 		resRes := dbMessage.Response.AddResponse.ToMessage().(*databaseGrpc.AddResponse)
 		dbMessagePb.Response.AddResponse = resRes
 		break
 	case configs.ResponseUpdate:
+		dbMessagePb.Response.UpdateResponse = &databaseGrpc.UpdateResponse{}
 		updateRes := dbMessage.Response.UpdateResponse.ToMessage().(*databaseGrpc.UpdateResponse)
 		dbMessagePb.Response.UpdateResponse = updateRes
 		break
 	case configs.ResponseDelete:
+		dbMessagePb.Response.DeleteResponse = &databaseGrpc.DeleteResponse{}
 		deleteRes := dbMessage.Response.DeleteResponse.ToMessage().(*databaseGrpc.DeleteResponse)
 		dbMessagePb.Response.DeleteResponse = deleteRes
 		break

@@ -2,6 +2,7 @@ package server
 
 import (
 	"context"
+	"github.com/TianqiS/database_for_happyball/configs"
 	"github.com/TianqiS/database_for_happyball/database_grpc"
 	"github.com/TianqiS/database_for_happyball/framework"
 	"github.com/TianqiS/database_for_happyball/internal/event"
@@ -23,7 +24,7 @@ var (
 
 func (s *RpcServer) SendRequest(ctx context.Context, in *databaseGrpc.DbMessage) (*databaseGrpc.DbMessage, error) {
 	var timeout <-chan time.Time
-	timeout = time.After(500 * time.Millisecond)
+	timeout = time.After(5 * time.Second)
 	dbMessageEvent := &event.DbMessage{
 		ResResult: make(chan *event.DbMessage),
 		Error: make(chan error),
@@ -34,8 +35,10 @@ func (s *RpcServer) SendRequest(ctx context.Context, in *databaseGrpc.DbMessage)
 	case res := <- dbMessageEvent.ResResult:
 		return res.ToMessage().(*databaseGrpc.DbMessage), nil
 	case err := <- dbMessageEvent.Error:
-		return nil, err
+		errMessage := event.NewErrResMsg(configs.ReqResMap[dbMessageEvent.MessageCode], configs.ResponseStatusUnexpectedError, err.Error())
+		return errMessage.ToMessage().(*databaseGrpc.DbMessage), nil
 	case <-timeout:
-		return nil, errors.WithStack(timeoutErr)
+		errMessage := event.NewErrResMsg(configs.ReqResMap[dbMessageEvent.MessageCode], configs.ResponseStatusTimeOut, "超时了")
+		return errMessage.ToMessage().(*databaseGrpc.DbMessage), nil
 	}
 }

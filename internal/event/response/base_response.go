@@ -6,7 +6,7 @@ import (
 )
 
 type BaseResponse struct {
-	*framework.BaseEvent
+	framework.BaseEvent
 	ResponseStatus int32
 	Error string
 	*AddResponse

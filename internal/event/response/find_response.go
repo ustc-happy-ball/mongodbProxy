@@ -11,7 +11,7 @@ import (
 )
 
 type FindResponse struct {
-	*framework.BaseEvent
+	framework.BaseEvent
 	Results interface{}
 	item int32
 }
@@ -49,13 +49,13 @@ func switcher(findResult interface{}, resType int32) (*anypb.Any, error){
 	return result, nil
 }
 
-func NewFindResponse(result interface{}, responseType int32, responseStatus int32, err string) *BaseResponse {
+func NewFindResponse(result interface{}, itemType int32, responseStatus int32, err string) *BaseResponse {
 	return &BaseResponse{
 		ResponseStatus: responseStatus,
 		Error: err,
 		FindResponse: &FindResponse{
 			Results:        result,
-			item:   responseType,
+			item:   itemType,
 		},
 	}
 }

@@ -52,7 +52,7 @@ func (accountColl *accountCollection) FindItemsByKey(key string, value string) (
 }
 
 func (accountColl *accountCollection) GetModel() interface{} {
-	return model.Account{}
+	return &model.Account{}
 }
 
 //func (accountCollection *accountCollection) FindItemsByKey(key string, value string) ([]*model.Account, error) {

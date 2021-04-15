@@ -6,7 +6,7 @@ import (
 )
 
 type UpdateResponse struct {
-	*framework.BaseEvent
+	framework.BaseEvent
 }
 
 func (updateResponse *UpdateResponse) ToMessage() interface{} {

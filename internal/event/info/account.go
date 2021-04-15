@@ -7,7 +7,7 @@ import (
 )
 
 type AccountEvent struct {
-	*framework.BaseEvent
+	framework.BaseEvent
 	Name string
 	LoginPassword string // 登录密码
 	AccountAvatar string // 头像

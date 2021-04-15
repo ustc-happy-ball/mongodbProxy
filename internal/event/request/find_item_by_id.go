@@ -6,7 +6,7 @@ import (
 )
 
 type FindItemById struct {
-	*framework.BaseEvent
+	framework.BaseEvent
 	Item int32
 	ItemId string
 }

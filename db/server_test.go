@@ -43,10 +43,10 @@ func (s *server) SendRequest(ctx context.Context, in *databaseGrpc.DbMessage) (*
 		return &databaseGrpc.DbMessage{
 			MessageType: databaseGrpc.MESSAGE_TYPE_RESPONSE,
 			Response:    &databaseGrpc.Response{
+				ResponseStatus: databaseGrpc.RESPONSE_STATUS_OK,
+				Error: "",
 				FindResponse: &databaseGrpc.FindResponse{
-					ResponseStatus: databaseGrpc.RESPONSE_STATUS_SUCCESS,
 					Results:        accAny,
-					Error:          "",
 				},
 			},
 		}, nil

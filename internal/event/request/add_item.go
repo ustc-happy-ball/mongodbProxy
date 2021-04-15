@@ -10,7 +10,7 @@ import (
 )
 
 type AddItem struct {
-	*framework.BaseEvent
+	framework.BaseEvent
 	AddItem int32 // 添加的Item的类型
 	Item interface{}
 }

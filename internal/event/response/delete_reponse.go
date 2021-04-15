@@ -6,7 +6,7 @@ import (
 )
 
 type DeleteResponse struct {
-	*framework.BaseEvent
+	framework.BaseEvent
 }
 
 func (deleteResponse *DeleteResponse) ToMessage() interface{} {

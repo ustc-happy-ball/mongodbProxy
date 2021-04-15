@@ -6,7 +6,7 @@ import (
 )
 
 type MatchItem struct {
-	*framework.BaseEvent
+	framework.BaseEvent
 	Key string
 	MatchVal interface{}
 }

@@ -6,7 +6,7 @@ import (
 )
 
 type FindItemByKey struct {
-	*framework.BaseEvent
+	framework.BaseEvent
 	deleteItem int32
 	matchItem []*MatchItem
 }

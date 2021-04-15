@@ -6,9 +6,9 @@ import (
 )
 
 type DeleteItemById struct {
+	framework.BaseEvent
 	DeleteItem int32
 	ItemId string
-	*framework.BaseEvent
 }
 
 func (deleteItemById *DeleteItemById) ToMessage() interface{} {

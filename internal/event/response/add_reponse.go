@@ -6,7 +6,7 @@ import (
 )
 
 type AddResponse struct {
-	*framework.BaseEvent
+	framework.BaseEvent
 	ObjectId string
 }
 
