@@ -52,3 +52,14 @@ func switcher(findResult interface{}, resType int32) (*anypb.Any, error){
 	}
 	return result, nil
 }
+
+func NewFindResponse(responseStatus int32, result interface{}, responseType int32, err string) *BaseResponse {
+	return &BaseResponse{
+		FindResponse: &FindResponse{
+			ResponseStatus: responseStatus,
+			Results:        result,
+			item:   responseType,
+			Error:          err,
+		},
+	}
+}

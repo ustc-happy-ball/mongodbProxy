@@ -100,5 +100,13 @@ func switcher(messagePb *databaseGrpc.DbMessage) *request.BaseRequest {
 	return req
 }
 
+func NewDbMessage(messageCode int32, res *response.BaseResponse) *DbMessage {
+	return &DbMessage{
+		MessageType: configs.MessageTypeResponse,
+		MessageCode: messageCode,
+		Response:    res,
+	}
+}
+
 
 

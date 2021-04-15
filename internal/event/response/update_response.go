@@ -21,3 +21,12 @@ func (updateResponse *UpdateResponse) ToMessage() interface{} {
 func (updateResponse *UpdateResponse) FromMessage(interface{}) {
 
 }
+
+func NewUpdateResponse(responseStatus int32, err string) *BaseResponse {
+	return &BaseResponse{
+		UpdateResponse: &UpdateResponse{
+			ResponseStatus: responseStatus,
+			Error:          err,
+		},
+	}
+}

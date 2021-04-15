@@ -21,3 +21,12 @@ func (deleteResponse *DeleteResponse) ToMessage() interface{} {
 func (deleteResponse *DeleteResponse) FromMessage(interface{}) {
 
 }
+
+func NewDeleteResponse(responseStatus int32, err string) *BaseResponse {
+	return &BaseResponse{
+		DeleteResponse: &DeleteResponse{
+			ResponseStatus: responseStatus,
+			Error:          err,
+		},
+	}
+}

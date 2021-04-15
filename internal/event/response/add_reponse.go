@@ -22,3 +22,12 @@ func (addResponse *AddResponse) ToMessage() interface{} {
 
 func (addResponse *AddResponse) FromMessage(message interface{}) {}
 
+func NewAddResponse(responseStatus int32, ObjectId string, err string) *BaseResponse {
+	return &BaseResponse{
+		AddResponse: &AddResponse{
+			ResponseStatus: responseStatus,
+			ObjectId:       ObjectId,
+			Error:          err,
+		},
+	}
+}
