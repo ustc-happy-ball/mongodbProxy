@@ -11,4 +11,5 @@ type Collection interface {
 	UpdateItemByKey(key string, value interface{}, newItem interface{}) error
 	DeleteItemById(objectId string) error
 	DeleteItemByKey(key string, value interface{}) error
+	GetModel() interface{}
 }

@@ -51,6 +51,10 @@ func (accountColl *accountCollection) FindItemsByKey(key string, value string) (
 	return results, nil
 }
 
+func (accountColl *accountCollection) GetModel() interface{} {
+	return model.Account{}
+}
+
 //func (accountCollection *accountCollection) FindItemsByKey(key string, value string) ([]*model.Account, error) {
 //	cursor, err := accountCollection.BaseCollection.FindItemsByKey(key, value)
 //	if err != nil {
