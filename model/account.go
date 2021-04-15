@@ -1,6 +1,8 @@
 package model
+import "go.mongodb.org/mongo-driver/bson/primitive"
 
 type Account struct { // 里面的字段名一定要大写开头
+	ID primitive.ObjectID `bson:"_id"` // 后面的标签要加上
 	Name string
 	LoginPassword string // 登录密码
 	AccountAvatar string // 头像

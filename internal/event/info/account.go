@@ -4,10 +4,12 @@ import (
 	databaseGrpc "github.com/TianqiS/database_for_happyball/database_grpc"
 	"github.com/TianqiS/database_for_happyball/framework"
 	"github.com/TianqiS/database_for_happyball/model"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 type AccountEvent struct {
 	framework.BaseEvent
+	ObjectId string
 	Name string
 	LoginPassword string // 登录密码
 	AccountAvatar string // 头像
@@ -22,6 +24,7 @@ type AccountEvent struct {
 
 func (accountEvent *AccountEvent) ToMessage() interface{} {
 	accountPb := &databaseGrpc.Account{}
+	accountPb.ObjectId = accountEvent.ObjectId
 	accountPb.Name = accountEvent.Name
 	accountPb.LoginPassword = accountEvent.LoginPassword
 	accountPb.AccountAvatar = accountEvent.AccountAvatar
@@ -37,6 +40,7 @@ func (accountEvent *AccountEvent) ToMessage() interface{} {
 
 func (accountEvent *AccountEvent) FromMessage(message interface{}) {
 	messagePb := message.(*databaseGrpc.Account)
+	accountEvent.ObjectId = messagePb.ObjectId
 	accountEvent.Name = messagePb.Name
 	accountEvent.LoginPassword = messagePb.LoginPassword
 	accountEvent.AccountAvatar = messagePb.AccountAvatar
@@ -49,8 +53,15 @@ func (accountEvent *AccountEvent) FromMessage(message interface{}) {
 	accountEvent.UpdateAt = messagePb.UpdateAt
 }
 
-func (accountEvent *AccountEvent) ToModel() interface{} {
+func (accountEvent *AccountEvent) ToModel() (interface{}, error){
 	account := &model.Account{}
+	if primitive.IsValidObjectID(accountEvent.ObjectId) {
+		objectId, err := primitive.ObjectIDFromHex(accountEvent.ObjectId)
+		if err != nil {
+			return nil, err
+		}
+		account.ID = objectId
+	}
 	account.Name = accountEvent.Name
 	account.LoginPassword = accountEvent.LoginPassword
 	account.Level = accountEvent.Level
@@ -60,10 +71,11 @@ func (accountEvent *AccountEvent) ToModel() interface{} {
 	account.MaxScore = accountEvent.MaxScore
 	account.CreateAt = accountEvent.CreateAt
 	account.UpdateAt = accountEvent.UpdateAt
-	return account
+	return account, nil
 }
 
 func (accountEvent *AccountEvent) FromModel(account *model.Account) {
+	accountEvent.ObjectId = account.ID.Hex()
 	accountEvent.Name = account.Name
 	accountEvent.LoginPassword = account.LoginPassword
 	accountEvent.AccountAvatar = account.AccountAvatar

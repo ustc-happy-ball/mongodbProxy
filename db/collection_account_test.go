@@ -41,11 +41,16 @@ func TestFindAccountById(t *testing.T) {
 
 func TestFindAccountByKey(t *testing.T) {
 	InitClient()
-	_, err := AccountCollection.FindItemsByKey([]*request.MatchItem{})
+	acc, err := AccountCollection.FindItemsByKey([]*request.MatchItem{
+		{
+			Key: "name",
+			MatchVal: "tianqi",
+		},
+	})
 	if err != nil {
 		t.Error("查找时发生了错误", err)
 	}
-	//fmt.Println("获取的acc为", acc)
+	fmt.Println("获取的acc为", acc)
 }
 
 func TestDeleteAccountById(t *testing.T) {

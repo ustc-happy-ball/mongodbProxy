@@ -28,7 +28,7 @@ func (baseColl *BaseCollection) InsertItem(item interface{}) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	return insertResult.InsertedID.(primitive.ObjectID).String(), nil
+	return insertResult.InsertedID.(primitive.ObjectID).Hex(), nil
 }
 
 func (baseColl *BaseCollection) FindOneItemById(objectId string) (*mongo.SingleResult, error) {

@@ -66,7 +66,7 @@ func TestClientFindByKey(t *testing.T) {
 				MatchItem: []*databaseGrpc.MatchItem{
 					&databaseGrpc.MatchItem{
 						Key:   "name",
-						Match: &databaseGrpc.MatchItem_ValString{ValString: "song"},
+						Match: &databaseGrpc.MatchItem_ValString{ValString: "tianqi"},
 					},
 				},
 			},
@@ -152,11 +152,11 @@ func TestClientAddItem(t *testing.T) {
 	item := &databaseGrpc.Account{
 		Name:          "tianqi",
 		LoginPassword: "hhh",
-		Level:         0,
+		Level:         5,
 		Delete:        false,
-		Region:        "",
-		Phone:         "",
-		MaxScore:      0,
+		Region:        "中国",
+		Phone:         "17376515082",
+		MaxScore:      5,
 		CreateAt:      0,
 		UpdateAt:      0,
 		AccountAvatar: "",

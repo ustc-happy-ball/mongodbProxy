@@ -5,6 +5,7 @@ import (
 	databaseGrpc "github.com/TianqiS/database_for_happyball/database_grpc"
 	"github.com/TianqiS/database_for_happyball/framework"
 	"github.com/TianqiS/database_for_happyball/internal/event/info"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	proto2 "google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/types/known/anypb"
 	"log"
@@ -27,8 +28,8 @@ func (addItemReq *AddItem) FromMessage(message interface{}) {
 }
 
 func itemDecoder(item *anypb.Any, addItem int32) interface{}{
-	var err error
 	defer func() {
+		err := recover()
 		if err != nil {
 			log.Println("itemDecoder error:", err)
 		}
@@ -36,10 +37,17 @@ func itemDecoder(item *anypb.Any, addItem int32) interface{}{
 	switch addItem {
 	case configs.ItemPlayer:
 		result := &databaseGrpc.Account{}
-		err = anypb.UnmarshalTo(item, result, proto2.UnmarshalOptions{})
+		err := anypb.UnmarshalTo(item, result, proto2.UnmarshalOptions{})
+		if err != nil {
+			panic(err)
+		}
 		accountEvent := &info.AccountEvent{}
 		accountEvent.FromMessage(result)
-		accountModel := accountEvent.ToModel()
+		accountEvent.ObjectId = primitive.NewObjectID().Hex()
+		accountModel, err := accountEvent.ToModel()
+		if err != nil {
+			panic(err)
+		}
 		return accountModel
 		break
 	default:
