@@ -68,3 +68,22 @@ func TestDeleteAccountByKey(t *testing.T) {
 		t.Error("删除时发生了错误", err)
 	}
 }
+
+func TestUpdateAccountById(t *testing.T) {
+	InitClient()
+	err := AccountCollection.UpdateItemById(
+		"6078605aca07062a614b7c18",
+		&request.Operation{
+			Op: "$set",
+			Items: []*request.MatchItem{
+				{
+					Key: "name",
+					MatchVal: "qiqi",
+				},
+			},
+		},
+		)
+	if err != nil {
+		t.Error("更新时发生了错误", err)
+	}
+}

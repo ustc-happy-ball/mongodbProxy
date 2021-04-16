@@ -22,7 +22,7 @@ func (findItemByKey *MatchItem) FromMessage(message interface{}) {
 }
 
 func parseOneOf(matchItem *databaseGrpc.MatchItem) interface{} {
-	matchItemMatch := matchItem.GetMatch()
+	matchItemMatch := matchItem.GetMatchVal()
 	switch matchItemMatch.(type) {
 	case *databaseGrpc.MatchItem_ValString:
 		return matchItemMatch.(*databaseGrpc.MatchItem_ValString).ValString

@@ -33,11 +33,11 @@ func (baseColl *BaseCollection) InsertItem(item interface{}) (string, error) {
 
 func (baseColl *BaseCollection) FindOneItemById(objectId string) (*mongo.SingleResult, error) {
 	collection := baseColl.GetCollection()
-	itemIdObject, err := primitive.ObjectIDFromHex(objectId)
+	itemObjectId, err := primitive.ObjectIDFromHex(objectId)
 	if err != nil {
 		return nil, err
 	}
-	result := collection.FindOne(context.TODO(), bson.M{"_id": itemIdObject})
+	result := collection.FindOne(context.TODO(), bson.M{"_id": itemObjectId})
 	if result.Err() != nil {
 		return nil, result.Err()
 	}
@@ -57,21 +57,36 @@ func (baseColl *BaseCollection) GetCursorOnKeyValue(matchArr []*request.MatchIte
 	return cursor, nil
 }
 
-func (baseColl *BaseCollection) UpdateItemById(objectId string, newItem interface{}) error {
-	panic("implement me")
+func (baseColl *BaseCollection) UpdateItemById(objectId string, operation *request.Operation) error {
+	collection := baseColl.GetCollection()
+	itemObjectId, err := primitive.ObjectIDFromHex(objectId)
+	if err != nil {
+		return err
+	}
+	update := make(primitive.M)
+	op := make(primitive.M)
+	for _, opItem := range operation.Items {
+		op[opItem.Key] = opItem.MatchVal
+	}
+	update[operation.Op] = op
+	_, err = collection.UpdateOne(context.TODO(), bson.M{"_id": itemObjectId}, update)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
-func (baseColl *BaseCollection) UpdateItemByKey(key string, value interface{}, newItem interface{}) error {
+func (baseColl *BaseCollection) UpdateItemByKey(key string, matchArr []*request.MatchItem, operation *request.Operation) error {
 	panic("implement me")
 }
 
 func (baseColl *BaseCollection) DeleteItemById(objectId string) error {
 	collection := baseColl.GetCollection()
-	itemIdObject, err := primitive.ObjectIDFromHex(objectId)
+	itemObjectId, err := primitive.ObjectIDFromHex(objectId)
 	if err != nil {
 		return err
 	}
-	_, err = collection.DeleteOne(context.TODO(), bson.M{"_id": itemIdObject})
+	_, err = collection.DeleteOne(context.TODO(), bson.M{"_id": itemObjectId})
 	if err != nil {
 		return err
 	}
