@@ -179,7 +179,7 @@ func TestClientAddItem(t *testing.T) {
 	log.Printf("Greeting: %s", r.GetResponse())
 }
 
-func TestClientUpdate(t *testing.T) {
+func TestClientUpdateById(t *testing.T) {
 	conn, err := grpc.Dial(address, grpc.WithInsecure(), grpc.WithBlock())
 	if err != nil {
 		log.Fatalf("did not connect: %v", err)
@@ -197,6 +197,49 @@ func TestClientUpdate(t *testing.T) {
 		Request: &databaseGrpc.Request{
 			UpdateItemById: &databaseGrpc.UpdateItemById{
 				ObjectId:   "6078605aca07062a614b7c18",
+				UpdateItem: databaseGrpc.ITEM_PLAYER,
+				Operation:  &databaseGrpc.Operation{
+					Op:    "$set",
+					Items: []*databaseGrpc.MatchItem {
+						&databaseGrpc.MatchItem{
+							Key:      "name",
+							MatchVal: &databaseGrpc.MatchItem_ValString{ValString: "tianqi"},
+						},
+					},
+				},
+			},
+		},
+	}
+	r, err := c.SendRequest(ctx, requestMsg)
+	if err != nil {
+		log.Fatalf("could not greet: %v", err)
+	}
+	log.Printf("Greeting: %s", r.GetResponse())
+}
+
+func TestClientUpdateByKey(t *testing.T) {
+	conn, err := grpc.Dial(address, grpc.WithInsecure(), grpc.WithBlock())
+	if err != nil {
+		log.Fatalf("did not connect: %v", err)
+	}
+	defer conn.Close()
+	c := databaseGrpc.NewDbServiceClient(conn)
+
+	// Contact the server and print out its response.
+
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+	defer cancel()
+	requestMsg := &databaseGrpc.DbMessage{Id: 1,
+		MessageCode: databaseGrpc.MESSAGE_CODE_UPDATE_BY_KEY_REQUEST,
+		MessageType: databaseGrpc.MESSAGE_TYPE_REQUEST,
+		Request: &databaseGrpc.Request{
+			UpdateItemByKey: &databaseGrpc.UpdateItemByKey{
+				MatchItem: []*databaseGrpc.MatchItem {
+					{
+						Key: "name",
+						MatchVal: &databaseGrpc.MatchItem_ValString{ValString: "12345"},
+					},
+				},
 				UpdateItem: databaseGrpc.ITEM_PLAYER,
 				Operation:  &databaseGrpc.Operation{
 					Op:    "$set",

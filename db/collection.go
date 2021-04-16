@@ -11,7 +11,7 @@ type Collection interface {
 	FindOneItemById(objectId string) (*mongo.SingleResult, error)
 	FindItemsByKey(matchArr []*request.MatchItem) ([]interface{}, error)
 	UpdateItemById(objectId string, operation *request.Operation) error
-	UpdateItemByKey(key string, matchArr []*request.MatchItem, operation *request.Operation) error
+	UpdateItemByKey(matchArr []*request.MatchItem, operation *request.Operation) error
 	DeleteItemById(objectId string) error
 	DeleteItemByKey(matchArr []*request.MatchItem) error
 	GetModel() interface{}

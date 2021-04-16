@@ -87,3 +87,31 @@ func TestUpdateAccountById(t *testing.T) {
 		t.Error("更新时发生了错误", err)
 	}
 }
+
+func TestUpdateAccountByKey(t *testing.T) {
+	InitClient()
+	err := AccountCollection.UpdateItemByKey(
+		[]*request.MatchItem{
+			{
+				Key: "name",
+				MatchVal: "123",
+			},
+		},
+		&request.Operation{
+			Op: "$set",
+			Items: []*request.MatchItem {
+				{
+					Key: "name",
+					MatchVal: "12345",
+				},
+				{
+					Key: "level",
+					MatchVal: int64(3),
+				},
+			},
+		},
+		)
+	if err != nil {
+		t.Error("更新时发生了错误", err)
+	}
+}

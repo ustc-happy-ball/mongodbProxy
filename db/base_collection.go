@@ -76,8 +76,23 @@ func (baseColl *BaseCollection) UpdateItemById(objectId string, operation *reque
 	return nil
 }
 
-func (baseColl *BaseCollection) UpdateItemByKey(key string, matchArr []*request.MatchItem, operation *request.Operation) error {
-	panic("implement me")
+func (baseColl *BaseCollection) UpdateItemByKey(matchArr []*request.MatchItem, operation *request.Operation) error {
+	collection := baseColl.GetCollection()
+	updateFilter := make(bson.M)
+	for _, mItem := range matchArr {
+		updateFilter[mItem.Key] = mItem.MatchVal
+	}
+	update := make(primitive.M)
+	op := make(primitive.M)
+	for _, opItem := range operation.Items {
+		op[opItem.Key] = opItem.MatchVal
+	}
+	update[operation.Op] = op
+	_, err := collection.UpdateMany(context.TODO(), updateFilter, update)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func (baseColl *BaseCollection) DeleteItemById(objectId string) error {
