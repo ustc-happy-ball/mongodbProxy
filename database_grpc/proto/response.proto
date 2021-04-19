@@ -1,29 +1,16 @@
 syntax = "proto3";
+option go_package = ".;databaseGrpc";
 package databaseGrpc;
 import "type_enum.proto";
-import "google/protobuf/any.proto";
+import "db_model.proto";
 
-message Response {
+message AccountFindByPhoneResponse {
+  RESPONSE_STATUS responseStatus = 1;
+  Account account = 2;
+  string error = 3;
+}
+
+message AccountAddResponse {
   RESPONSE_STATUS responseStatus = 1;
   string error = 2;
-  FindResponse findResponse = 3;
-  AddResponse addResponse = 4;
-  UpdateResponse updateResponse = 5;
-  DeleteResponse deleteResponse = 6;
 }
-
-message AddResponse {
-  string objectId = 2;
-}
-
-message DeleteResponse {
-}
-
-message UpdateResponse {
-}
-
-message FindResponse {
-  ITEM item = 1;
-  repeated google.protobuf.Any results = 2;
-}
-

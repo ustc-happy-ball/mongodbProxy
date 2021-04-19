@@ -1,16 +1,14 @@
 syntax = "proto3";
+option go_package = ".;databaseGrpc";
 package databaseGrpc;
 
 message Account {
-  string objectId = 1;
-  string name = 2;
+  string accountId = 1; //objectId
+  int32 playerId = 2;
   string loginPassword = 3;
-  int64 level = 4;
-  bool delete = 5;
-  string region = 6;
-  string phone = 7;
-  int64 maxScore = 8;
-  int64 createAt = 9;
-  int64 updateAt = 10;
-  string accountAvatar = 11;
+  bool delete = 4;
+  string phone = 5;
+  int64 recentLogin = 6;
+  int64 createAt = 7;
+  int64 updateAt = 8;
 }

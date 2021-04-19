@@ -1,68 +1,12 @@
 syntax = "proto3";
+option go_package = ".;databaseGrpc";
 package databaseGrpc;
-import "type_enum.proto";
-import "google/protobuf/any.proto";
+import "db_model.proto";
 
-message Request {
-  UpdateItemById updateItemById = 1;
-  UpdateItemByKey updateItemByKey = 2;
-  AddItem addItem = 3;
-  FindItemById findItemById = 4;
-  FindItemByKey findItemByKey = 5;
-  DeleteItemById deleteItemById = 6;
-  DeleteItemByKey deleteItemByKey = 7;
+message AccountFindByPhoneRequest {
+  string phone = 1;
 }
 
-message MatchItem {
-  string key = 1;
-  oneof matchVal {
-    string valString = 2;
-    int64 valInt = 3;
-    bool valBool = 4;
-    float valFloat = 5;
-    double valDouble = 6;
-  }
+message AccountAddRequest {
+  Account account = 1;
 }
-
-message Operation {
-  string op = 1;
-  repeated MatchItem items = 2;
-}
-
-message UpdateItemById {
-  string objectId = 1;
-  ITEM updateItem = 2; // 更新的对象
-  Operation operation = 3;
-}
-
-message UpdateItemByKey {
-  ITEM updateItem = 1;
-  repeated MatchItem matchItem = 2;
-  Operation operation = 3;
-}
-
-message AddItem {
-  ITEM addItem = 1;
-  google.protobuf.Any item = 2;
-}
-
-message FindItemById {
-  ITEM findItem = 1;
-  string itemId = 2;
-}
-
-message FindItemByKey {
-  ITEM FindItem = 1;
-  repeated MatchItem matchItem = 2;
-}
-
-message DeleteItemById {
-  ITEM deleteItem = 1;
-  string itemId = 2;
-}
-
-message DeleteItemByKey {
-  ITEM DeleteItem = 1;
-  repeated MatchItem matchItem = 2;
-}
-

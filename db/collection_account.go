@@ -2,7 +2,6 @@ package db
 
 import (
 	"context"
-	"github.com/TianqiS/database_for_happyball/internal/event/request"
 	"github.com/TianqiS/database_for_happyball/model"
 	"log"
 )
@@ -29,7 +28,7 @@ var AccountCollection = &accountCollection{
 //	return account, nil
 //}
 
-func (accountColl *accountCollection) FindItemsByKey(matchArr []*request.MatchItem) ([]interface{}, error) {
+func (accountColl *accountCollection) FindItemsByKey(matchArr []*MatchItem) ([]interface{}, error) {
 	cursor, err := accountColl.BaseCollection.GetCursorOnKeyValue(matchArr)
 	if err != nil {
 		return nil, err

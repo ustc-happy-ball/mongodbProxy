@@ -10,7 +10,6 @@ import (
 	proto "github.com/golang/protobuf/proto"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	anypb "google.golang.org/protobuf/types/known/anypb"
 	reflect "reflect"
 	sync "sync"
 )
@@ -26,21 +25,18 @@ const (
 // of the legacy proto package is being used.
 const _ = proto.ProtoPackageIsVersion4
 
-type Response struct {
+type AccountFindByPhoneResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
 	ResponseStatus RESPONSE_STATUS `protobuf:"varint,1,opt,name=responseStatus,proto3,enum=databaseGrpc.RESPONSE_STATUS" json:"responseStatus,omitempty"`
-	Error          string          `protobuf:"bytes,2,opt,name=error,proto3" json:"error,omitempty"`
-	FindResponse   *FindResponse   `protobuf:"bytes,3,opt,name=findResponse,proto3" json:"findResponse,omitempty"`
-	AddResponse    *AddResponse    `protobuf:"bytes,4,opt,name=addResponse,proto3" json:"addResponse,omitempty"`
-	UpdateResponse *UpdateResponse `protobuf:"bytes,5,opt,name=updateResponse,proto3" json:"updateResponse,omitempty"`
-	DeleteResponse *DeleteResponse `protobuf:"bytes,6,opt,name=deleteResponse,proto3" json:"deleteResponse,omitempty"`
+	Account        *Account        `protobuf:"bytes,2,opt,name=account,proto3" json:"account,omitempty"`
+	Error          string          `protobuf:"bytes,3,opt,name=error,proto3" json:"error,omitempty"`
 }
 
-func (x *Response) Reset() {
-	*x = Response{}
+func (x *AccountFindByPhoneResponse) Reset() {
+	*x = AccountFindByPhoneResponse{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_response_proto_msgTypes[0]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -48,13 +44,13 @@ func (x *Response) Reset() {
 	}
 }
 
-func (x *Response) String() string {
+func (x *AccountFindByPhoneResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*Response) ProtoMessage() {}
+func (*AccountFindByPhoneResponse) ProtoMessage() {}
 
-func (x *Response) ProtoReflect() protoreflect.Message {
+func (x *AccountFindByPhoneResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_response_proto_msgTypes[0]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -66,63 +62,43 @@ func (x *Response) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Response.ProtoReflect.Descriptor instead.
-func (*Response) Descriptor() ([]byte, []int) {
+// Deprecated: Use AccountFindByPhoneResponse.ProtoReflect.Descriptor instead.
+func (*AccountFindByPhoneResponse) Descriptor() ([]byte, []int) {
 	return file_response_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *Response) GetResponseStatus() RESPONSE_STATUS {
+func (x *AccountFindByPhoneResponse) GetResponseStatus() RESPONSE_STATUS {
 	if x != nil {
 		return x.ResponseStatus
 	}
 	return RESPONSE_STATUS_OK
 }
 
-func (x *Response) GetError() string {
+func (x *AccountFindByPhoneResponse) GetAccount() *Account {
+	if x != nil {
+		return x.Account
+	}
+	return nil
+}
+
+func (x *AccountFindByPhoneResponse) GetError() string {
 	if x != nil {
 		return x.Error
 	}
 	return ""
 }
 
-func (x *Response) GetFindResponse() *FindResponse {
-	if x != nil {
-		return x.FindResponse
-	}
-	return nil
-}
-
-func (x *Response) GetAddResponse() *AddResponse {
-	if x != nil {
-		return x.AddResponse
-	}
-	return nil
-}
-
-func (x *Response) GetUpdateResponse() *UpdateResponse {
-	if x != nil {
-		return x.UpdateResponse
-	}
-	return nil
-}
-
-func (x *Response) GetDeleteResponse() *DeleteResponse {
-	if x != nil {
-		return x.DeleteResponse
-	}
-	return nil
-}
-
-type AddResponse struct {
+type AccountAddResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	ObjectId string `protobuf:"bytes,2,opt,name=objectId,proto3" json:"objectId,omitempty"`
+	ResponseStatus RESPONSE_STATUS `protobuf:"varint,1,opt,name=responseStatus,proto3,enum=databaseGrpc.RESPONSE_STATUS" json:"responseStatus,omitempty"`
+	Error          string          `protobuf:"bytes,2,opt,name=error,proto3" json:"error,omitempty"`
 }
 
-func (x *AddResponse) Reset() {
-	*x = AddResponse{}
+func (x *AccountAddResponse) Reset() {
+	*x = AccountAddResponse{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_response_proto_msgTypes[1]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -130,13 +106,13 @@ func (x *AddResponse) Reset() {
 	}
 }
 
-func (x *AddResponse) String() string {
+func (x *AccountAddResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*AddResponse) ProtoMessage() {}
+func (*AccountAddResponse) ProtoMessage() {}
 
-func (x *AddResponse) ProtoReflect() protoreflect.Message {
+func (x *AccountAddResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_response_proto_msgTypes[1]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -148,147 +124,23 @@ func (x *AddResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use AddResponse.ProtoReflect.Descriptor instead.
-func (*AddResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use AccountAddResponse.ProtoReflect.Descriptor instead.
+func (*AccountAddResponse) Descriptor() ([]byte, []int) {
 	return file_response_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *AddResponse) GetObjectId() string {
+func (x *AccountAddResponse) GetResponseStatus() RESPONSE_STATUS {
 	if x != nil {
-		return x.ObjectId
+		return x.ResponseStatus
+	}
+	return RESPONSE_STATUS_OK
+}
+
+func (x *AccountAddResponse) GetError() string {
+	if x != nil {
+		return x.Error
 	}
 	return ""
-}
-
-type DeleteResponse struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-}
-
-func (x *DeleteResponse) Reset() {
-	*x = DeleteResponse{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_response_proto_msgTypes[2]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *DeleteResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*DeleteResponse) ProtoMessage() {}
-
-func (x *DeleteResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_response_proto_msgTypes[2]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use DeleteResponse.ProtoReflect.Descriptor instead.
-func (*DeleteResponse) Descriptor() ([]byte, []int) {
-	return file_response_proto_rawDescGZIP(), []int{2}
-}
-
-type UpdateResponse struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-}
-
-func (x *UpdateResponse) Reset() {
-	*x = UpdateResponse{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_response_proto_msgTypes[3]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *UpdateResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*UpdateResponse) ProtoMessage() {}
-
-func (x *UpdateResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_response_proto_msgTypes[3]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use UpdateResponse.ProtoReflect.Descriptor instead.
-func (*UpdateResponse) Descriptor() ([]byte, []int) {
-	return file_response_proto_rawDescGZIP(), []int{3}
-}
-
-type FindResponse struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Item    ITEM         `protobuf:"varint,1,opt,name=item,proto3,enum=databaseGrpc.ITEM" json:"item,omitempty"`
-	Results []*anypb.Any `protobuf:"bytes,2,rep,name=results,proto3" json:"results,omitempty"`
-}
-
-func (x *FindResponse) Reset() {
-	*x = FindResponse{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_response_proto_msgTypes[4]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *FindResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*FindResponse) ProtoMessage() {}
-
-func (x *FindResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_response_proto_msgTypes[4]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use FindResponse.ProtoReflect.Descriptor instead.
-func (*FindResponse) Descriptor() ([]byte, []int) {
-	return file_response_proto_rawDescGZIP(), []int{4}
-}
-
-func (x *FindResponse) GetItem() ITEM {
-	if x != nil {
-		return x.Item
-	}
-	return ITEM_PLAYER
-}
-
-func (x *FindResponse) GetResults() []*anypb.Any {
-	if x != nil {
-		return x.Results
-	}
-	return nil
 }
 
 var File_response_proto protoreflect.FileDescriptor
@@ -297,43 +149,27 @@ var file_response_proto_rawDesc = []byte{
 	0x0a, 0x0e, 0x72, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f,
 	0x12, 0x0c, 0x64, 0x61, 0x74, 0x61, 0x62, 0x61, 0x73, 0x65, 0x47, 0x72, 0x70, 0x63, 0x1a, 0x0f,
 	0x74, 0x79, 0x70, 0x65, 0x5f, 0x65, 0x6e, 0x75, 0x6d, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a,
-	0x19, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66,
-	0x2f, 0x61, 0x6e, 0x79, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0xf0, 0x02, 0x0a, 0x08, 0x52,
-	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x45, 0x0a, 0x0e, 0x72, 0x65, 0x73, 0x70, 0x6f,
-	0x6e, 0x73, 0x65, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0e, 0x32,
-	0x1d, 0x2e, 0x64, 0x61, 0x74, 0x61, 0x62, 0x61, 0x73, 0x65, 0x47, 0x72, 0x70, 0x63, 0x2e, 0x52,
-	0x45, 0x53, 0x50, 0x4f, 0x4e, 0x53, 0x45, 0x5f, 0x53, 0x54, 0x41, 0x54, 0x55, 0x53, 0x52, 0x0e,
-	0x72, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x12, 0x14,
-	0x0a, 0x05, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x65,
-	0x72, 0x72, 0x6f, 0x72, 0x12, 0x3e, 0x0a, 0x0c, 0x66, 0x69, 0x6e, 0x64, 0x52, 0x65, 0x73, 0x70,
-	0x6f, 0x6e, 0x73, 0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x64, 0x61, 0x74,
-	0x61, 0x62, 0x61, 0x73, 0x65, 0x47, 0x72, 0x70, 0x63, 0x2e, 0x46, 0x69, 0x6e, 0x64, 0x52, 0x65,
-	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x52, 0x0c, 0x66, 0x69, 0x6e, 0x64, 0x52, 0x65, 0x73, 0x70,
-	0x6f, 0x6e, 0x73, 0x65, 0x12, 0x3b, 0x0a, 0x0b, 0x61, 0x64, 0x64, 0x52, 0x65, 0x73, 0x70, 0x6f,
-	0x6e, 0x73, 0x65, 0x18, 0x04, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x19, 0x2e, 0x64, 0x61, 0x74, 0x61,
-	0x62, 0x61, 0x73, 0x65, 0x47, 0x72, 0x70, 0x63, 0x2e, 0x41, 0x64, 0x64, 0x52, 0x65, 0x73, 0x70,
-	0x6f, 0x6e, 0x73, 0x65, 0x52, 0x0b, 0x61, 0x64, 0x64, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
-	0x65, 0x12, 0x44, 0x0a, 0x0e, 0x75, 0x70, 0x64, 0x61, 0x74, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f,
-	0x6e, 0x73, 0x65, 0x18, 0x05, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1c, 0x2e, 0x64, 0x61, 0x74, 0x61,
-	0x62, 0x61, 0x73, 0x65, 0x47, 0x72, 0x70, 0x63, 0x2e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x52,
-	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x52, 0x0e, 0x75, 0x70, 0x64, 0x61, 0x74, 0x65, 0x52,
-	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x44, 0x0a, 0x0e, 0x64, 0x65, 0x6c, 0x65, 0x74,
-	0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x18, 0x06, 0x20, 0x01, 0x28, 0x0b, 0x32,
-	0x1c, 0x2e, 0x64, 0x61, 0x74, 0x61, 0x62, 0x61, 0x73, 0x65, 0x47, 0x72, 0x70, 0x63, 0x2e, 0x44,
-	0x65, 0x6c, 0x65, 0x74, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x52, 0x0e, 0x64,
-	0x65, 0x6c, 0x65, 0x74, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x29, 0x0a,
-	0x0b, 0x41, 0x64, 0x64, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x1a, 0x0a, 0x08,
-	0x6f, 0x62, 0x6a, 0x65, 0x63, 0x74, 0x49, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08,
-	0x6f, 0x62, 0x6a, 0x65, 0x63, 0x74, 0x49, 0x64, 0x22, 0x10, 0x0a, 0x0e, 0x44, 0x65, 0x6c, 0x65,
-	0x74, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x10, 0x0a, 0x0e, 0x55, 0x70,
-	0x64, 0x61, 0x74, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x66, 0x0a, 0x0c,
-	0x46, 0x69, 0x6e, 0x64, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x26, 0x0a, 0x04,
-	0x69, 0x74, 0x65, 0x6d, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x12, 0x2e, 0x64, 0x61, 0x74,
-	0x61, 0x62, 0x61, 0x73, 0x65, 0x47, 0x72, 0x70, 0x63, 0x2e, 0x49, 0x54, 0x45, 0x4d, 0x52, 0x04,
-	0x69, 0x74, 0x65, 0x6d, 0x12, 0x2e, 0x0a, 0x07, 0x72, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x73, 0x18,
-	0x02, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x14, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70,
-	0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x41, 0x6e, 0x79, 0x52, 0x07, 0x72, 0x65, 0x73,
-	0x75, 0x6c, 0x74, 0x73, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x0e, 0x64, 0x62, 0x5f, 0x6d, 0x6f, 0x64, 0x65, 0x6c, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22,
+	0xaa, 0x01, 0x0a, 0x1a, 0x41, 0x63, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x46, 0x69, 0x6e, 0x64, 0x42,
+	0x79, 0x50, 0x68, 0x6f, 0x6e, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x45,
+	0x0a, 0x0e, 0x72, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73,
+	0x18, 0x01, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x1d, 0x2e, 0x64, 0x61, 0x74, 0x61, 0x62, 0x61, 0x73,
+	0x65, 0x47, 0x72, 0x70, 0x63, 0x2e, 0x52, 0x45, 0x53, 0x50, 0x4f, 0x4e, 0x53, 0x45, 0x5f, 0x53,
+	0x54, 0x41, 0x54, 0x55, 0x53, 0x52, 0x0e, 0x72, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x53,
+	0x74, 0x61, 0x74, 0x75, 0x73, 0x12, 0x2f, 0x0a, 0x07, 0x61, 0x63, 0x63, 0x6f, 0x75, 0x6e, 0x74,
+	0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x15, 0x2e, 0x64, 0x61, 0x74, 0x61, 0x62, 0x61, 0x73,
+	0x65, 0x47, 0x72, 0x70, 0x63, 0x2e, 0x41, 0x63, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x52, 0x07, 0x61,
+	0x63, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x12, 0x14, 0x0a, 0x05, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x18,
+	0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x22, 0x71, 0x0a, 0x12,
+	0x41, 0x63, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x41, 0x64, 0x64, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e,
+	0x73, 0x65, 0x12, 0x45, 0x0a, 0x0e, 0x72, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x53, 0x74,
+	0x61, 0x74, 0x75, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x1d, 0x2e, 0x64, 0x61, 0x74,
+	0x61, 0x62, 0x61, 0x73, 0x65, 0x47, 0x72, 0x70, 0x63, 0x2e, 0x52, 0x45, 0x53, 0x50, 0x4f, 0x4e,
+	0x53, 0x45, 0x5f, 0x53, 0x54, 0x41, 0x54, 0x55, 0x53, 0x52, 0x0e, 0x72, 0x65, 0x73, 0x70, 0x6f,
+	0x6e, 0x73, 0x65, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x12, 0x14, 0x0a, 0x05, 0x65, 0x72, 0x72,
+	0x6f, 0x72, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x42,
+	0x10, 0x5a, 0x0e, 0x2e, 0x3b, 0x64, 0x61, 0x74, 0x61, 0x62, 0x61, 0x73, 0x65, 0x47, 0x72, 0x70,
+	0x63, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -348,30 +184,22 @@ func file_response_proto_rawDescGZIP() []byte {
 	return file_response_proto_rawDescData
 }
 
-var file_response_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
+var file_response_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_response_proto_goTypes = []interface{}{
-	(*Response)(nil),       // 0: databaseGrpc.Response
-	(*AddResponse)(nil),    // 1: databaseGrpc.AddResponse
-	(*DeleteResponse)(nil), // 2: databaseGrpc.DeleteResponse
-	(*UpdateResponse)(nil), // 3: databaseGrpc.UpdateResponse
-	(*FindResponse)(nil),   // 4: databaseGrpc.FindResponse
-	(RESPONSE_STATUS)(0),   // 5: databaseGrpc.RESPONSE_STATUS
-	(ITEM)(0),              // 6: databaseGrpc.ITEM
-	(*anypb.Any)(nil),      // 7: google.protobuf.Any
+	(*AccountFindByPhoneResponse)(nil), // 0: databaseGrpc.AccountFindByPhoneResponse
+	(*AccountAddResponse)(nil),         // 1: databaseGrpc.AccountAddResponse
+	(RESPONSE_STATUS)(0),               // 2: databaseGrpc.RESPONSE_STATUS
+	(*Account)(nil),                    // 3: databaseGrpc.Account
 }
 var file_response_proto_depIdxs = []int32{
-	5, // 0: databaseGrpc.Response.responseStatus:type_name -> databaseGrpc.RESPONSE_STATUS
-	4, // 1: databaseGrpc.Response.findResponse:type_name -> databaseGrpc.FindResponse
-	1, // 2: databaseGrpc.Response.addResponse:type_name -> databaseGrpc.AddResponse
-	3, // 3: databaseGrpc.Response.updateResponse:type_name -> databaseGrpc.UpdateResponse
-	2, // 4: databaseGrpc.Response.deleteResponse:type_name -> databaseGrpc.DeleteResponse
-	6, // 5: databaseGrpc.FindResponse.item:type_name -> databaseGrpc.ITEM
-	7, // 6: databaseGrpc.FindResponse.results:type_name -> google.protobuf.Any
-	7, // [7:7] is the sub-list for method output_type
-	7, // [7:7] is the sub-list for method input_type
-	7, // [7:7] is the sub-list for extension type_name
-	7, // [7:7] is the sub-list for extension extendee
-	0, // [0:7] is the sub-list for field type_name
+	2, // 0: databaseGrpc.AccountFindByPhoneResponse.responseStatus:type_name -> databaseGrpc.RESPONSE_STATUS
+	3, // 1: databaseGrpc.AccountFindByPhoneResponse.account:type_name -> databaseGrpc.Account
+	2, // 2: databaseGrpc.AccountAddResponse.responseStatus:type_name -> databaseGrpc.RESPONSE_STATUS
+	3, // [3:3] is the sub-list for method output_type
+	3, // [3:3] is the sub-list for method input_type
+	3, // [3:3] is the sub-list for extension type_name
+	3, // [3:3] is the sub-list for extension extendee
+	0, // [0:3] is the sub-list for field type_name
 }
 
 func init() { file_response_proto_init() }
@@ -380,9 +208,10 @@ func file_response_proto_init() {
 		return
 	}
 	file_type_enum_proto_init()
+	file_db_model_proto_init()
 	if !protoimpl.UnsafeEnabled {
 		file_response_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Response); i {
+			switch v := v.(*AccountFindByPhoneResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -394,43 +223,7 @@ func file_response_proto_init() {
 			}
 		}
 		file_response_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*AddResponse); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_response_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*DeleteResponse); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_response_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*UpdateResponse); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_response_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*FindResponse); i {
+			switch v := v.(*AccountAddResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -448,7 +241,7 @@ func file_response_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_response_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   5,
+			NumMessages:   2,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

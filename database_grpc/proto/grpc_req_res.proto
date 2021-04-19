@@ -1,7 +1,10 @@
 syntax = "proto3";
+option go_package = ".;databaseGrpc";
 package databaseGrpc;
-import "db_message.proto";
+import "request.proto";
+import "response.proto";
 
 service DbService {
-  rpc SendRequest(DbMessage) returns (DbMessage) {}
+  rpc AccountFindByPhone(AccountFindByPhoneRequest) returns (AccountFindByPhoneResponse) {}
+  rpc AccountAdd(AccountAddRequest) returns (AccountAddResponse) {}
 }

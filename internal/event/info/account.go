@@ -2,13 +2,11 @@ package info
 
 import (
 	databaseGrpc "github.com/TianqiS/database_for_happyball/database_grpc"
-	"github.com/TianqiS/database_for_happyball/framework"
 	"github.com/TianqiS/database_for_happyball/model"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 type AccountEvent struct {
-	framework.BaseEvent
 	ObjectId string
 	Name string
 	LoginPassword string // 登录密码

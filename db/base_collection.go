@@ -2,7 +2,6 @@ package db
 
 import (
 	"context"
-	"github.com/TianqiS/database_for_happyball/internal/event/request"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -44,7 +43,7 @@ func (baseColl *BaseCollection) FindOneItemById(objectId string) (*mongo.SingleR
 	return result, nil
 }
 
-func (baseColl *BaseCollection) GetCursorOnKeyValue(matchArr []*request.MatchItem) (*mongo.Cursor, error) {
+func (baseColl *BaseCollection) GetCursorOnKeyValue(matchArr []*MatchItem) (*mongo.Cursor, error) {
 	collection := baseColl.GetCollection()
 	findFilter := make(bson.M)
 	for _, mItem := range matchArr {
@@ -57,7 +56,7 @@ func (baseColl *BaseCollection) GetCursorOnKeyValue(matchArr []*request.MatchIte
 	return cursor, nil
 }
 
-func (baseColl *BaseCollection) UpdateItemById(objectId string, operation *request.Operation) error {
+func (baseColl *BaseCollection) UpdateItemById(objectId string, operation *Operation) error {
 	collection := baseColl.GetCollection()
 	itemObjectId, err := primitive.ObjectIDFromHex(objectId)
 	if err != nil {
@@ -76,7 +75,7 @@ func (baseColl *BaseCollection) UpdateItemById(objectId string, operation *reque
 	return nil
 }
 
-func (baseColl *BaseCollection) UpdateItemByKey(matchArr []*request.MatchItem, operation *request.Operation) error {
+func (baseColl *BaseCollection) UpdateItemByKey(matchArr []*MatchItem, operation *Operation) error {
 	collection := baseColl.GetCollection()
 	updateFilter := make(bson.M)
 	for _, mItem := range matchArr {
@@ -108,7 +107,7 @@ func (baseColl *BaseCollection) DeleteItemById(objectId string) error {
 	return nil
 }
 
-func (baseColl *BaseCollection) DeleteItemByKey(matchArr []*request.MatchItem) error {
+func (baseColl *BaseCollection) DeleteItemByKey(matchArr []*MatchItem) error {
 	collection := baseColl.GetCollection()
 	deleteFilter := make(bson.M)
 	for _, mItem := range matchArr {

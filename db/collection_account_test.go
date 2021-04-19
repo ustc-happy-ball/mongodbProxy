@@ -2,7 +2,6 @@ package db
 
 import (
 	"fmt"
-	"github.com/TianqiS/database_for_happyball/internal/event/request"
 	"github.com/TianqiS/database_for_happyball/model"
 	"log"
 	"testing"
@@ -41,7 +40,7 @@ func TestFindAccountById(t *testing.T) {
 
 func TestFindAccountByKey(t *testing.T) {
 	InitClient()
-	acc, err := AccountCollection.FindItemsByKey([]*request.MatchItem{
+	acc, err := AccountCollection.FindItemsByKey([]*MatchItem{
 		{
 			Key: "name",
 			MatchVal: "tianqi",
@@ -63,7 +62,7 @@ func TestDeleteAccountById(t *testing.T) {
 
 func TestDeleteAccountByKey(t *testing.T) {
 	InitClient()
-	err := AccountCollection.DeleteItemByKey([]*request.MatchItem{})
+	err := AccountCollection.DeleteItemByKey([]*MatchItem{})
 	if err != nil {
 		t.Error("删除时发生了错误", err)
 	}
@@ -73,9 +72,9 @@ func TestUpdateAccountById(t *testing.T) {
 	InitClient()
 	err := AccountCollection.UpdateItemById(
 		"6078605aca07062a614b7c18",
-		&request.Operation{
+		&Operation{
 			Op: "$set",
-			Items: []*request.MatchItem{
+			Items: []*MatchItem{
 				{
 					Key: "name",
 					MatchVal: "qiqi",
@@ -91,15 +90,15 @@ func TestUpdateAccountById(t *testing.T) {
 func TestUpdateAccountByKey(t *testing.T) {
 	InitClient()
 	err := AccountCollection.UpdateItemByKey(
-		[]*request.MatchItem{
+		[]*MatchItem{
 			{
 				Key: "name",
 				MatchVal: "123",
 			},
 		},
-		&request.Operation{
+		&Operation{
 			Op: "$set",
-			Items: []*request.MatchItem {
+			Items: []*MatchItem {
 				{
 					Key: "name",
 					MatchVal: "12345",
