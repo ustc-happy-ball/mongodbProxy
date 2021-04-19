@@ -8,10 +8,10 @@ spec:
     - port: 8890
       targetPort: 8890
       protocol: TCP
-  #  externalIPs:
-  #    - 42.192.43.222
   selector:
     app: db
+
+
 #  sessionAffinity: ClientIP
 #  sessionAffinityConfig:
 #    clientIP:
