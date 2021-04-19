@@ -4,9 +4,8 @@ import (
 	"context"
 	"github.com/TianqiS/database_for_happyball/database_grpc"
 	"github.com/TianqiS/database_for_happyball/db"
-	"github.com/pkg/errors"
-	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/status"
+	"github.com/TianqiS/database_for_happyball/message"
+	"github.com/TianqiS/database_for_happyball/model"
 )
 
 type RpcServer struct {
@@ -17,20 +16,34 @@ func GetServer() *RpcServer {
 	return &RpcServer{}
 }
 
-var (
-	timeoutErr = errors.New("grpc handle request time out!")
-)
-
 func (*RpcServer) AccountFindByPhone(ctx context.Context, req *databaseGrpc.AccountFindByPhoneRequest) (*databaseGrpc.AccountFindByPhoneResponse, error) {
-	phone := req.Phone
-	db.GetAccountCollection().FindItemsByKey([]*db.MatchItem{
+	accounts, err := db.GetAccountCollection().FindItemsByKey([]*db.MatchItem{
 		{
 			Key: "phone",
-			MatchVal: phone,
+			MatchVal: req.Phone,
 		},
 	})
-	return nil, nil
+	var resMsg *databaseGrpc.AccountFindByPhoneResponse
+	if err != nil {
+		return nil, err
+	}
+	if len(accounts) == 0 {
+		resMsg = message.NewAccountFindByPhoneResponse(nil)
+	} else {
+		resMsg = message.NewAccountFindByPhoneResponse(accounts[0])
+	}
+	return resMsg, nil
 }
 func (*RpcServer) AccountAdd(ctx context.Context, req *databaseGrpc.AccountAddRequest) (*databaseGrpc.AccountAddResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method AccountAdd not implemented")
+	newAccountPb := req.Account
+	newAccount := &model.Account{}
+	err := newAccount.FromMessage(newAccountPb)
+	if err != nil {
+		return nil, err
+	}
+	_, err = db.GetAccountCollection().InsertItem(newAccount)
+	if err != nil {
+		return nil, err
+	}
+	return message.NewAccountAddResponse(), nil
 }

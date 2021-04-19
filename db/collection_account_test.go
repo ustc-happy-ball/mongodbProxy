@@ -12,12 +12,8 @@ func TestInsertAccount(t *testing.T) {
 	InitClient()
 
 	id, err := GetAccountCollection().InsertItem(&model.Account{
-		Name:          "song",
 		LoginPassword: "tttqitian",
-		AccountAvatar: "www.baidu.com",
-		Level:         1,
 		Delete:        false,
-		Region:        "China",
 		Phone:         "17376515082",
 		CreateAt:      time.Now().UnixNano(),
 		UpdateAt:      0,
