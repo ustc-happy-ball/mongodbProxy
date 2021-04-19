@@ -1,16 +1,11 @@
 syntax = "proto3";
 option go_package = ".;databaseGrpc";
 package databaseGrpc;
-import "type_enum.proto";
 import "db_model.proto";
 
 message AccountFindByPhoneResponse {
-  RESPONSE_STATUS responseStatus = 1;
   Account account = 2;
-  string error = 3;
 }
 
 message AccountAddResponse {
-  RESPONSE_STATUS responseStatus = 1;
-  string error = 2;
 }
