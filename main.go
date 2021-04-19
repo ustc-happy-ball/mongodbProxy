@@ -18,7 +18,7 @@ func main() {
 		log.Fatalf("failed to listen: %v", err)
 	}
 	s := grpc.NewServer()
-	databaseGrpc.RegisterDbServiceServer(s, server.GetServer())
+	databaseGrpc.RegisterAccountServiceServer(s, server.GetServer())
 	if err := s.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %v", err)
 	}

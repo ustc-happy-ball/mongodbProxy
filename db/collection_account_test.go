@@ -11,7 +11,7 @@ import (
 func TestInsertAccount(t *testing.T) {
 	InitClient()
 
-	id, err := AccountCollection.InsertItem(&model.Account{
+	id, err := GetAccountCollection().InsertItem(&model.Account{
 		Name:          "song",
 		LoginPassword: "tttqitian",
 		AccountAvatar: "www.baidu.com",
@@ -31,7 +31,7 @@ func TestInsertAccount(t *testing.T) {
 
 func TestFindAccountById(t *testing.T) {
 	InitClient()
-	acc, err := AccountCollection.FindOneItemById("605b7267be255a7618e38d6a")
+	acc, err := GetAccountCollection().FindOneItemById("605b7267be255a7618e38d6a")
 	if err != nil {
 		t.Error("查找时发生了错误", err)
 	}
@@ -40,7 +40,7 @@ func TestFindAccountById(t *testing.T) {
 
 func TestFindAccountByKey(t *testing.T) {
 	InitClient()
-	acc, err := AccountCollection.FindItemsByKey([]*MatchItem{
+	acc, err := GetAccountCollection().FindItemsByKey([]*MatchItem{
 		{
 			Key: "name",
 			MatchVal: "tianqi",
@@ -54,7 +54,7 @@ func TestFindAccountByKey(t *testing.T) {
 
 func TestDeleteAccountById(t *testing.T) {
 	InitClient()
-	err := AccountCollection.DeleteItemById("605b7267be255a7618e38d6a")
+	err := GetAccountCollection().DeleteItemById("605b7267be255a7618e38d6a")
 	if err != nil {
 		t.Error("删除时发生了错误", err)
 	}
@@ -62,7 +62,7 @@ func TestDeleteAccountById(t *testing.T) {
 
 func TestDeleteAccountByKey(t *testing.T) {
 	InitClient()
-	err := AccountCollection.DeleteItemByKey([]*MatchItem{})
+	err := GetAccountCollection().DeleteItemByKey([]*MatchItem{})
 	if err != nil {
 		t.Error("删除时发生了错误", err)
 	}
@@ -70,7 +70,7 @@ func TestDeleteAccountByKey(t *testing.T) {
 
 func TestUpdateAccountById(t *testing.T) {
 	InitClient()
-	err := AccountCollection.UpdateItemById(
+	err := GetAccountCollection().UpdateItemById(
 		"6078605aca07062a614b7c18",
 		&Operation{
 			Op: "$set",
@@ -89,7 +89,7 @@ func TestUpdateAccountById(t *testing.T) {
 
 func TestUpdateAccountByKey(t *testing.T) {
 	InitClient()
-	err := AccountCollection.UpdateItemByKey(
+	err := GetAccountCollection().UpdateItemByKey(
 		[]*MatchItem{
 			{
 				Key: "name",

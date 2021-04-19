@@ -9,7 +9,7 @@ import (
 )
 
 type server struct {
-	databaseGrpc.UnimplementedDbServiceServer
+	databaseGrpc.UnimplementedAccountServiceServer
 }
 
 const (
@@ -56,7 +56,7 @@ func TestServer(t *testing.T) {
 		log.Fatalf("failed to listen: %v", err)
 	}
 	s := grpc2.NewServer()
-	databaseGrpc.RegisterDbServiceServer(s, &server{})
+	databaseGrpc.RegisterAccountServiceServer(s, &server{})
 	if err := s.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %v", err)
 	}

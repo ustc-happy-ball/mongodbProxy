@@ -8,7 +8,6 @@ type Collection interface {
 	GetCollection() *mongo.Collection
 	InsertItem(item interface{}) (string, error)
 	FindOneItemById(objectId string) (*mongo.SingleResult, error)
-	FindItemsByKey(matchArr []*MatchItem) ([]interface{}, error)
 	UpdateItemById(objectId string, operation *Operation) error
 	UpdateItemByKey(matchArr []*MatchItem, operation *Operation) error
 	DeleteItemById(objectId string) error

@@ -14,122 +14,122 @@ import (
 // Requires gRPC-Go v1.32.0 or later.
 const _ = grpc.SupportPackageIsVersion7
 
-// DbServiceClient is the client API for DbService service.
+// AccountServiceClient is the client API for AccountService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type DbServiceClient interface {
+type AccountServiceClient interface {
 	AccountFindByPhone(ctx context.Context, in *AccountFindByPhoneRequest, opts ...grpc.CallOption) (*AccountFindByPhoneResponse, error)
 	AccountAdd(ctx context.Context, in *AccountAddRequest, opts ...grpc.CallOption) (*AccountAddResponse, error)
 }
 
-type dbServiceClient struct {
+type accountServiceClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewDbServiceClient(cc grpc.ClientConnInterface) DbServiceClient {
-	return &dbServiceClient{cc}
+func NewAccountServiceClient(cc grpc.ClientConnInterface) AccountServiceClient {
+	return &accountServiceClient{cc}
 }
 
-func (c *dbServiceClient) AccountFindByPhone(ctx context.Context, in *AccountFindByPhoneRequest, opts ...grpc.CallOption) (*AccountFindByPhoneResponse, error) {
+func (c *accountServiceClient) AccountFindByPhone(ctx context.Context, in *AccountFindByPhoneRequest, opts ...grpc.CallOption) (*AccountFindByPhoneResponse, error) {
 	out := new(AccountFindByPhoneResponse)
-	err := c.cc.Invoke(ctx, "/databaseGrpc.DbService/AccountFindByPhone", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/databaseGrpc.AccountService/AccountFindByPhone", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *dbServiceClient) AccountAdd(ctx context.Context, in *AccountAddRequest, opts ...grpc.CallOption) (*AccountAddResponse, error) {
+func (c *accountServiceClient) AccountAdd(ctx context.Context, in *AccountAddRequest, opts ...grpc.CallOption) (*AccountAddResponse, error) {
 	out := new(AccountAddResponse)
-	err := c.cc.Invoke(ctx, "/databaseGrpc.DbService/AccountAdd", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/databaseGrpc.AccountService/AccountAdd", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// DbServiceServer is the server API for DbService service.
-// All implementations must embed UnimplementedDbServiceServer
+// AccountServiceServer is the server API for AccountService service.
+// All implementations must embed UnimplementedAccountServiceServer
 // for forward compatibility
-type DbServiceServer interface {
+type AccountServiceServer interface {
 	AccountFindByPhone(context.Context, *AccountFindByPhoneRequest) (*AccountFindByPhoneResponse, error)
 	AccountAdd(context.Context, *AccountAddRequest) (*AccountAddResponse, error)
-	mustEmbedUnimplementedDbServiceServer()
+	mustEmbedUnimplementedAccountServiceServer()
 }
 
-// UnimplementedDbServiceServer must be embedded to have forward compatible implementations.
-type UnimplementedDbServiceServer struct {
+// UnimplementedAccountServiceServer must be embedded to have forward compatible implementations.
+type UnimplementedAccountServiceServer struct {
 }
 
-func (UnimplementedDbServiceServer) AccountFindByPhone(context.Context, *AccountFindByPhoneRequest) (*AccountFindByPhoneResponse, error) {
+func (UnimplementedAccountServiceServer) AccountFindByPhone(context.Context, *AccountFindByPhoneRequest) (*AccountFindByPhoneResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AccountFindByPhone not implemented")
 }
-func (UnimplementedDbServiceServer) AccountAdd(context.Context, *AccountAddRequest) (*AccountAddResponse, error) {
+func (UnimplementedAccountServiceServer) AccountAdd(context.Context, *AccountAddRequest) (*AccountAddResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AccountAdd not implemented")
 }
-func (UnimplementedDbServiceServer) mustEmbedUnimplementedDbServiceServer() {}
+func (UnimplementedAccountServiceServer) mustEmbedUnimplementedAccountServiceServer() {}
 
-// UnsafeDbServiceServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to DbServiceServer will
+// UnsafeAccountServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to AccountServiceServer will
 // result in compilation errors.
-type UnsafeDbServiceServer interface {
-	mustEmbedUnimplementedDbServiceServer()
+type UnsafeAccountServiceServer interface {
+	mustEmbedUnimplementedAccountServiceServer()
 }
 
-func RegisterDbServiceServer(s grpc.ServiceRegistrar, srv DbServiceServer) {
-	s.RegisterService(&DbService_ServiceDesc, srv)
+func RegisterAccountServiceServer(s grpc.ServiceRegistrar, srv AccountServiceServer) {
+	s.RegisterService(&AccountService_ServiceDesc, srv)
 }
 
-func _DbService_AccountFindByPhone_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _AccountService_AccountFindByPhone_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(AccountFindByPhoneRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(DbServiceServer).AccountFindByPhone(ctx, in)
+		return srv.(AccountServiceServer).AccountFindByPhone(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/databaseGrpc.DbService/AccountFindByPhone",
+		FullMethod: "/databaseGrpc.AccountService/AccountFindByPhone",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DbServiceServer).AccountFindByPhone(ctx, req.(*AccountFindByPhoneRequest))
+		return srv.(AccountServiceServer).AccountFindByPhone(ctx, req.(*AccountFindByPhoneRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _DbService_AccountAdd_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _AccountService_AccountAdd_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(AccountAddRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(DbServiceServer).AccountAdd(ctx, in)
+		return srv.(AccountServiceServer).AccountAdd(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/databaseGrpc.DbService/AccountAdd",
+		FullMethod: "/databaseGrpc.AccountService/AccountAdd",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DbServiceServer).AccountAdd(ctx, req.(*AccountAddRequest))
+		return srv.(AccountServiceServer).AccountAdd(ctx, req.(*AccountAddRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// DbService_ServiceDesc is the grpc.ServiceDesc for DbService service.
+// AccountService_ServiceDesc is the grpc.ServiceDesc for AccountService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var DbService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "databaseGrpc.DbService",
-	HandlerType: (*DbServiceServer)(nil),
+var AccountService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "databaseGrpc.AccountService",
+	HandlerType: (*AccountServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "AccountFindByPhone",
-			Handler:    _DbService_AccountFindByPhone_Handler,
+			Handler:    _AccountService_AccountFindByPhone_Handler,
 		},
 		{
 			MethodName: "AccountAdd",
-			Handler:    _DbService_AccountAdd_Handler,
+			Handler:    _AccountService_AccountAdd_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -3,6 +3,8 @@ package db
 import (
 	"context"
 	"github.com/TianqiS/database_for_happyball/model"
+	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 	"log"
 )
 
@@ -10,25 +12,29 @@ type accountCollection struct {
 	*BaseCollection
 }
 
+func init() {
 
-var AccountCollection = &accountCollection{
-	BaseCollection: NewBaseCollection("Account"),
 }
 
-//func (accountCollection *accountCollection) FindOneItemById(objectId string) (*model.Account, error) {
-//	result, err := accountCollection.BaseCollection.FindOneItemById(objectId)
-//	if err != nil {
-//		return nil, err
-//	}
-//	account := &model.Account{}
-//	err = result.Decode(account)
-//	if err != nil {
-//		return nil, err
-//	}
-//	return account, nil
-//}
+var accCollection *accountCollection
 
-func (accountColl *accountCollection) FindItemsByKey(matchArr []*MatchItem) ([]interface{}, error) {
+func GetAccountCollection() *accountCollection {
+	if accCollection == nil {
+		accCollection =  &accountCollection{
+			BaseCollection: NewBaseCollection("Account"),
+		}
+		collection := accCollection.GetCollection()
+		indexView := collection.Indexes()
+		iModel := mongo.IndexModel{
+			Keys: "phone",
+			Options: (&options.IndexOptions{}).SetUnique(true),
+		}
+		indexView.CreateOne(context.TODO(), iModel)
+	}
+	return accCollection
+}
+
+func (accountColl *accountCollection) FindItemsByKey(matchArr []*MatchItem) ([]*model.Account, error) {
 	cursor, err := accountColl.BaseCollection.GetCursorOnKeyValue(matchArr)
 	if err != nil {
 		return nil, err
@@ -39,7 +45,7 @@ func (accountColl *accountCollection) FindItemsByKey(matchArr []*MatchItem) ([]i
 			log.Println("在close cursor时发生了错误")
 		}
 	}()
-	var results []interface{}
+	var results []*model.Account
 	for cursor.Next(context.TODO()) {
 		account := &model.Account{}
 		err = cursor.Decode(account)
@@ -54,29 +60,6 @@ func (accountColl *accountCollection) FindItemsByKey(matchArr []*MatchItem) ([]i
 func (accountColl *accountCollection) GetModel() interface{} {
 	return &model.Account{}
 }
-
-//func (accountCollection *accountCollection) FindItemsByKey(key string, value string) ([]*model.Account, error) {
-//	cursor, err := accountCollection.BaseCollection.FindItemsByKey(key, value)
-//	if err != nil {
-//		return nil, err
-//	}
-//	defer func() {
-//		err := cursor.Close(context.TODO())
-//		if err != nil {
-//			log.Println("close cursor的时候发生了错误")
-//		}
-//	}()
-//	var result []*model.Account
-//	for cursor.Next(context.TODO()) {
-//		account := &model.Account{}
-//		err = cursor.Decode(account)
-//		if err != nil {
-//			return nil, err
-//		}
-//		result = append(result, account)
-//	}
-//	return result, nil
-//}
 
 
 
