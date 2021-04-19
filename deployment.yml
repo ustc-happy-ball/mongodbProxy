@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db-srv
+  labels:
+    app: db
+spec:
+  replicas: 1
+  minReadySeconds: 5
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  selector:
+    matchLabels:
+      app: db
+  template:
+    metadata:
+      labels:
+        app: db
+    spec:
+      containers:
+        - name: db-srv
+          image: hkccr.ccs.tencentyun.com/tke_cluster/tke_cluster
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8890
+              protocol: TCP
+      imagePullSecrets:
+        - name: regcred
+      restartPolicy: Always
+      nodeSelector:
+        environment: test
