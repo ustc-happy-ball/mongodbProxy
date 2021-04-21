@@ -4,8 +4,16 @@ package databaseGrpc;
 import "db_model.proto";
 
 message AccountFindByPhoneResponse {
-  Account account = 2;
+  Account account = 1;
 }
 
 message AccountAddResponse {
+}
+
+message PlayerFindByPlayerIdResponse {
+  Player player = 1;
+}
+
+message PlayerAddResponse {
+
 }

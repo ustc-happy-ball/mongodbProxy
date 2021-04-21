@@ -8,3 +8,8 @@ service AccountService {
   rpc AccountFindByPhone(AccountFindByPhoneRequest) returns (AccountFindByPhoneResponse) {}
   rpc AccountAdd(AccountAddRequest) returns (AccountAddResponse) {}
 }
+
+service PlayerService {
+  rpc PlayerFindByPlayerId(PlayerFindByPlayerIdRequest) returns (PlayerFindByPlayerIdResponse) {}
+  rpc PlayerAdd(PlayerAddRequest) returns (PlayerAddResponse) {}
+}

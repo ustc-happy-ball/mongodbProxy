@@ -10,3 +10,11 @@ message AccountFindByPhoneRequest {
 message AccountAddRequest {
   Account account = 1;
 }
+
+message PlayerFindByPlayerIdRequest {
+  int32 playerId = 1;
+}
+
+message PlayerAddRequest {
+  Player player = 1;
+}
