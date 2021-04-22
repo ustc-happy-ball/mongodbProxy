@@ -7,37 +7,31 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
-	"log"
 )
 
 type accountCollection struct {
 	*BaseCollection
 }
 
-func init() {
+var accountColl *accountCollection
 
-}
-
-var accCollection *accountCollection
-
-func GetAccountCollection() *accountCollection {
-	if accCollection == nil {
-		accCollection =  &accountCollection{
+func GetAccountCollection() (*accountCollection, error) {
+	if accountColl == nil {
+		accountColl =  &accountCollection{
 			BaseCollection: NewBaseCollection("Account"),
 		}
-		collection := accCollection.GetCollection()
+		collection := accountColl.GetCollection()
 		indexView := collection.Indexes()
 		iModel := mongo.IndexModel{
-			Keys: bson.M{"phone": 1},
+			Keys: bson.D{{"phone", 1}},
 			Options: (&options.IndexOptions{}).SetUnique(true),
 		}
-		name, err := indexView.CreateOne(context.TODO(), iModel)
+		_, err := indexView.CreateOne(context.TODO(), iModel)
 		if err != nil {
-			log.Println(err)
+			return nil, err
 		}
-		log.Println(name)
 	}
-	return accCollection
+	return accountColl, nil
 }
 
 func (accountColl *accountCollection) FindItemsByKey(matchArr []*MatchItem) ([]*model.Account, error) {
@@ -45,12 +39,6 @@ func (accountColl *accountCollection) FindItemsByKey(matchArr []*MatchItem) ([]*
 	if err != nil {
 		return nil, err
 	}
-	defer func() {
-		err = cursor.Close(context.TODO())
-		if err != nil {
-			log.Println("在close cursor时发生了错误")
-		}
-	}()
 	var results []*model.Account
 	for cursor.Next(context.TODO()) {
 		account := &model.Account{}
@@ -59,6 +47,10 @@ func (accountColl *accountCollection) FindItemsByKey(matchArr []*MatchItem) ([]*
 			return nil, err
 		}
 		results = append(results, account)
+	}
+	err = cursor.Close(context.TODO())
+	if err != nil {
+		return nil, err
 	}
 	return results, nil
 }

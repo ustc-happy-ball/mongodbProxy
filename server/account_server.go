@@ -8,25 +8,29 @@ import (
 	"github.com/TianqiS/database_for_happyball/model"
 )
 
-type RpcServer struct {
+type AccountRpcServer struct {
 	databaseGrpc.UnimplementedAccountServiceServer
 }
 
-func GetServer() *RpcServer {
-	return &RpcServer{}
+func GetAccountServer() *AccountRpcServer {
+	return &AccountRpcServer{}
 }
 
-func (*RpcServer) AccountFindByPhone(ctx context.Context, req *databaseGrpc.AccountFindByPhoneRequest) (*databaseGrpc.AccountFindByPhoneResponse, error) {
-	accounts, err := db.GetAccountCollection().FindItemsByKey([]*db.MatchItem{
+func (*AccountRpcServer) AccountFindByPhone(ctx context.Context, req *databaseGrpc.AccountFindByPhoneRequest) (*databaseGrpc.AccountFindByPhoneResponse, error) {
+	accountColl, err := db.GetAccountCollection()
+	if err != nil {
+		return nil, err
+	}
+	accounts, err := accountColl.FindItemsByKey([]*db.MatchItem{
 		{
 			Key: "phone",
 			MatchVal: req.Phone,
 		},
 	})
-	var resMsg *databaseGrpc.AccountFindByPhoneResponse
 	if err != nil {
 		return nil, err
 	}
+	var resMsg *databaseGrpc.AccountFindByPhoneResponse
 	if len(accounts) == 0 {
 		resMsg = message.NewAccountFindByPhoneResponse(nil)
 	} else {
@@ -34,14 +38,18 @@ func (*RpcServer) AccountFindByPhone(ctx context.Context, req *databaseGrpc.Acco
 	}
 	return resMsg, nil
 }
-func (*RpcServer) AccountAdd(ctx context.Context, req *databaseGrpc.AccountAddRequest) (*databaseGrpc.AccountAddResponse, error) {
-	newAccountPb := req.Account
-	newAccount := &model.Account{}
-	err := newAccount.FromMessage(newAccountPb)
+func (*AccountRpcServer) AccountAdd(ctx context.Context, req *databaseGrpc.AccountAddRequest) (*databaseGrpc.AccountAddResponse, error) {
+	accountColl, err := db.GetAccountCollection()
 	if err != nil {
 		return nil, err
 	}
-	_, err = db.GetAccountCollection().InsertItem(newAccount)
+	newAccountPb := req.Account
+	newAccount := &model.Account{}
+	err = newAccount.FromMessage(newAccountPb)
+	if err != nil {
+		return nil, err
+	}
+	_, err = accountColl.InsertItem(newAccount)
 	if err != nil {
 		return nil, err
 	}

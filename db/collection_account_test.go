@@ -11,10 +11,11 @@ import (
 func TestInsertAccount(t *testing.T) {
 	InitClient()
 
-	id, err := GetAccountCollection().InsertItem(&model.Account{
+	accountColl, _ := GetAccountCollection()
+	id, err := accountColl.InsertItem(&model.Account{
 		LoginPassword: "tttqitian",
 		Delete:        false,
-		Phone:         "17376515082",
+		Phone:         "17376515083",
 		CreateAt:      time.Now().UnixNano(),
 		UpdateAt:      0,
 	})
@@ -27,7 +28,8 @@ func TestInsertAccount(t *testing.T) {
 
 func TestFindAccountById(t *testing.T) {
 	InitClient()
-	acc, err := GetAccountCollection().FindOneItemById("605b7267be255a7618e38d6a")
+	accountColl, _ := GetAccountCollection()
+	acc, err := accountColl.FindOneItemById("605b7267be255a7618e38d6a")
 	if err != nil {
 		t.Error("查找时发生了错误", err)
 	}
@@ -36,7 +38,8 @@ func TestFindAccountById(t *testing.T) {
 
 func TestFindAccountByKey(t *testing.T) {
 	InitClient()
-	acc, err := GetAccountCollection().FindItemsByKey([]*MatchItem{
+	accountColl, _ := GetAccountCollection()
+	acc, err := accountColl.FindItemsByKey([]*MatchItem{
 		{
 			Key: "name",
 			MatchVal: "tianqi",
@@ -50,7 +53,8 @@ func TestFindAccountByKey(t *testing.T) {
 
 func TestDeleteAccountById(t *testing.T) {
 	InitClient()
-	err := GetAccountCollection().DeleteItemById("605b7267be255a7618e38d6a")
+	accountColl, _ := GetAccountCollection()
+	err := accountColl.DeleteItemById("605b7267be255a7618e38d6a")
 	if err != nil {
 		t.Error("删除时发生了错误", err)
 	}
@@ -58,7 +62,8 @@ func TestDeleteAccountById(t *testing.T) {
 
 func TestDeleteAccountByKey(t *testing.T) {
 	InitClient()
-	err := GetAccountCollection().DeleteItemByKey([]*MatchItem{})
+	accountColl, _ := GetAccountCollection()
+	err := accountColl.DeleteItemByKey([]*MatchItem{})
 	if err != nil {
 		t.Error("删除时发生了错误", err)
 	}
@@ -66,7 +71,8 @@ func TestDeleteAccountByKey(t *testing.T) {
 
 func TestUpdateAccountById(t *testing.T) {
 	InitClient()
-	err := GetAccountCollection().UpdateItemById(
+	accountColl, _ := GetAccountCollection()
+	err := accountColl.UpdateItemById(
 		"6078605aca07062a614b7c18",
 		&Operation{
 			Op: "$set",
@@ -85,7 +91,8 @@ func TestUpdateAccountById(t *testing.T) {
 
 func TestUpdateAccountByKey(t *testing.T) {
 	InitClient()
-	err := GetAccountCollection().UpdateItemByKey(
+	accountColl, _ := GetAccountCollection()
+	err := accountColl.UpdateItemByKey(
 		[]*MatchItem{
 			{
 				Key: "name",
