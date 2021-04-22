@@ -5,12 +5,12 @@ import (
 )
 
 type Player struct {
-	PlayerId int32
-	AccountId string
-	HighestScore int32
-	HighestRank int32
-	CreateAt int64
-	UpdateAt int64
+	PlayerId int32 `bson:"player_id"`
+	AccountId string `bson:"account_id"`
+	HighestScore int32 `bson:"highest_score"`
+	HighestRank int32 `bson:"highest_rank"`
+	CreateAt int64 `bson:"create_at"`
+	UpdateAt int64 `bson:"update_at"`
 }
 
 func (player *Player) FromMessage(playerPb *databaseGrpc.Player) error {
