@@ -6,10 +6,10 @@ RUN apk update && apk upgrade && \
 #RUN apk add --no-cache --virtual .build-deps gcc musl-dev
 #RUN git config --global url."".insteadOf ""
 #RUN export GOPRIVATE=git.enjoymusic.ltd && go build -o bifrost-api main.go plugin.go
-RUN go build -o db main.go
+RUN go build -o db-svc main.go
 
 FROM alpine:latest
 WORKDIR  /root/go/src/github.com/LILILIhuahuahua/ustc_tencent_game
-COPY --from=builder  /root/go/src/github.com/LILILIhuahuahua/ustc_tencent_game/db .
+COPY --from=builder  /root/go/src/github.com/LILILIhuahuahua/ustc_tencent_game/db-svc .
 EXPOSE 8890/tcp
-ENTRYPOINT ["./db"]
+ENTRYPOINT ["./db-svc"]
