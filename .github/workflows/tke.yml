@@ -18,7 +18,7 @@ name: CI/CD for db
 on:
   push:
     branches:
-      - dev
+      - develop
 
 # Environment variables available to all jobs and steps in this workflow
 env:
