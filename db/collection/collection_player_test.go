@@ -1,13 +1,15 @@
-package db
+package collection
 
 import (
+	"github.com/TianqiS/database_for_happyball/db"
+	"github.com/TianqiS/database_for_happyball/db/driven"
 	"github.com/TianqiS/database_for_happyball/model"
 	"testing"
 	"time"
 )
 
 func TestInsertPlayer(t *testing.T) {
-	InitClient()
+	driven.InitClient()
 	
 	playerColl, err := GetPlayerCollection()
 	if err != nil {
@@ -30,9 +32,9 @@ func TestInsertPlayer(t *testing.T) {
 }
 
 func TestFindPlayerByPlayerId(t *testing.T) {
-	InitClient()
+	driven.InitClient()
 	playerColl, _ := GetPlayerCollection()
-	player, err := playerColl.FindItemsByKey([]*MatchItem{
+	player, err := playerColl.FindItemsByKey([]*db.MatchItem{
 		{
 			Key: "playerid",
 			MatchVal: 500,

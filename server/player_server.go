@@ -4,6 +4,7 @@ import (
 	"context"
 	databaseGrpc "github.com/TianqiS/database_for_happyball/database_grpc"
 	"github.com/TianqiS/database_for_happyball/db"
+	"github.com/TianqiS/database_for_happyball/db/collection"
 	"github.com/TianqiS/database_for_happyball/message"
 	"github.com/TianqiS/database_for_happyball/model"
 )
@@ -17,7 +18,7 @@ func GetPlayerServer() *PlayerRpcServer {
 }
 
 func (*PlayerRpcServer) PlayerFindByPlayerId(ctx context.Context, req *databaseGrpc.PlayerFindByPlayerIdRequest) (*databaseGrpc.PlayerFindByPlayerIdResponse, error) {
-	playerColl, err := db.GetPlayerCollection()
+	playerColl, err := collection.GetPlayerCollection()
 	if err != nil {
 		return nil, err
 	}
@@ -39,7 +40,7 @@ func (*PlayerRpcServer) PlayerFindByPlayerId(ctx context.Context, req *databaseG
 	return resMsg, nil
 }
 func (*PlayerRpcServer) PlayerAdd(ctx context.Context, req *databaseGrpc.PlayerAddRequest) (*databaseGrpc.PlayerAddResponse, error) {
-	playerColl, err := db.GetPlayerCollection()
+	playerColl, err := collection.GetPlayerCollection()
 	if err != nil {
 		return nil, err
 	}

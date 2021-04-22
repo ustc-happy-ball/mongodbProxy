@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/TianqiS/database_for_happyball/database_grpc"
 	"github.com/TianqiS/database_for_happyball/db"
+	"github.com/TianqiS/database_for_happyball/db/collection"
 	"github.com/TianqiS/database_for_happyball/message"
 	"github.com/TianqiS/database_for_happyball/model"
 )
@@ -17,7 +18,7 @@ func GetAccountServer() *AccountRpcServer {
 }
 
 func (*AccountRpcServer) AccountFindByPhone(ctx context.Context, req *databaseGrpc.AccountFindByPhoneRequest) (*databaseGrpc.AccountFindByPhoneResponse, error) {
-	accountColl, err := db.GetAccountCollection()
+	accountColl, err := collection.GetAccountCollection()
 	if err != nil {
 		return nil, err
 	}
@@ -39,7 +40,7 @@ func (*AccountRpcServer) AccountFindByPhone(ctx context.Context, req *databaseGr
 	return resMsg, nil
 }
 func (*AccountRpcServer) AccountAdd(ctx context.Context, req *databaseGrpc.AccountAddRequest) (*databaseGrpc.AccountAddResponse, error) {
-	accountColl, err := db.GetAccountCollection()
+	accountColl, err := collection.GetAccountCollection()
 	if err != nil {
 		return nil, err
 	}

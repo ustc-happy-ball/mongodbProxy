@@ -3,7 +3,7 @@ package main
 import (
 	"github.com/TianqiS/database_for_happyball/configs"
 	databaseGrpc "github.com/TianqiS/database_for_happyball/database_grpc"
-	"github.com/TianqiS/database_for_happyball/db"
+	"github.com/TianqiS/database_for_happyball/db/driven"
 	"github.com/TianqiS/database_for_happyball/server"
 	"google.golang.org/grpc"
 	"log"
@@ -11,7 +11,7 @@ import (
 )
 
 func main() {
-	db.InitClient()
+	driven.InitClient()
 
 	lis, err := net.Listen("tcp", configs.TcpPort)
 	if err != nil {

@@ -1,7 +1,9 @@
-package db
+package collection
 
 import (
 	"fmt"
+	"github.com/TianqiS/database_for_happyball/db"
+	"github.com/TianqiS/database_for_happyball/db/driven"
 	"github.com/TianqiS/database_for_happyball/model"
 	"log"
 	"testing"
@@ -9,7 +11,7 @@ import (
 )
 
 func TestInsertAccount(t *testing.T) {
-	InitClient()
+	driven.InitClient()
 
 	accountColl, _ := GetAccountCollection()
 	id, err := accountColl.InsertItem(&model.Account{
@@ -27,7 +29,7 @@ func TestInsertAccount(t *testing.T) {
 }
 
 func TestFindAccountById(t *testing.T) {
-	InitClient()
+	driven.InitClient()
 	accountColl, _ := GetAccountCollection()
 	acc, err := accountColl.FindOneItemById("605b7267be255a7618e38d6a")
 	if err != nil {
@@ -37,9 +39,9 @@ func TestFindAccountById(t *testing.T) {
 }
 
 func TestFindAccountByKey(t *testing.T) {
-	InitClient()
+	driven.InitClient()
 	accountColl, _ := GetAccountCollection()
-	acc, err := accountColl.FindItemsByKey([]*MatchItem{
+	acc, err := accountColl.FindItemsByKey([]*db.MatchItem{
 		{
 			Key: "name",
 			MatchVal: "tianqi",
@@ -52,7 +54,7 @@ func TestFindAccountByKey(t *testing.T) {
 }
 
 func TestDeleteAccountById(t *testing.T) {
-	InitClient()
+	driven.InitClient()
 	accountColl, _ := GetAccountCollection()
 	err := accountColl.DeleteItemById("605b7267be255a7618e38d6a")
 	if err != nil {
@@ -61,22 +63,22 @@ func TestDeleteAccountById(t *testing.T) {
 }
 
 func TestDeleteAccountByKey(t *testing.T) {
-	InitClient()
+	driven.InitClient()
 	accountColl, _ := GetAccountCollection()
-	err := accountColl.DeleteItemByKey([]*MatchItem{})
+	err := accountColl.DeleteItemByKey([]*db.MatchItem{})
 	if err != nil {
 		t.Error("删除时发生了错误", err)
 	}
 }
 
 func TestUpdateAccountById(t *testing.T) {
-	InitClient()
+	driven.InitClient()
 	accountColl, _ := GetAccountCollection()
 	err := accountColl.UpdateItemById(
 		"6078605aca07062a614b7c18",
-		&Operation{
+		&db.Operation{
 			Op: "$set",
-			Items: []*MatchItem{
+			Items: []*db.MatchItem{
 				{
 					Key: "name",
 					MatchVal: "qiqi",
@@ -90,18 +92,18 @@ func TestUpdateAccountById(t *testing.T) {
 }
 
 func TestUpdateAccountByKey(t *testing.T) {
-	InitClient()
+	driven.InitClient()
 	accountColl, _ := GetAccountCollection()
 	err := accountColl.UpdateItemByKey(
-		[]*MatchItem{
+		[]*db.MatchItem{
 			{
 				Key: "name",
 				MatchVal: "123",
 			},
 		},
-		&Operation{
+		&db.Operation{
 			Op: "$set",
-			Items: []*MatchItem {
+			Items: []*db.MatchItem{
 				{
 					Key: "name",
 					MatchVal: "12345",

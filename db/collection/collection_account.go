@@ -1,7 +1,8 @@
-package db
+package collection
 
 import (
 	"context"
+	"github.com/TianqiS/database_for_happyball/db"
 	"github.com/TianqiS/database_for_happyball/model"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -34,7 +35,7 @@ func GetAccountCollection() (*accountCollection, error) {
 	return accountColl, nil
 }
 
-func (accountColl *accountCollection) FindItemsByKey(matchArr []*MatchItem) ([]*model.Account, error) {
+func (accountColl *accountCollection) FindItemsByKey(matchArr []*db.MatchItem) ([]*model.Account, error) {
 	cursor, err := accountColl.BaseCollection.GetCursorOnKeyValue(matchArr)
 	if err != nil {
 		return nil, err

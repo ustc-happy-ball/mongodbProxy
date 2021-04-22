@@ -1,7 +1,9 @@
-package db
+package collection
 
 import (
 	"context"
+	"github.com/TianqiS/database_for_happyball/db"
+	"github.com/TianqiS/database_for_happyball/db/driven"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -11,14 +13,14 @@ type BaseCollection struct {
 	collectionName string
 }
 
-func NewBaseCollection(collectionName string) *BaseCollection{
+func NewBaseCollection(collectionName string) *BaseCollection {
 	return &BaseCollection{
 		collectionName: collectionName,
 	}
 }
 
 func (baseColl *BaseCollection) GetCollection() *mongo.Collection {
-	return Mc.GetCollection(baseColl.collectionName, nil)
+	return driven.Mc.GetCollection(baseColl.collectionName, nil)
 }
 
 func (baseColl *BaseCollection) InsertItem(item interface{}) (string, error) {
@@ -43,7 +45,7 @@ func (baseColl *BaseCollection) FindOneItemById(objectId string) (*mongo.SingleR
 	return result, nil
 }
 
-func (baseColl *BaseCollection) GetCursorOnKeyValue(matchArr []*MatchItem) (*mongo.Cursor, error) {
+func (baseColl *BaseCollection) GetCursorOnKeyValue(matchArr []*db.MatchItem) (*mongo.Cursor, error) {
 	collection := baseColl.GetCollection()
 	findFilter := make(bson.M)
 	for _, mItem := range matchArr {
@@ -56,7 +58,7 @@ func (baseColl *BaseCollection) GetCursorOnKeyValue(matchArr []*MatchItem) (*mon
 	return cursor, nil
 }
 
-func (baseColl *BaseCollection) UpdateItemById(objectId string, operation *Operation) error {
+func (baseColl *BaseCollection) UpdateItemById(objectId string, operation *db.Operation) error {
 	collection := baseColl.GetCollection()
 	itemObjectId, err := primitive.ObjectIDFromHex(objectId)
 	if err != nil {
@@ -75,7 +77,7 @@ func (baseColl *BaseCollection) UpdateItemById(objectId string, operation *Opera
 	return nil
 }
 
-func (baseColl *BaseCollection) UpdateItemByKey(matchArr []*MatchItem, operation *Operation) error {
+func (baseColl *BaseCollection) UpdateItemByKey(matchArr []*db.MatchItem, operation *db.Operation) error {
 	collection := baseColl.GetCollection()
 	updateFilter := make(bson.M)
 	for _, mItem := range matchArr {
@@ -107,7 +109,7 @@ func (baseColl *BaseCollection) DeleteItemById(objectId string) error {
 	return nil
 }
 
-func (baseColl *BaseCollection) DeleteItemByKey(matchArr []*MatchItem) error {
+func (baseColl *BaseCollection) DeleteItemByKey(matchArr []*db.MatchItem) error {
 	collection := baseColl.GetCollection()
 	deleteFilter := make(bson.M)
 	for _, mItem := range matchArr {
