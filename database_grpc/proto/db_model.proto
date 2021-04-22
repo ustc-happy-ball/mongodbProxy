@@ -3,7 +3,7 @@ option go_package = ".;databaseGrpc";
 package databaseGrpc;
 
 message Account {
-  string accountId = 1; //objectId
+  string objectId = 1; //objectId
   int32 playerId = 2;
   string loginPassword = 3;
   bool delete = 4;

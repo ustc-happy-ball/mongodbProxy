@@ -9,7 +9,7 @@ func NewAccountFindByPhoneResponse(acc *model.Account) *databaseGrpc.AccountFind
 	if acc != nil {
 		return &databaseGrpc.AccountFindByPhoneResponse{
 			Account: &databaseGrpc.Account{
-				AccountId:     acc.ID.Hex(),
+				ObjectId:     acc.ID.Hex(),
 				PlayerId:      acc.PlayerId,
 				LoginPassword: acc.LoginPassword,
 				Delete:        acc.Delete,

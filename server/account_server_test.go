@@ -35,7 +35,7 @@ func TestClientAccountFindByPhone(t *testing.T) {
 	log.Printf("response: %s", accountPb.String())
 }
 
-func TestClientFindByKey(t *testing.T) {
+func TestClientAccountAdd(t *testing.T) {
 	conn, err := grpc.Dial(address, grpc.WithInsecure(), grpc.WithBlock())
 	if err != nil {
 		log.Fatalf("did not connect: %v", err)

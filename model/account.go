@@ -17,8 +17,8 @@ type Account struct { // 里面的字段名一定要大写开头
 }
 
 func (acc *Account) FromMessage(accountPb *databaseGrpc.Account) error {
-	if primitive.IsValidObjectID(accountPb.AccountId) {
-		id, err := primitive.ObjectIDFromHex(accountPb.AccountId)
+	if primitive.IsValidObjectID(accountPb.ObjectId) {
+		id, err := primitive.ObjectIDFromHex(accountPb.ObjectId)
 		if err != nil {
 			return err
 		}
