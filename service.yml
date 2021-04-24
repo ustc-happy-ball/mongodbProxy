@@ -10,9 +10,7 @@ spec:
       protocol: TCP
   selector:
     app: db
-
-
-#  sessionAffinity: ClientIP
+  sessionAffinity: ClientIP
 #  sessionAffinityConfig:
 #    clientIP:
 #      timeoutSeconds: 3600
