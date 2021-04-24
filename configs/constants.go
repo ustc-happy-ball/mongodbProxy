@@ -7,5 +7,5 @@ const (
 	MongoDatabase string = "happyball"
 
 	// tcp port
-	TcpPort string = ":50051"
+	TcpPort string = ":8890"
 )
