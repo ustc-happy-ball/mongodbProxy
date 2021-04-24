@@ -43,7 +43,7 @@ func TestFindAccountByKey(t *testing.T) {
 	accountColl, _ := GetAccountCollection()
 	acc, err := accountColl.FindItemsByKey([]*db.MatchItem{
 		{
-			Key: "name",
+			Key:      "name",
 			MatchVal: "tianqi",
 		},
 	})
@@ -80,12 +80,12 @@ func TestUpdateAccountById(t *testing.T) {
 			Op: "$set",
 			Items: []*db.MatchItem{
 				{
-					Key: "name",
+					Key:      "name",
 					MatchVal: "qiqi",
 				},
 			},
 		},
-		)
+	)
 	if err != nil {
 		t.Error("更新时发生了错误", err)
 	}
@@ -97,7 +97,7 @@ func TestUpdateAccountByKey(t *testing.T) {
 	err := accountColl.UpdateItemByKey(
 		[]*db.MatchItem{
 			{
-				Key: "name",
+				Key:      "name",
 				MatchVal: "123",
 			},
 		},
@@ -105,16 +105,16 @@ func TestUpdateAccountByKey(t *testing.T) {
 			Op: "$set",
 			Items: []*db.MatchItem{
 				{
-					Key: "name",
+					Key:      "name",
 					MatchVal: "12345",
 				},
 				{
-					Key: "level",
+					Key:      "level",
 					MatchVal: int64(3),
 				},
 			},
 		},
-		)
+	)
 	if err != nil {
 		t.Error("更新时发生了错误", err)
 	}

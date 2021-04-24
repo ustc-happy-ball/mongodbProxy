@@ -4,20 +4,22 @@ import (
 	"github.com/TianqiS/database_for_happyball/configs"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
+	"log"
 )
 
 type MongoClient struct {
 	database *mongo.Database
-	client *mongo.Client
+	client   *mongo.Client
 }
 
 var Mc *MongoClient
 
 func InitClient() {
+	log.Println("Initializing MongoDB client...")
 	cli := GetMgoCli()
 	Mc = &MongoClient{
 		database: cli.Database(configs.MongoDatabase),
-		client: cli,
+		client:   cli,
 	}
 }
 

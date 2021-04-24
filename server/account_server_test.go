@@ -2,7 +2,7 @@ package server
 
 import (
 	"context"
-	databaseGrpc "github.com/TianqiS/database_for_happyball/database_grpc"
+	databaseGrpc "github.com/TianqiS/database_for_happyball/proto"
 	"google.golang.org/grpc"
 	"log"
 	"testing"

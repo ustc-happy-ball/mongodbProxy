@@ -1,8 +1,8 @@
 package message
 
 import (
-	databaseGrpc "github.com/TianqiS/database_for_happyball/database_grpc"
 	"github.com/TianqiS/database_for_happyball/model"
+	databaseGrpc "github.com/TianqiS/database_for_happyball/proto"
 )
 
 func NewPlayerFindByPlayerIdResponse(player *model.Player) *databaseGrpc.PlayerFindByPlayerIdResponse {

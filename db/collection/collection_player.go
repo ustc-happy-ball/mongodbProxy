@@ -23,7 +23,7 @@ func GetPlayerCollection() (*playerCollection, error) {
 		collection := playerColl.GetCollection()
 		indexView := collection.Indexes()
 		iModel := mongo.IndexModel{
-			Keys: bson.D{{"player_id",1}},
+			Keys:    bson.D{{"player_id", 1}},
 			Options: (&options.IndexOptions{}).SetUnique(true),
 		}
 		_, err := indexView.CreateOne(context.TODO(), iModel)
@@ -54,5 +54,3 @@ func (playerColl *playerCollection) FindItemsByKey(matchArr []*db.MatchItem) ([]
 	}
 	return results, nil
 }
-
-

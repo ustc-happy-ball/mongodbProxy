@@ -1,6 +1,6 @@
 package db
 
 type Operation struct {
-	Op string
+	Op    string
 	Items []*MatchItem
 }

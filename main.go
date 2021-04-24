@@ -2,8 +2,8 @@ package main
 
 import (
 	"github.com/TianqiS/database_for_happyball/configs"
-	databaseGrpc "github.com/TianqiS/database_for_happyball/database_grpc"
 	"github.com/TianqiS/database_for_happyball/db/driven"
+	databaseGrpc "github.com/TianqiS/database_for_happyball/proto"
 	"github.com/TianqiS/database_for_happyball/server"
 	"google.golang.org/grpc"
 	"log"
@@ -19,6 +19,8 @@ func main() {
 	}
 	s := grpc.NewServer()
 	registerService(s)
+
+	log.Printf("Serving on %v\n",configs.TcpPort)
 	if err := s.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %v", err)
 	}

@@ -2,11 +2,11 @@ package server
 
 import (
 	"context"
-	databaseGrpc "github.com/TianqiS/database_for_happyball/database_grpc"
 	"github.com/TianqiS/database_for_happyball/db"
 	"github.com/TianqiS/database_for_happyball/db/collection"
 	"github.com/TianqiS/database_for_happyball/message"
 	"github.com/TianqiS/database_for_happyball/model"
+	databaseGrpc "github.com/TianqiS/database_for_happyball/proto"
 )
 
 type PlayerRpcServer struct {
@@ -24,7 +24,7 @@ func (*PlayerRpcServer) PlayerFindByPlayerId(ctx context.Context, req *databaseG
 	}
 	players, err := playerColl.FindItemsByKey([]*db.MatchItem{
 		{
-			Key: "player_id",
+			Key:      "player_id",
 			MatchVal: req.PlayerId,
 		},
 	})

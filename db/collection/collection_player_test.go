@@ -10,7 +10,7 @@ import (
 
 func TestInsertPlayer(t *testing.T) {
 	driven.InitClient()
-	
+
 	playerColl, err := GetPlayerCollection()
 	if err != nil {
 		t.Error("插入时发生了错误", err)
@@ -36,7 +36,7 @@ func TestFindPlayerByPlayerId(t *testing.T) {
 	playerColl, _ := GetPlayerCollection()
 	player, err := playerColl.FindItemsByKey([]*db.MatchItem{
 		{
-			Key: "playerid",
+			Key:      "playerid",
 			MatchVal: 500,
 		},
 	})

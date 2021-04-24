@@ -1,15 +1,15 @@
 package message
 
 import (
-	databaseGrpc "github.com/TianqiS/database_for_happyball/database_grpc"
 	"github.com/TianqiS/database_for_happyball/model"
+	databaseGrpc "github.com/TianqiS/database_for_happyball/proto"
 )
 
-func NewAccountFindByPhoneResponse(acc *model.Account) *databaseGrpc.AccountFindByPhoneResponse{
+func NewAccountFindByPhoneResponse(acc *model.Account) *databaseGrpc.AccountFindByPhoneResponse {
 	if acc != nil {
 		return &databaseGrpc.AccountFindByPhoneResponse{
 			Account: &databaseGrpc.Account{
-				ObjectId:     acc.ID.Hex(),
+				ObjectId:      acc.ID.Hex(),
 				PlayerId:      acc.PlayerId,
 				LoginPassword: acc.LoginPassword,
 				Delete:        acc.Delete,

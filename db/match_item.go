@@ -1,6 +1,6 @@
 package db
 
 type MatchItem struct {
-	Key string
+	Key      string
 	MatchVal interface{}
 }

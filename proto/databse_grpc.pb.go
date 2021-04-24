@@ -11,7 +11,6 @@ import (
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the grpc package it is being compiled against.
-// Requires gRPC-Go v1.32.0 or later.
 const _ = grpc.SupportPackageIsVersion7
 
 // AccountServiceClient is the client API for AccountService service.
@@ -77,7 +76,7 @@ type UnsafeAccountServiceServer interface {
 }
 
 func RegisterAccountServiceServer(s grpc.ServiceRegistrar, srv AccountServiceServer) {
-	s.RegisterService(&AccountService_ServiceDesc, srv)
+	s.RegisterService(&_AccountService_serviceDesc, srv)
 }
 
 func _AccountService_AccountFindByPhone_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -116,10 +115,7 @@ func _AccountService_AccountAdd_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
-// AccountService_ServiceDesc is the grpc.ServiceDesc for AccountService service.
-// It's only intended for direct use with grpc.RegisterService,
-// and not to be introspected or modified (even as a copy)
-var AccountService_ServiceDesc = grpc.ServiceDesc{
+var _AccountService_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "databaseGrpc.AccountService",
 	HandlerType: (*AccountServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
@@ -133,7 +129,7 @@ var AccountService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "grpc_req_res.proto",
+	Metadata: "databse.proto",
 }
 
 // PlayerServiceClient is the client API for PlayerService service.
@@ -199,7 +195,7 @@ type UnsafePlayerServiceServer interface {
 }
 
 func RegisterPlayerServiceServer(s grpc.ServiceRegistrar, srv PlayerServiceServer) {
-	s.RegisterService(&PlayerService_ServiceDesc, srv)
+	s.RegisterService(&_PlayerService_serviceDesc, srv)
 }
 
 func _PlayerService_PlayerFindByPlayerId_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -238,10 +234,7 @@ func _PlayerService_PlayerAdd_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
-// PlayerService_ServiceDesc is the grpc.ServiceDesc for PlayerService service.
-// It's only intended for direct use with grpc.RegisterService,
-// and not to be introspected or modified (even as a copy)
-var PlayerService_ServiceDesc = grpc.ServiceDesc{
+var _PlayerService_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "databaseGrpc.PlayerService",
 	HandlerType: (*PlayerServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
@@ -255,5 +248,5 @@ var PlayerService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "grpc_req_res.proto",
+	Metadata: "databse.proto",
 }

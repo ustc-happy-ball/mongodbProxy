@@ -18,13 +18,13 @@ var accountColl *accountCollection
 
 func GetAccountCollection() (*accountCollection, error) {
 	if accountColl == nil {
-		accountColl =  &accountCollection{
+		accountColl = &accountCollection{
 			BaseCollection: NewBaseCollection("Account"),
 		}
 		collection := accountColl.GetCollection()
 		indexView := collection.Indexes()
 		iModel := mongo.IndexModel{
-			Keys: bson.D{{"phone", 1}},
+			Keys:    bson.D{{"phone", 1}},
 			Options: (&options.IndexOptions{}).SetUnique(true),
 		}
 		_, err := indexView.CreateOne(context.TODO(), iModel)
@@ -56,7 +56,7 @@ func (accountColl *accountCollection) FindItemsByKey(matchArr []*db.MatchItem) (
 	return results, nil
 }
 
-func (accountColl *accountCollection) InsertItem(item interface{}) (string, error)  {
+func (accountColl *accountCollection) InsertItem(item interface{}) (string, error) {
 	account := item.(*model.Account)
 	account.ID = primitive.NewObjectID()
 	objectId, err := accountColl.BaseCollection.InsertItem(account)
@@ -69,6 +69,3 @@ func (accountColl *accountCollection) InsertItem(item interface{}) (string, erro
 func (accountColl *accountCollection) GetModel() interface{} {
 	return &model.Account{}
 }
-
-
-
