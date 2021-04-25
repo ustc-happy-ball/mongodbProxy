@@ -1,6 +1,8 @@
 package main
 
 import (
+	"flag"
+	"fmt"
 	"github.com/TianqiS/database_for_happyball/configs"
 	"github.com/TianqiS/database_for_happyball/db/driven"
 	databaseGrpc "github.com/TianqiS/database_for_happyball/proto"
@@ -10,8 +12,33 @@ import (
 	"net"
 )
 
+var (
+	DBName string
+	DBUser string
+	DBPassword string
+	DBHost string
+	DBPort string
+)
+
+func initDB() {
+	//flag.StringVar(&DBName, "DBName", "","Name of database")
+	flag.StringVar(&DBUser, "DBUser","","User name of database" )
+	flag.StringVar(&DBPassword, "DBPassword", "","Password of database user")
+	flag.StringVar(&DBHost,"Host","","IP address of database")
+	flag.StringVar(&DBPort, "Port","","Port to connect to database")
+
+	flag.Parse()
+	configs.MongoURI = "mongodb://"+ DBUser + ":"+DBPassword + "@"+ DBHost + ":" + DBPort
+}
+
 func main() {
-	driven.InitClient()
+	initDB()
+	if configs.MongoURI == "" {
+		 log.Fatalf("MongoURI is nil")
+	}
+
+	fmt.Println(configs.MongoURI)
+	driven.InitClient(configs.MongoURI)
 
 	lis, err := net.Listen("tcp", configs.TcpPort)
 	if err != nil {

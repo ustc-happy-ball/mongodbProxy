@@ -1,6 +1,7 @@
 package collection
 
 import (
+	"github.com/TianqiS/database_for_happyball/configs"
 	"github.com/TianqiS/database_for_happyball/db"
 	"github.com/TianqiS/database_for_happyball/db/driven"
 	"github.com/TianqiS/database_for_happyball/model"
@@ -9,7 +10,7 @@ import (
 )
 
 func TestInsertPlayer(t *testing.T) {
-	driven.InitClient()
+	driven.InitClient(configs.MongoURI)
 
 	playerColl, err := GetPlayerCollection()
 	if err != nil {
@@ -32,7 +33,7 @@ func TestInsertPlayer(t *testing.T) {
 }
 
 func TestFindPlayerByPlayerId(t *testing.T) {
-	driven.InitClient()
+	driven.InitClient(configs.MongoURI)
 	playerColl, _ := GetPlayerCollection()
 	player, err := playerColl.FindItemsByKey([]*db.MatchItem{
 		{

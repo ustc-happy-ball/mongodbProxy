@@ -24,6 +24,11 @@ spec:
         - name: db-srv
           image: hkccr.ccs.tencentyun.com/tke_cluster/tke_cluster
           imagePullPolicy: Always
+#          args:
+#            - "-DBUser "
+#            - "-DBPassword "
+#            - "-Host mongodb"
+#            - "-Port "
           ports:
             - containerPort: 8890
               protocol: TCP

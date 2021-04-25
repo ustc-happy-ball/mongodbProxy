@@ -14,11 +14,11 @@ type MongoClient struct {
 
 var Mc *MongoClient
 
-func InitClient() {
+func InitClient(MongoURI string) {
 	log.Println("Initializing MongoDB client...")
-	cli := GetMgoCli()
+	cli := GetMgoCli(MongoURI)
 	Mc = &MongoClient{
-		database: cli.Database(configs.MongoDatabase),
+		database: cli.Database(configs.DBName),
 		client:   cli,
 	}
 }

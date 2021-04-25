@@ -1,10 +1,10 @@
 package configs
 
-const (
+var  (
 	// mongodb
-	MongoUri      string = "mongodb://mongodb:27017"
 	MongoPoolSize uint64 = 100
-	MongoDatabase string = "happyball"
+	DBName string = "happyball"
+	MongoURI string
 
 	// tcp port
 	TcpPort string = ":8890"
