@@ -13,7 +13,7 @@ import (
 )
 
 var (
-	DBName string
+	//DBName string
 	DBUser string
 	DBPassword string
 	DBHost string
