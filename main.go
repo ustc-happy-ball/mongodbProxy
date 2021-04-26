@@ -28,7 +28,7 @@ func initDB() {
 	flag.StringVar(&DBPort, "Port","","Port to connect to database")
 
 	flag.Parse()
-	configs.MongoURI = "mongodb://"+ DBUser + ":"+DBPassword + "@"+ DBHost + ":" + DBPort
+	configs.MongoURI = "mongodb://"+ DBUser + ":"+DBPassword + "@"+ DBHost + ":" + DBPort + "/" + configs.DBName
 }
 
 func main() {
