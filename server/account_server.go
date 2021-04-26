@@ -24,6 +24,8 @@ func (*AccountRpcServer) AccountFindByPhone(ctx context.Context, req *databaseGr
 	if err != nil {
 		return nil, err
 	}
+
+	log.Printf("Finding account by phone...\n")
 	accounts, err := accountColl.FindItemsByKey([]*db.MatchItem{
 		{
 			Key:      "phone",
@@ -35,6 +37,7 @@ func (*AccountRpcServer) AccountFindByPhone(ctx context.Context, req *databaseGr
 	}
 	var resMsg *databaseGrpc.AccountFindByPhoneResponse
 	if len(accounts) == 0 {
+		log.Printf("Fail to find account by phone number\n")
 		resMsg = message.NewAccountFindByPhoneResponse(nil)
 	} else {
 		resMsg = message.NewAccountFindByPhoneResponse(accounts[0])
@@ -53,6 +56,8 @@ func (*AccountRpcServer) AccountAdd(ctx context.Context, req *databaseGrpc.Accou
 	if err != nil {
 		return nil, err
 	}
+
+	log.Printf("Inserting new account...")
 	_, err = accountColl.InsertItem(newAccount)
 	if err != nil {
 		return nil, err
