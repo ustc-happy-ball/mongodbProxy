@@ -41,6 +41,7 @@ func (accountColl *accountCollection) FindItemsByKey(matchArr []*db.MatchItem) (
 	log.Println("Finding item by key...")
 	cursor, err := accountColl.BaseCollection.GetCursorOnKeyValue(matchArr)
 	if err != nil {
+		log.Println(err)
 		return nil, err
 	}
 	var results []*model.Account
