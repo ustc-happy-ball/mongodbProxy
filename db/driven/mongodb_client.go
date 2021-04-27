@@ -12,17 +12,17 @@ type MongoClient struct {
 	client   *mongo.Client
 }
 
-var Mc *MongoClient
+var mc *MongoClient
 
 func InitClient(MongoURI string) {
 	log.Println("Initializing MongoDB client...")
 	cli := GetMgoCli(MongoURI)
-	Mc = &MongoClient{
+	mc = &MongoClient{
 		database: cli.Database(configs.DBName),
 		client:   cli,
 	}
 }
 
-func (this *MongoClient) GetCollection(collectionName string, options *options.CollectionOptions) *mongo.Collection {
-	return this.database.Collection(collectionName, options)
+func GetCollection(collectionName string, options *options.CollectionOptions) *mongo.Collection {
+	return mc.database.Collection(collectionName, options)
 }

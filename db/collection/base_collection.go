@@ -21,7 +21,7 @@ func NewBaseCollection(collectionName string) *BaseCollection {
 }
 
 func (baseColl *BaseCollection) GetCollection() *mongo.Collection {
-	return driven.Mc.GetCollection(baseColl.collectionName, nil)
+	return driven.GetCollection(baseColl.collectionName, nil)
 }
 
 func (baseColl *BaseCollection) InsertItem(item interface{}) (string, error) {
