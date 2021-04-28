@@ -111,3 +111,17 @@ message Player {
 }
 ```
 
+#### 日志系统
+
+日志系统采用了`logrus`包，在程序运行的时候需要制定两个变量分别是:
+
+- LogLevel
+
+  该变量对应日志的输出级别，默认是debug级别，如果需要设为生产级别则需要设为`“info”`
+
+- LogToFile
+
+  是否需要将日志输出到文件中，默认为false，如果需要输出到文件中，则需要在程序参数中添加`-LogToFile`
+
+  - 在生产环境下会输出到`log/logs_production.txt`文件下
+  - 在debug环境下会输出到`log/logs_development.txt`文件下
