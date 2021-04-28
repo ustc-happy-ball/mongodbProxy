@@ -4,10 +4,10 @@ import (
 	"context"
 	"github.com/TianqiS/database_for_happyball/db"
 	"github.com/TianqiS/database_for_happyball/db/driven"
+	"github.com/sirupsen/logrus"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
-	"log"
 )
 
 type BaseCollection struct {
@@ -25,11 +25,11 @@ func (baseColl *BaseCollection) GetCollection() *mongo.Collection {
 }
 
 func (baseColl *BaseCollection) InsertItem(item interface{}) (string, error) {
-	log.Println("Inserting item in base collection...")
+	go logrus.Debug("Inserting item in base collection...")
 	collection := baseColl.GetCollection()
 	insertResult, err := collection.InsertOne(context.TODO(), item)
 	if err != nil {
-		log.Println(err)
+		go logrus.Error(err)
 		return "", err
 	}
 	return insertResult.InsertedID.(primitive.ObjectID).Hex(), nil

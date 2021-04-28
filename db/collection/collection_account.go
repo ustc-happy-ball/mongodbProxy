@@ -4,11 +4,11 @@ import (
 	"context"
 	"github.com/TianqiS/database_for_happyball/db"
 	"github.com/TianqiS/database_for_happyball/model"
+	"github.com/sirupsen/logrus"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
-	"log"
 )
 
 type accountCollection struct {
@@ -19,7 +19,7 @@ var accountColl *accountCollection
 
 func GetAccountCollection() (*accountCollection, error) {
 	if accountColl == nil {
-		log.Println("Getting account collecting...")
+		go logrus.Debug("Getting account collecting...")
 		accountColl = &accountCollection{
 			BaseCollection: NewBaseCollection("Account"),
 		}
@@ -38,10 +38,10 @@ func GetAccountCollection() (*accountCollection, error) {
 }
 
 func (accountColl *accountCollection) FindItemsByKey(matchArr []*db.MatchItem) ([]*model.Account, error) {
-	log.Println("Finding item by key...")
+	go logrus.Debug("Finding item by key...")
 	cursor, err := accountColl.BaseCollection.GetCursorOnKeyValue(matchArr)
 	if err != nil {
-		log.Println(err)
+		go logrus.Error(err)
 		return nil, err
 	}
 	var results []*model.Account
@@ -61,7 +61,7 @@ func (accountColl *accountCollection) FindItemsByKey(matchArr []*db.MatchItem) (
 }
 
 func (accountColl *accountCollection) InsertItem(item interface{}) (string, error) {
-	log.Printf("Inserting item...")
+	go logrus.Debug("Inserting item...")
 	account := item.(*model.Account)
 	account.ID = primitive.NewObjectID()
 	objectId, err := accountColl.BaseCollection.InsertItem(account)

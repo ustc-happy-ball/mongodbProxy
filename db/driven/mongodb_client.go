@@ -2,9 +2,9 @@ package driven
 
 import (
 	"github.com/TianqiS/database_for_happyball/configs"
+	"github.com/sirupsen/logrus"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
-	"log"
 )
 
 type MongoClient struct {
@@ -15,7 +15,7 @@ type MongoClient struct {
 var mc *MongoClient
 
 func InitClient(MongoURI string) {
-	log.Println("Initializing MongoDB client...")
+	go logrus.Debug("Initializing MongoDB client...")
 	cli := GetMgoCli(MongoURI)
 	mc = &MongoClient{
 		database: cli.Database(configs.DBName),

@@ -2,13 +2,13 @@ package main
 
 import (
 	"flag"
-	"fmt"
 	"github.com/TianqiS/database_for_happyball/configs"
 	"github.com/TianqiS/database_for_happyball/db/driven"
+	log2 "github.com/TianqiS/database_for_happyball/log"
 	databaseGrpc "github.com/TianqiS/database_for_happyball/proto"
 	"github.com/TianqiS/database_for_happyball/server"
+	"github.com/sirupsen/logrus"
 	"google.golang.org/grpc"
-	"log"
 	"net"
 )
 
@@ -18,14 +18,17 @@ var (
 	DBPassword string
 	DBHost string
 	DBPort string
+	LogLevel string
+	LogToFile bool
 )
 
-func initDB() {
-	//flag.StringVar(&DBName, "DBName", "","Name of database")
+func initParameter() {
 	flag.StringVar(&DBUser, "DBUser","","User name of database" )
 	flag.StringVar(&DBPassword, "DBPassword", "","Password of database user")
 	flag.StringVar(&DBHost,"Host","","IP address of database")
 	flag.StringVar(&DBPort, "Port","","Port to connect to database")
+	flag.StringVar(&LogLevel, "LogLevel", "debug", "log level")
+	flag.BoolVar(&LogToFile, "LogToFile", false, "move log to file flag")
 
 	flag.Parse()
 	if DBUser != "" {
@@ -33,27 +36,33 @@ func initDB() {
 	} else {
 		configs.MongoURI = "mongodb://" + DBUser + ":" + DBPort + "/" + configs.DBName
 	}
+	if LogLevel == "production" {
+		configs.LogLevel = "info"
+	} else {
+		configs.LogLevel = "debug"
+	}
+	configs.LogToFile = LogToFile
 }
 
 func main() {
-	initDB()
+	initParameter()
+	log2.InitLogSystem()
 	if configs.MongoURI == "" {
-		 log.Fatalf("MongoURI is nil")
+		go logrus.Error("MongoURI is nil")
 	}
 
-	fmt.Println(configs.MongoURI)
 	driven.InitClient(configs.MongoURI)
 
 	lis, err := net.Listen("tcp", configs.TcpPort)
 	if err != nil {
-		log.Fatalf("failed to listen: %v", err)
+		go logrus.Errorf("failed to listen: %v", err)
 	}
 	s := grpc.NewServer()
 	registerService(s)
 
-	log.Printf("Serving on %v\n",configs.TcpPort)
+	go logrus.Infof("Serving on %v\n",configs.TcpPort)
 	if err := s.Serve(lis); err != nil {
-		log.Fatalf("failed to serve: %v", err)
+		go logrus.Errorf("failed to serve: %v", err)
 	}
 }
 
