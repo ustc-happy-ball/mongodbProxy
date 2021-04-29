@@ -31,6 +31,8 @@ func InitLogSystem() {
 		logrus.SetFormatter(customFormatter)
 	} else {
 		customFormatter := &logrus.TextFormatter{}
+		customFormatter.FullTimestamp = true
+		customFormatter.TimestampFormat = "2006-01-02 15:04:05"
 		customFormatter.ForceColors = true
 		logrus.SetFormatter(customFormatter)
 	}
