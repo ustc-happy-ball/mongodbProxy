@@ -5,6 +5,8 @@ package databaseGrpc;
 service PlayerService {
   rpc PlayerFindByPlayerId(PlayerFindByPlayerIdRequest) returns (PlayerFindByPlayerIdResponse) {}
   rpc PlayerAdd(PlayerAddRequest) returns (PlayerAddResponse) {}
+  rpc PlayerUpdateHighestScoreByPhone(PlayerUpdateHighestScoreByPhoneRequest) returns (PlayerUpdateHighestScoreByPhoneResponse) {}
+  rpc PlayerUpdateHighestRankByPhone(PlayerUpdateHighestRankByPhoneRequest) returns (PlayerUpdateHighestRankByPhoneResponse) {}
 }
 
 message PlayerFindByPlayerIdRequest {
@@ -22,6 +24,21 @@ message PlayerAddRequest {
 message PlayerAddResponse {
 
 }
+
+message PlayerUpdateHighestScoreByPhoneRequest {
+  string phone = 1;
+  int32 highestScore = 2;
+}
+
+message PlayerUpdateHighestScoreByPhoneResponse {
+
+}
+
+message PlayerUpdateHighestRankByPhoneRequest {
+  string phone = 1;
+}
+
+message PlayerUpdateHighestRankByPhoneResponse {}
 
 message Player {
   int32 playerId = 2;
