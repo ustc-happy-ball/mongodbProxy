@@ -24,3 +24,7 @@ func NewPlayerFindByPlayerIdResponse(player *model.Player) *databaseGrpc.PlayerF
 func NewPlayerAddResponse() *databaseGrpc.PlayerAddResponse {
 	return &databaseGrpc.PlayerAddResponse{}
 }
+
+func NewPlayerUpdateHighestScoreByPlayerIdResponse() *databaseGrpc.PlayerUpdateHighestScoreByPlayerIdResponse {
+	return &databaseGrpc.PlayerUpdateHighestScoreByPlayerIdResponse{}
+}

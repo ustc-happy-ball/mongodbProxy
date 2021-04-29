@@ -2,7 +2,7 @@ package server
 
 import (
 	"context"
-	databaseGrpc "github.com/TianqiS/database_for_happyball/proto"
+	"github.com/TianqiS/database_for_happyball/proto/databaseGrpc"
 	"google.golang.org/grpc"
 	"log"
 	"testing"
@@ -54,6 +54,29 @@ func TestClientPlayerAdd(t *testing.T) {
 		},
 	}
 	_, err = c.PlayerAdd(ctx, requestMsg)
+	if err != nil {
+		log.Fatalf("could not greet: %v", err)
+	}
+	log.Println("成功了")
+}
+
+func TestClientPlayerUpdateHighestScoreByPlayerId(t *testing.T) {
+	conn, err := grpc.Dial(address, grpc.WithInsecure(), grpc.WithBlock())
+	if err != nil {
+		log.Fatalf("did not connect: %v", err)
+	}
+	defer conn.Close()
+	c := databaseGrpc.NewPlayerServiceClient(conn)
+
+	// Contact the server and print out its response.
+
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+	defer cancel()
+	requestMsg := &databaseGrpc.PlayerUpdateHighestScoreByPlayerIdRequest{
+		PlayerId:     550,
+		HighestScore: 233,
+	}
+	_, err = c.PlayerUpdateHighestScoreByPlayerId(ctx, requestMsg)
 	if err != nil {
 		log.Fatalf("could not greet: %v", err)
 	}

@@ -5,7 +5,7 @@ package databaseGrpc;
 service PlayerService {
   rpc PlayerFindByPlayerId(PlayerFindByPlayerIdRequest) returns (PlayerFindByPlayerIdResponse) {}
   rpc PlayerAdd(PlayerAddRequest) returns (PlayerAddResponse) {}
-  rpc PlayerUpdateHighestScoreByPhone(PlayerUpdateHighestScoreByPlayerIdRequest) returns (PlayerUpdateHighestScoreByPlayerIdResponse) {}
+  rpc PlayerUpdateHighestScoreByPlayerId(PlayerUpdateHighestScoreByPlayerIdRequest) returns (PlayerUpdateHighestScoreByPlayerIdResponse) {}
   rpc PlayerGetRankByPlayerId(PlayerGetRankByPlayerIdRequest) returns (PlayerGetRankByPlayerIdResponse) {}
 }
 

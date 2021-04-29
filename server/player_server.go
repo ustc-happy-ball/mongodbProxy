@@ -57,3 +57,32 @@ func (*PlayerRpcServer) PlayerAdd(ctx context.Context, req *databaseGrpc.PlayerA
 	}
 	return message.NewPlayerAddResponse(), nil
 }
+
+func (*PlayerRpcServer) PlayerUpdateHighestScoreByPlayerId(ctx context.Context, req *databaseGrpc.PlayerUpdateHighestScoreByPlayerIdRequest) (
+	*databaseGrpc.PlayerUpdateHighestScoreByPlayerIdResponse, error) {
+	playerColl, err := collection.GetPlayerCollection()
+	if err != nil {
+		err = ErrorHandler(err)
+		return nil, err
+	}
+	playerId := req.PlayerId
+	err = playerColl.UpdateItemByKey([]*db.MatchItem{
+		{
+			Key: "player_id",
+			MatchVal: playerId,
+		},
+	}, &db.Operation{
+		Op: "$set",
+		Items: []*db.MatchItem{
+			{
+				Key:      "highest_score",
+				MatchVal:  req.HighestScore,
+			},
+		},
+	})
+	if err != nil {
+		err = ErrorHandler(err)
+		return nil, err
+	}
+	return message.NewPlayerUpdateHighestScoreByPlayerIdResponse(), nil
+}
