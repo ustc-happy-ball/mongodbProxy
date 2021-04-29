@@ -2,7 +2,7 @@ package message
 
 import (
 	"github.com/TianqiS/database_for_happyball/model"
-	databaseGrpc "github.com/TianqiS/database_for_happyball/proto"
+	"github.com/TianqiS/database_for_happyball/proto/databaseGrpc"
 )
 
 func NewPlayerFindByPlayerIdResponse(player *model.Player) *databaseGrpc.PlayerFindByPlayerIdResponse {

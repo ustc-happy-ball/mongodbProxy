@@ -6,7 +6,7 @@ import (
 	"github.com/TianqiS/database_for_happyball/db/collection"
 	"github.com/TianqiS/database_for_happyball/message"
 	"github.com/TianqiS/database_for_happyball/model"
-	databaseGrpc "github.com/TianqiS/database_for_happyball/proto"
+	"github.com/TianqiS/database_for_happyball/proto/databaseGrpc"
 )
 
 type PlayerRpcServer struct {

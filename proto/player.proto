@@ -2,29 +2,9 @@ syntax = "proto3";
 option go_package = ".;databaseGrpc";
 package databaseGrpc;
 
-service AccountService {
-  rpc AccountFindByPhone(AccountFindByPhoneRequest) returns (AccountFindByPhoneResponse) {}
-  rpc AccountAdd(AccountAddRequest) returns (AccountAddResponse) {}
-}
-
 service PlayerService {
   rpc PlayerFindByPlayerId(PlayerFindByPlayerIdRequest) returns (PlayerFindByPlayerIdResponse) {}
   rpc PlayerAdd(PlayerAddRequest) returns (PlayerAddResponse) {}
-}
-
-message AccountFindByPhoneRequest {
-  string phone = 1;
-}
-
-message AccountFindByPhoneResponse {
-  Account account = 1;
-}
-
-message AccountAddRequest {
-  Account account = 1;
-}
-
-message AccountAddResponse {
 }
 
 message PlayerFindByPlayerIdRequest {
@@ -41,17 +21,6 @@ message PlayerAddRequest {
 
 message PlayerAddResponse {
 
-}
-
-message Account {
-  string objectId = 1; //objectId
-  int32 playerId = 2;
-  string loginPassword = 3;
-  bool delete = 4;
-  string phone = 5;
-  int64 recentLogin = 6;
-  int64 createAt = 7;
-  int64 updateAt = 8;
 }
 
 message Player {

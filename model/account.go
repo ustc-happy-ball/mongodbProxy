@@ -1,7 +1,7 @@
 package model
 
 import (
-	databaseGrpc "github.com/TianqiS/database_for_happyball/proto"
+	databaseGrpc "github.com/TianqiS/database_for_happyball/proto/databaseGrpc"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 

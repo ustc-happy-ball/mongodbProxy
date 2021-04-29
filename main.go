@@ -5,7 +5,7 @@ import (
 	"github.com/TianqiS/database_for_happyball/configs"
 	"github.com/TianqiS/database_for_happyball/db/driven"
 	log2 "github.com/TianqiS/database_for_happyball/log"
-	databaseGrpc "github.com/TianqiS/database_for_happyball/proto"
+	"github.com/TianqiS/database_for_happyball/proto/databaseGrpc"
 	"github.com/TianqiS/database_for_happyball/server"
 	"github.com/sirupsen/logrus"
 	"google.golang.org/grpc"
