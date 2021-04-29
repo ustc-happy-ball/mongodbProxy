@@ -1,4 +1,5 @@
 该工程是一个database proxy，其他服务通过gRPC调用的方式来对数据库进行操作。
+本地启动示例：`./program -Host localhost -Port 27017 -LogLevel development -LogToFile`
 
 #### 数据库collection结构
 
