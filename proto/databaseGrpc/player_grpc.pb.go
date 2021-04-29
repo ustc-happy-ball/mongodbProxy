@@ -20,8 +20,8 @@ const _ = grpc.SupportPackageIsVersion7
 type PlayerServiceClient interface {
 	PlayerFindByPlayerId(ctx context.Context, in *PlayerFindByPlayerIdRequest, opts ...grpc.CallOption) (*PlayerFindByPlayerIdResponse, error)
 	PlayerAdd(ctx context.Context, in *PlayerAddRequest, opts ...grpc.CallOption) (*PlayerAddResponse, error)
-	PlayerUpdateHighestScoreByPhone(ctx context.Context, in *PlayerUpdateHighestScoreByPhoneRequest, opts ...grpc.CallOption) (*PlayerUpdateHighestScoreByPhoneResponse, error)
-	PlayerUpdateHighestRankByPhone(ctx context.Context, in *PlayerUpdateHighestRankByPhoneRequest, opts ...grpc.CallOption) (*PlayerUpdateHighestRankByPhoneResponse, error)
+	PlayerUpdateHighestScoreByPhone(ctx context.Context, in *PlayerUpdateHighestScoreByPlayerIdRequest, opts ...grpc.CallOption) (*PlayerUpdateHighestScoreByPlayerIdResponse, error)
+	PlayerGetRankByPlayerId(ctx context.Context, in *PlayerGetRankByPlayerIdRequest, opts ...grpc.CallOption) (*PlayerGetRankByPlayerIdResponse, error)
 }
 
 type playerServiceClient struct {
@@ -50,8 +50,8 @@ func (c *playerServiceClient) PlayerAdd(ctx context.Context, in *PlayerAddReques
 	return out, nil
 }
 
-func (c *playerServiceClient) PlayerUpdateHighestScoreByPhone(ctx context.Context, in *PlayerUpdateHighestScoreByPhoneRequest, opts ...grpc.CallOption) (*PlayerUpdateHighestScoreByPhoneResponse, error) {
-	out := new(PlayerUpdateHighestScoreByPhoneResponse)
+func (c *playerServiceClient) PlayerUpdateHighestScoreByPhone(ctx context.Context, in *PlayerUpdateHighestScoreByPlayerIdRequest, opts ...grpc.CallOption) (*PlayerUpdateHighestScoreByPlayerIdResponse, error) {
+	out := new(PlayerUpdateHighestScoreByPlayerIdResponse)
 	err := c.cc.Invoke(ctx, "/databaseGrpc.PlayerService/PlayerUpdateHighestScoreByPhone", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -59,9 +59,9 @@ func (c *playerServiceClient) PlayerUpdateHighestScoreByPhone(ctx context.Contex
 	return out, nil
 }
 
-func (c *playerServiceClient) PlayerUpdateHighestRankByPhone(ctx context.Context, in *PlayerUpdateHighestRankByPhoneRequest, opts ...grpc.CallOption) (*PlayerUpdateHighestRankByPhoneResponse, error) {
-	out := new(PlayerUpdateHighestRankByPhoneResponse)
-	err := c.cc.Invoke(ctx, "/databaseGrpc.PlayerService/PlayerUpdateHighestRankByPhone", in, out, opts...)
+func (c *playerServiceClient) PlayerGetRankByPlayerId(ctx context.Context, in *PlayerGetRankByPlayerIdRequest, opts ...grpc.CallOption) (*PlayerGetRankByPlayerIdResponse, error) {
+	out := new(PlayerGetRankByPlayerIdResponse)
+	err := c.cc.Invoke(ctx, "/databaseGrpc.PlayerService/PlayerGetRankByPlayerId", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -74,8 +74,8 @@ func (c *playerServiceClient) PlayerUpdateHighestRankByPhone(ctx context.Context
 type PlayerServiceServer interface {
 	PlayerFindByPlayerId(context.Context, *PlayerFindByPlayerIdRequest) (*PlayerFindByPlayerIdResponse, error)
 	PlayerAdd(context.Context, *PlayerAddRequest) (*PlayerAddResponse, error)
-	PlayerUpdateHighestScoreByPhone(context.Context, *PlayerUpdateHighestScoreByPhoneRequest) (*PlayerUpdateHighestScoreByPhoneResponse, error)
-	PlayerUpdateHighestRankByPhone(context.Context, *PlayerUpdateHighestRankByPhoneRequest) (*PlayerUpdateHighestRankByPhoneResponse, error)
+	PlayerUpdateHighestScoreByPhone(context.Context, *PlayerUpdateHighestScoreByPlayerIdRequest) (*PlayerUpdateHighestScoreByPlayerIdResponse, error)
+	PlayerGetRankByPlayerId(context.Context, *PlayerGetRankByPlayerIdRequest) (*PlayerGetRankByPlayerIdResponse, error)
 	mustEmbedUnimplementedPlayerServiceServer()
 }
 
@@ -89,11 +89,11 @@ func (UnimplementedPlayerServiceServer) PlayerFindByPlayerId(context.Context, *P
 func (UnimplementedPlayerServiceServer) PlayerAdd(context.Context, *PlayerAddRequest) (*PlayerAddResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PlayerAdd not implemented")
 }
-func (UnimplementedPlayerServiceServer) PlayerUpdateHighestScoreByPhone(context.Context, *PlayerUpdateHighestScoreByPhoneRequest) (*PlayerUpdateHighestScoreByPhoneResponse, error) {
+func (UnimplementedPlayerServiceServer) PlayerUpdateHighestScoreByPhone(context.Context, *PlayerUpdateHighestScoreByPlayerIdRequest) (*PlayerUpdateHighestScoreByPlayerIdResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PlayerUpdateHighestScoreByPhone not implemented")
 }
-func (UnimplementedPlayerServiceServer) PlayerUpdateHighestRankByPhone(context.Context, *PlayerUpdateHighestRankByPhoneRequest) (*PlayerUpdateHighestRankByPhoneResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method PlayerUpdateHighestRankByPhone not implemented")
+func (UnimplementedPlayerServiceServer) PlayerGetRankByPlayerId(context.Context, *PlayerGetRankByPlayerIdRequest) (*PlayerGetRankByPlayerIdResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PlayerGetRankByPlayerId not implemented")
 }
 func (UnimplementedPlayerServiceServer) mustEmbedUnimplementedPlayerServiceServer() {}
 
@@ -145,7 +145,7 @@ func _PlayerService_PlayerAdd_Handler(srv interface{}, ctx context.Context, dec 
 }
 
 func _PlayerService_PlayerUpdateHighestScoreByPhone_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(PlayerUpdateHighestScoreByPhoneRequest)
+	in := new(PlayerUpdateHighestScoreByPlayerIdRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -157,25 +157,25 @@ func _PlayerService_PlayerUpdateHighestScoreByPhone_Handler(srv interface{}, ctx
 		FullMethod: "/databaseGrpc.PlayerService/PlayerUpdateHighestScoreByPhone",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PlayerServiceServer).PlayerUpdateHighestScoreByPhone(ctx, req.(*PlayerUpdateHighestScoreByPhoneRequest))
+		return srv.(PlayerServiceServer).PlayerUpdateHighestScoreByPhone(ctx, req.(*PlayerUpdateHighestScoreByPlayerIdRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _PlayerService_PlayerUpdateHighestRankByPhone_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(PlayerUpdateHighestRankByPhoneRequest)
+func _PlayerService_PlayerGetRankByPlayerId_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PlayerGetRankByPlayerIdRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(PlayerServiceServer).PlayerUpdateHighestRankByPhone(ctx, in)
+		return srv.(PlayerServiceServer).PlayerGetRankByPlayerId(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/databaseGrpc.PlayerService/PlayerUpdateHighestRankByPhone",
+		FullMethod: "/databaseGrpc.PlayerService/PlayerGetRankByPlayerId",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PlayerServiceServer).PlayerUpdateHighestRankByPhone(ctx, req.(*PlayerUpdateHighestRankByPhoneRequest))
+		return srv.(PlayerServiceServer).PlayerGetRankByPlayerId(ctx, req.(*PlayerGetRankByPlayerIdRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -200,8 +200,8 @@ var PlayerService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _PlayerService_PlayerUpdateHighestScoreByPhone_Handler,
 		},
 		{
-			MethodName: "PlayerUpdateHighestRankByPhone",
-			Handler:    _PlayerService_PlayerUpdateHighestRankByPhone_Handler,
+			MethodName: "PlayerGetRankByPlayerId",
+			Handler:    _PlayerService_PlayerGetRankByPlayerId_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

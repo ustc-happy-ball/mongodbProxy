@@ -5,8 +5,8 @@ package databaseGrpc;
 service PlayerService {
   rpc PlayerFindByPlayerId(PlayerFindByPlayerIdRequest) returns (PlayerFindByPlayerIdResponse) {}
   rpc PlayerAdd(PlayerAddRequest) returns (PlayerAddResponse) {}
-  rpc PlayerUpdateHighestScoreByPhone(PlayerUpdateHighestScoreByPhoneRequest) returns (PlayerUpdateHighestScoreByPhoneResponse) {}
-  rpc PlayerUpdateHighestRankByPhone(PlayerUpdateHighestRankByPhoneRequest) returns (PlayerUpdateHighestRankByPhoneResponse) {}
+  rpc PlayerUpdateHighestScoreByPhone(PlayerUpdateHighestScoreByPlayerIdRequest) returns (PlayerUpdateHighestScoreByPlayerIdResponse) {}
+  rpc PlayerGetRankByPlayerId(PlayerGetRankByPlayerIdRequest) returns (PlayerGetRankByPlayerIdResponse) {}
 }
 
 message PlayerFindByPlayerIdRequest {
@@ -25,26 +25,28 @@ message PlayerAddResponse {
 
 }
 
-message PlayerUpdateHighestScoreByPhoneRequest {
-  string phone = 1;
+message PlayerUpdateHighestScoreByPlayerIdRequest {
+  int32 playerId = 1;
   int32 highestScore = 2;
 }
 
-message PlayerUpdateHighestScoreByPhoneResponse {
+message PlayerUpdateHighestScoreByPlayerIdResponse {
 
 }
 
-message PlayerUpdateHighestRankByPhoneRequest {
-  string phone = 1;
+message PlayerGetRankByPlayerIdRequest {
+  int32 PlayerId = 1;
 }
 
-message PlayerUpdateHighestRankByPhoneResponse {}
+message PlayerGetRankByPlayerIdResponse {
+  int32 rank = 1;
+}
 
 message Player {
-  int32 playerId = 2;
-  string accountId = 3;
-  int32 highestScore = 4;
-  int32 highestRank = 5;
-  int64 createAt = 6;
-  int64 updateAt = 7;
+  int32 playerId = 1;
+  string accountId = 2;
+  int32 highestScore = 3;
+  int32 highestRank = 4;
+  int64 createAt = 5;
+  int64 updateAt = 6;
 }
