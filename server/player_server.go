@@ -20,6 +20,7 @@ func GetPlayerServer() *PlayerRpcServer {
 func (*PlayerRpcServer) PlayerFindByPlayerId(ctx context.Context, req *databaseGrpc.PlayerFindByPlayerIdRequest) (*databaseGrpc.PlayerFindByPlayerIdResponse, error) {
 	playerColl, err := collection.GetPlayerCollection()
 	if err != nil {
+		err = ErrorHandler(err)
 		return nil, err
 	}
 	players, err := playerColl.FindItemsByKey([]*db.MatchItem{
@@ -29,6 +30,7 @@ func (*PlayerRpcServer) PlayerFindByPlayerId(ctx context.Context, req *databaseG
 		},
 	})
 	if err != nil {
+		err = ErrorHandler(err)
 		return nil, err
 	}
 	var resMsg *databaseGrpc.PlayerFindByPlayerIdResponse
@@ -42,6 +44,7 @@ func (*PlayerRpcServer) PlayerFindByPlayerId(ctx context.Context, req *databaseG
 func (*PlayerRpcServer) PlayerAdd(ctx context.Context, req *databaseGrpc.PlayerAddRequest) (*databaseGrpc.PlayerAddResponse, error) {
 	playerColl, err := collection.GetPlayerCollection()
 	if err != nil {
+		err = ErrorHandler(err)
 		return nil, err
 	}
 	newPlayerPb := req.Player
@@ -49,6 +52,7 @@ func (*PlayerRpcServer) PlayerAdd(ctx context.Context, req *databaseGrpc.PlayerA
 	_ = newPlayer.FromMessage(newPlayerPb)
 	_, err = playerColl.InsertItem(newPlayer)
 	if err != nil {
+		err = ErrorHandler(err)
 		return nil, err
 	}
 	return message.NewPlayerAddResponse(), nil

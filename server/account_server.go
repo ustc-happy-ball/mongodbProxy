@@ -19,12 +19,13 @@ func GetAccountServer() *AccountRpcServer {
 }
 
 func (*AccountRpcServer) AccountFindByPhone(ctx context.Context, req *databaseGrpc.AccountFindByPhoneRequest) (*databaseGrpc.AccountFindByPhoneResponse, error) {
-	logrus.Debug("Receiving AccountFindByPhone request, ",req.Phone)
+	go logrus.Debug("Receiving AccountFindByPhone request, ",req.Phone)
 	accountColl, err := collection.GetAccountCollection()
 	if err != nil {
+		err = ErrorHandler(err)
 		return nil, err
 	}
-	logrus.Debug("Finding account by phone...\n")
+	go logrus.Debug("Finding account by phone...\n")
 	accounts, err := accountColl.FindItemsByKey([]*db.MatchItem{
 		{
 			Key:      "phone",
@@ -32,11 +33,12 @@ func (*AccountRpcServer) AccountFindByPhone(ctx context.Context, req *databaseGr
 		},
 	})
 	if err != nil {
+		err = ErrorHandler(err)
 		return nil, err
 	}
 	var resMsg *databaseGrpc.AccountFindByPhoneResponse
 	if len(accounts) == 0 {
-		logrus.Debug("Fail to find account by phone number\n")
+		go logrus.Debug("Fail to find account by phone number\n")
 		resMsg = message.NewAccountFindByPhoneResponse(nil)
 	} else {
 		resMsg = message.NewAccountFindByPhoneResponse(accounts[0])
@@ -44,21 +46,24 @@ func (*AccountRpcServer) AccountFindByPhone(ctx context.Context, req *databaseGr
 	return resMsg, nil
 }
 func (*AccountRpcServer) AccountAdd(ctx context.Context, req *databaseGrpc.AccountAddRequest) (*databaseGrpc.AccountAddResponse, error) {
-	logrus.Debugf("Receiving AccountAdd request, %v\n", req.Account)
+	go logrus.Debugf("Receiving AccountAdd request, %v\n", req.Account)
 	accountColl, err := collection.GetAccountCollection()
 	if err != nil {
+		err = ErrorHandler(err)
 		return nil, err
 	}
 	newAccountPb := req.Account
 	newAccount := &model.Account{}
 	err = newAccount.FromMessage(newAccountPb)
 	if err != nil {
+		err = ErrorHandler(err)
 		return nil, err
 	}
 
-	logrus.Debug("Inserting new account...")
+	go logrus.Debug("Inserting new account...")
 	_, err = accountColl.InsertItem(newAccount)
 	if err != nil {
+		err = ErrorHandler(err)
 		return nil, err
 	}
 	return message.NewAccountAddResponse(), nil
