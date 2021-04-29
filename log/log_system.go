@@ -7,7 +7,6 @@ import (
 )
 
 func InitLogSystem() {
-	logrus.SetFormatter(&logrus.JSONFormatter{})
 	logLevel, err := logrus.ParseLevel(configs.LogLevel)
 	if err != nil {
 		logrus.SetLevel(logrus.DebugLevel)
@@ -28,5 +27,11 @@ func InitLogSystem() {
 		} else {
 			logrus.SetOutput(f)
 		}
+		customFormatter := &logrus.JSONFormatter{}
+		logrus.SetFormatter(customFormatter)
+	} else {
+		customFormatter := &logrus.TextFormatter{}
+		customFormatter.ForceColors = true
+		logrus.SetFormatter(customFormatter)
 	}
 }
