@@ -23,6 +23,6 @@ func NewAccountFindByPhoneResponse(acc *model.Account) *databaseGrpc.AccountFind
 	return &databaseGrpc.AccountFindByPhoneResponse{}
 }
 
-func NewAccountAddResponse() *databaseGrpc.AccountAddResponse {
-	return &databaseGrpc.AccountAddResponse{}
+func NewAccountAddResponse(objectId string) *databaseGrpc.AccountAddResponse {
+	return &databaseGrpc.AccountAddResponse{ObjectId: objectId}
 }

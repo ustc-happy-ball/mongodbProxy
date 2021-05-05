@@ -51,7 +51,7 @@ func TestClientAccountAdd(t *testing.T) {
 		PlayerId:      0,
 		LoginPassword: "123124",
 		Delete:        false,
-		Phone:         "17376515082",
+		Phone:         "17376515081",
 		RecentLogin:   0,
 		CreateAt:      0,
 		UpdateAt:      0,

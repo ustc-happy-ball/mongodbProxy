@@ -61,10 +61,10 @@ func (*AccountRpcServer) AccountAdd(ctx context.Context, req *databaseGrpc.Accou
 	}
 
 	go logrus.Debug("Inserting new account...")
-	_, err = accountColl.InsertItem(newAccount)
+	objectId, err := accountColl.InsertItem(newAccount)
 	if err != nil {
 		err = ErrorHandler(err)
 		return nil, err
 	}
-	return message.NewAccountAddResponse(), nil
+	return message.NewAccountAddResponse(objectId), nil
 }
