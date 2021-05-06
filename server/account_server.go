@@ -68,3 +68,47 @@ func (*AccountRpcServer) AccountAdd(ctx context.Context, req *databaseGrpc.Accou
 	}
 	return message.NewAccountAddResponse(objectId), nil
 }
+
+func (*AccountRpcServer) AccountFindPlayerByAccountId(ctx context.Context, req *databaseGrpc.AccountFindPlayerByAccountIdRequest) (*databaseGrpc.AccountFindPlayerByAccountIdResponse, error) {
+	go logrus.Debug("正在调用AccountFindPlayerByAccountId接口")
+	accountColl, err := collection.GetAccountCollection()
+	if err != nil {
+		err = ErrorHandler(err)
+		return nil, err
+	}
+	playerColl, err := collection.GetPlayerCollection()
+	if err != nil {
+		err = ErrorHandler(err)
+		return nil, err
+	}
+	mongoObject, err := accountColl.FindOneItemById(req.AccountId)
+	if err != nil {
+		err = ErrorHandler(err)
+		return nil, err
+	}
+	account := &model.Account{}
+	err = mongoObject.Decode(account)
+	if err != nil {
+		err = ErrorHandler(err)
+		return nil, err
+	}
+	players, err := playerColl.FindItemsByKey([]*db.MatchItem{
+		{
+			Key: "player_id",
+			MatchVal: account.PlayerId,
+		},
+	})
+	if err != nil {
+		err = ErrorHandler(err)
+		return nil, err
+	}
+	var resMsg *databaseGrpc.AccountFindPlayerByAccountIdResponse
+	if len(players) == 0 {
+		resMsg = message.NewAccountFindPlayerByAccountIdResponse(nil)
+		go logrus.Debug("查询到的player信息为nil")
+	} else {
+		resMsg = message.NewAccountFindPlayerByAccountIdResponse(players[0])
+		go logrus.Debugf("查询到的player信息为%v", players[0])
+	}
+	return resMsg, nil
+}

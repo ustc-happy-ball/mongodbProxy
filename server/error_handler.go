@@ -2,6 +2,7 @@ package server
 
 import (
 	"github.com/pkg/errors"
+	"github.com/sirupsen/logrus"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
@@ -13,7 +14,7 @@ func ErrorHandler(err error) error {
 		switch writeErr.Code {
 		case 11000:
 			encoderedError = errors.New("预写入数据与数据库中原有的数据冲突")
-
+			go logrus.Error("预写入数据与数据库中原有的数据冲突")
 			break
 		default:
 			encoderedError = errors.New("mongodb发生其他错误: " + mongoWriteException.Error())
@@ -21,5 +22,6 @@ func ErrorHandler(err error) error {
 		return encoderedError
 	}
 	encoderedError = errors.New("发生其他错误: " + err.Error())
+	go logrus.Errorf("发生其他错误: " + err.Error())
 	return encoderedError
 }
