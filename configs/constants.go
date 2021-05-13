@@ -5,6 +5,7 @@ var  (
 	MongoPoolSize uint64 = 100
 	DBName string = "happyball"
 	MongoURI string
+	MongoURIForTest = "mongodb://localhost:27017"
 
 	// tcp port
 	TcpPort string = ":8890"

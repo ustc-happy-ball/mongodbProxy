@@ -54,3 +54,98 @@ func (playerColl *playerCollection) FindItemsByKey(matchArr []*db.MatchItem) ([]
 	}
 	return results, nil
 }
+
+func (playerColl *playerCollection) GetPlayerRankOrderByScore() ([]*model.Player, error) {
+	sortState := bson.D{
+		{
+			"$sort",
+			bson.D{
+				{
+					"highest_score",
+					1,
+				},
+			},
+		},
+	}
+	groupState := bson.D{
+		{
+			"$group",
+			bson.D{
+				{
+					"_id", nil,
+				},
+				{
+					"tableA",
+					bson.D{
+						{
+							"$push",
+							"$$ROOT",
+						},
+					},
+				},
+			},
+		},
+	}
+	unwindState := bson.D{
+		{
+			"$unwind",
+			bson.M{
+				"path":              "$tableA",
+				"includeArrayIndex": "arrIndex",
+			},
+		},
+	}
+	projectState := bson.D{
+		{
+			"$project",
+			 bson.D{
+				 {
+					 "_id",
+					 0,
+				 }, {
+					 "player_id",
+					 "$tableA.player_id",
+				 }, {
+					 "account_id",
+					 "$tableA.account_id",
+				 }, {
+					 "highest_score",
+					 "$tableA.highest_score",
+				 },
+				 {
+					 "highest_rank",
+					 bson.D{
+					 	{
+					 		"$add",
+					 		bson.A {
+					 			"$arrIndex",
+					 			int64(1),
+							},
+						},
+					 },
+				 },
+				 {
+					 "update_at",
+					 "$tableA.update_at",
+				 }, {
+					 "create_at",
+					 "$tableA.create_at",
+				 },
+			 },
+		},
+	}
+	cursor, err := playerColl.Aggregate(mongo.Pipeline{sortState, groupState, unwindState, projectState})
+	if err != nil {
+		return nil, err
+	}
+	var results []*model.Player
+	for cursor.Next(context.TODO()) {
+		player := &model.Player{}
+		err = cursor.Decode(player)
+		if err != nil {
+			return nil, err
+		}
+		results = append(results, player)
+	}
+	return results, nil
+}

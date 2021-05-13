@@ -22,7 +22,7 @@ func TestClientPlayerFindByPlayerId(t *testing.T) {
 
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
-	requestMsg := &databaseGrpc.PlayerFindByPlayerIdRequest{PlayerId: 550}
+	requestMsg := &databaseGrpc.PlayerFindByPlayerIdRequest{PlayerId: 603}
 	r, err := c.PlayerFindByPlayerId(ctx, requestMsg)
 	if err != nil {
 		log.Fatalf("could not greet: %v", err)
@@ -45,10 +45,8 @@ func TestClientPlayerAdd(t *testing.T) {
 	defer cancel()
 	requestMsg := &databaseGrpc.PlayerAddRequest{
 		Player: &databaseGrpc.Player{
-			PlayerId:     600,
+			PlayerId:     603,
 			AccountId:    "607dabcf63a86c32741a20f5",
-			HighestScore: 1000,
-			HighestRank:  2,
 			CreateAt:     time.Now().UnixNano(),
 			UpdateAt:     time.Now().UnixNano(),
 		},

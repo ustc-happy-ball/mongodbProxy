@@ -12,7 +12,7 @@ import (
 )
 
 func TestInsertAccount(t *testing.T) {
-	driven.InitClient(configs.MongoURI)
+	driven.InitClient(configs.MongoURIForTest)
 
 	accountColl, _ := GetAccountCollection()
 	id, err := accountColl.InsertItem(&model.Account{
@@ -30,7 +30,7 @@ func TestInsertAccount(t *testing.T) {
 }
 
 func TestFindAccountById(t *testing.T) {
-	driven.InitClient(configs.MongoURI)
+	driven.InitClient(configs.MongoURIForTest)
 	accountColl, _ := GetAccountCollection()
 	acc, err := accountColl.FindOneItemById("605b7267be255a7618e38d6a")
 	if err != nil {
@@ -40,7 +40,7 @@ func TestFindAccountById(t *testing.T) {
 }
 
 func TestFindAccountByKey(t *testing.T) {
-	driven.InitClient(configs.MongoURI)
+	driven.InitClient(configs.MongoURIForTest)
 	accountColl, _ := GetAccountCollection()
 	acc, err := accountColl.FindItemsByKey([]*db.MatchItem{
 		{
@@ -55,7 +55,7 @@ func TestFindAccountByKey(t *testing.T) {
 }
 
 func TestDeleteAccountById(t *testing.T) {
-	driven.InitClient(configs.MongoURI)
+	driven.InitClient(configs.MongoURIForTest)
 	accountColl, _ := GetAccountCollection()
 	err := accountColl.DeleteItemById("605b7267be255a7618e38d6a")
 	if err != nil {
@@ -64,7 +64,7 @@ func TestDeleteAccountById(t *testing.T) {
 }
 
 func TestDeleteAccountByKey(t *testing.T) {
-	driven.InitClient(configs.MongoURI)
+	driven.InitClient(configs.MongoURIForTest)
 	accountColl, _ := GetAccountCollection()
 	err := accountColl.DeleteItemByKey([]*db.MatchItem{})
 	if err != nil {
@@ -73,7 +73,7 @@ func TestDeleteAccountByKey(t *testing.T) {
 }
 
 func TestUpdateAccountById(t *testing.T) {
-	driven.InitClient(configs.MongoURI)
+	driven.InitClient(configs.MongoURIForTest)
 	accountColl, _ := GetAccountCollection()
 	err := accountColl.UpdateItemById(
 		"6078605aca07062a614b7c18",
@@ -93,7 +93,7 @@ func TestUpdateAccountById(t *testing.T) {
 }
 
 func TestUpdateAccountByKey(t *testing.T) {
-	driven.InitClient(configs.MongoURI)
+	driven.InitClient(configs.MongoURIForTest)
 	accountColl, _ := GetAccountCollection()
 	err := accountColl.UpdateItemByKey(
 		[]*db.MatchItem{

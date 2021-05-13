@@ -5,12 +5,13 @@ import (
 	"github.com/TianqiS/database_for_happyball/db"
 	"github.com/TianqiS/database_for_happyball/db/driven"
 	"github.com/TianqiS/database_for_happyball/model"
+	"github.com/sirupsen/logrus"
 	"testing"
 	"time"
 )
 
 func TestInsertPlayer(t *testing.T) {
-	driven.InitClient(configs.MongoURI)
+	driven.InitClient(configs.MongoURIForTest)
 
 	playerColl, err := GetPlayerCollection()
 	if err != nil {
@@ -33,7 +34,7 @@ func TestInsertPlayer(t *testing.T) {
 }
 
 func TestFindPlayerByPlayerId(t *testing.T) {
-	driven.InitClient(configs.MongoURI)
+	driven.InitClient(configs.MongoURIForTest)
 	playerColl, _ := GetPlayerCollection()
 	player, err := playerColl.FindItemsByKey([]*db.MatchItem{
 		{
@@ -45,4 +46,13 @@ func TestFindPlayerByPlayerId(t *testing.T) {
 		t.Error("查找时发生错误", err)
 	}
 	t.Log("查找到的player为", player[0])
+}
+
+func TestPlayerCollection_GetPlayerRankOrderByScore(t *testing.T) {
+	driven.InitClient(configs.MongoURIForTest)
+	playerColl, _ := GetPlayerCollection()
+	_, err := playerColl.GetPlayerRankOrderByScore()
+	if err != nil {
+		logrus.Error("error为", err.Error())
+	}
 }

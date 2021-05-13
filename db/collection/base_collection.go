@@ -8,6 +8,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 type BaseCollection struct {
@@ -59,6 +60,15 @@ func (baseColl *BaseCollection) GetCursorOnKeyValue(matchArr []*db.MatchItem) (*
 		return nil, err
 	}
 	return cursor, nil
+}
+
+func (baseColl *BaseCollection) Aggregate(pipeline interface{}, opts ...*options.AggregateOptions) (*mongo.Cursor, error) {
+	collection := baseColl.GetCollection()
+	cursor, err := collection.Aggregate(context.TODO(), pipeline, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return cursor, err
 }
 
 func (baseColl *BaseCollection) UpdateItemById(objectId string, operation *db.Operation) error {
