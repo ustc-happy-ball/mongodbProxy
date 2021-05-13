@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"github.com/TianqiS/database_for_happyball/configs"
 	"github.com/TianqiS/database_for_happyball/db/driven"
 	log2 "github.com/TianqiS/database_for_happyball/log"
@@ -10,6 +11,9 @@ import (
 	"github.com/sirupsen/logrus"
 	"google.golang.org/grpc"
 	"net"
+	"os"
+	"os/signal"
+	"syscall"
 )
 
 var (
@@ -61,6 +65,7 @@ func main() {
 	registerService(s)
 
 	go logrus.Infof("Serving on %v\n",configs.TcpPort)
+	go gracefulQuit(s)
 	if err := s.Serve(lis); err != nil {
 		go logrus.Errorf("failed to serve: %v", err)
 	}
@@ -69,4 +74,12 @@ func main() {
 func registerService(s *grpc.Server) {
 	databaseGrpc.RegisterAccountServiceServer(s, server.GetAccountServer())
 	databaseGrpc.RegisterPlayerServiceServer(s, server.GetPlayerServer())
+}
+
+func gracefulQuit(s *grpc.Server) {
+	c := make(chan os.Signal)
+	signal.Notify(c, syscall.SIGHUP, syscall.SIGINT, syscall.SIGTERM, syscall.SIGQUIT)
+	<-c
+	s.GracefulStop()
+	os.Exit(0)
 }
