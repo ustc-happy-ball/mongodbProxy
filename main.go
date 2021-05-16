@@ -75,6 +75,7 @@ func registerService(s *grpc.Server) {
 	databaseGrpc.RegisterPlayerServiceServer(s, server.GetPlayerServer())
 }
 
+// quit gRPC call gracefully
 func gracefulQuit(s *grpc.Server) {
 	c := make(chan os.Signal)
 	signal.Notify(c, syscall.SIGHUP, syscall.SIGINT, syscall.SIGTERM, syscall.SIGQUIT)
