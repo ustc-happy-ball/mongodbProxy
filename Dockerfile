@@ -6,7 +6,7 @@ RUN apk update && apk upgrade && \
 #RUN apk add --no-cache --virtual .build-deps gcc musl-dev
 #RUN git config --global url."".insteadOf ""
 #RUN export GOPRIVATE=git.enjoymusic.ltd && go build -o bifrost-api main.go plugin.go
-RUN go build -o db-svc ./../main.go
+RUN go build -o db-svc main.go
 
 FROM alpine:latest
 # environment variable for mongoDB connection
