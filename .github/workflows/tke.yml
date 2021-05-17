@@ -73,7 +73,7 @@ jobs:
       - name: Deploy To TKE
         run: |
           ./kustomize edit set image ${TKE_IMAGE_URL}:${NAME}-${NAMESPACE}-${GITHUB_SHA}
-          ./kustomize build ./deployments/ | kubectl apply  -f -
+          ./kustomize build ./deployments/kustomization.yaml | kubectl apply  -f -
           kubectl rollout status deployment/${DEPLOYMENT_NAME}
           kubectl get services -o wide
 #          kubectl rollout status deployment/${DEPLOYMENT_NAME} -n=${NAMESPACE}
