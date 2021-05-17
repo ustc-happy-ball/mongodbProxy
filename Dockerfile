@@ -14,10 +14,10 @@ ARG DB_USER
 ARG DB_PWD
 ARG DB_HOST
 ARG DB_PORT
-ENV ENV_DB_USER=$DB_USER
-ENV ENV_DB_PWD=$DB_PWD
-ENV ENV_HOST=$DB_HOST
-ENV ENV_PORT=$DB_PORT
+ENV  ENV_DB_USER=$DB_USER \
+     ENV_DB_PWD=$DB_PWD \
+     ENV_HOST=$DB_HOST \
+     ENV_PORT=$DB_PORT
 
 WORKDIR  /root/go/src/github.com/LILILIhuahuahua/ustc_tencent_game
 COPY --from=builder  /root/go/src/github.com/LILILIhuahuahua/ustc_tencent_game/db-svc .
