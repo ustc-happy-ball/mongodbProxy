@@ -5,6 +5,7 @@ import (
 	"github.com/TianqiS/database_for_happyball/proto/databaseGrpc"
 	"google.golang.org/grpc"
 	"log"
+	"os"
 	"testing"
 	"time"
 )
@@ -14,6 +15,7 @@ const (
 )
 
 func TestClientAccountFindByPhone(t *testing.T) {
+	skipCI(t)
 	//// Set up a connection to the server.
 	conn, err := grpc.Dial(address, grpc.WithInsecure(), grpc.WithBlock())
 	if err != nil {
@@ -36,6 +38,7 @@ func TestClientAccountFindByPhone(t *testing.T) {
 }
 
 func TestClientAccountAdd(t *testing.T) {
+	skipCI(t)
 	conn, err := grpc.Dial(address, grpc.WithInsecure(), grpc.WithBlock())
 	if err != nil {
 		log.Fatalf("did not connect: %v", err)
@@ -64,6 +67,7 @@ func TestClientAccountAdd(t *testing.T) {
 }
 
 func TestAccountRpcServer_AccountFindPlayerByAccountId(t *testing.T) {
+	skipCI(t)
 	conn, err := grpc.Dial(address, grpc.WithInsecure(), grpc.WithBlock())
 	if err != nil {
 		log.Fatalf("did not connect: %v", err)
@@ -83,4 +87,11 @@ func TestAccountRpcServer_AccountFindPlayerByAccountId(t *testing.T) {
 		log.Fatalf("could not greet: %v", err)
 	}
 	log.Printf("response: %s", r.String())
+}
+
+
+func skipCI(t *testing.T) {
+	if os.Getenv("CI") != "" {
+		t.Skip("Skipping testing in CI environment")
+	}
 }

@@ -7,11 +7,13 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readpref"
 	"log"
+	"os"
 	"testing"
 	"time"
 )
 
 func TestConnect(t *testing.T) {
+	skipCI(t)
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
@@ -28,4 +30,10 @@ func TestConnect(t *testing.T) {
 	}
 
 	fmt.Println("succeed to connect")
+}
+
+func skipCI(t *testing.T) {
+	if os.Getenv("CI") != "" {
+		t.Skip("Skipping testing in CI environment")
+	}
 }

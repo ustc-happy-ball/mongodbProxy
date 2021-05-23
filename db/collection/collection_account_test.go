@@ -7,11 +7,13 @@ import (
 	"github.com/TianqiS/database_for_happyball/db/driven"
 	"github.com/TianqiS/database_for_happyball/model"
 	"log"
+	"os"
 	"testing"
 	"time"
 )
 
 func TestInsertAccount(t *testing.T) {
+	skipCI(t)
 	driven.InitClient(configs.MongoURIForTest)
 
 	accountColl, _ := GetAccountCollection()
@@ -30,6 +32,7 @@ func TestInsertAccount(t *testing.T) {
 }
 
 func TestFindAccountById(t *testing.T) {
+	skipCI(t)
 	driven.InitClient(configs.MongoURIForTest)
 	accountColl, _ := GetAccountCollection()
 	acc, err := accountColl.FindOneItemById("605b7267be255a7618e38d6a")
@@ -40,6 +43,7 @@ func TestFindAccountById(t *testing.T) {
 }
 
 func TestFindAccountByKey(t *testing.T) {
+	skipCI(t)
 	driven.InitClient(configs.MongoURIForTest)
 	accountColl, _ := GetAccountCollection()
 	acc, err := accountColl.FindItemsByKey([]*db.MatchItem{
@@ -55,6 +59,7 @@ func TestFindAccountByKey(t *testing.T) {
 }
 
 func TestDeleteAccountById(t *testing.T) {
+	skipCI(t)
 	driven.InitClient(configs.MongoURIForTest)
 	accountColl, _ := GetAccountCollection()
 	err := accountColl.DeleteItemById("605b7267be255a7618e38d6a")
@@ -64,6 +69,7 @@ func TestDeleteAccountById(t *testing.T) {
 }
 
 func TestDeleteAccountByKey(t *testing.T) {
+	skipCI(t)
 	driven.InitClient(configs.MongoURIForTest)
 	accountColl, _ := GetAccountCollection()
 	err := accountColl.DeleteItemByKey([]*db.MatchItem{})
@@ -73,6 +79,7 @@ func TestDeleteAccountByKey(t *testing.T) {
 }
 
 func TestUpdateAccountById(t *testing.T) {
+	skipCI(t)
 	driven.InitClient(configs.MongoURIForTest)
 	accountColl, _ := GetAccountCollection()
 	err := accountColl.UpdateItemById(
@@ -93,6 +100,7 @@ func TestUpdateAccountById(t *testing.T) {
 }
 
 func TestUpdateAccountByKey(t *testing.T) {
+	skipCI(t)
 	driven.InitClient(configs.MongoURIForTest)
 	accountColl, _ := GetAccountCollection()
 	err := accountColl.UpdateItemByKey(
@@ -118,5 +126,12 @@ func TestUpdateAccountByKey(t *testing.T) {
 	)
 	if err != nil {
 		t.Error("更新时发生了错误", err)
+	}
+}
+
+
+func skipCI(t *testing.T) {
+	if os.Getenv("CI") != "" {
+		t.Skip("Skipping testing in CI environment")
 	}
 }

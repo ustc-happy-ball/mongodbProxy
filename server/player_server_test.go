@@ -10,6 +10,7 @@ import (
 )
 
 func TestClientPlayerFindByPlayerId(t *testing.T) {
+	skipCI(t)
 	//// Set up a connection to the server.
 	conn, err := grpc.Dial(address, grpc.WithInsecure(), grpc.WithBlock())
 	if err != nil {
@@ -32,6 +33,7 @@ func TestClientPlayerFindByPlayerId(t *testing.T) {
 }
 
 func TestClientPlayerAdd(t *testing.T) {
+	skipCI(t)
 	conn, err := grpc.Dial(address, grpc.WithInsecure(), grpc.WithBlock())
 	if err != nil {
 		log.Fatalf("did not connect: %v", err)
@@ -59,6 +61,7 @@ func TestClientPlayerAdd(t *testing.T) {
 }
 
 func TestClientPlayerUpdateHighestScoreByPlayerId(t *testing.T) {
+	skipCI(t)
 	conn, err := grpc.Dial(address, grpc.WithInsecure(), grpc.WithBlock())
 	if err != nil {
 		log.Fatalf("did not connect: %v", err)

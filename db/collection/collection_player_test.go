@@ -11,6 +11,7 @@ import (
 )
 
 func TestInsertPlayer(t *testing.T) {
+	skipCI(t)
 	driven.InitClient(configs.MongoURIForTest)
 
 	playerColl, err := GetPlayerCollection()
@@ -34,6 +35,7 @@ func TestInsertPlayer(t *testing.T) {
 }
 
 func TestFindPlayerByPlayerId(t *testing.T) {
+	skipCI(t)
 	driven.InitClient(configs.MongoURIForTest)
 	playerColl, _ := GetPlayerCollection()
 	player, err := playerColl.FindItemsByKey([]*db.MatchItem{
@@ -49,6 +51,7 @@ func TestFindPlayerByPlayerId(t *testing.T) {
 }
 
 func TestPlayerCollection_GetPlayerRankOrderByScore(t *testing.T) {
+	skipCI(t)
 	driven.InitClient(configs.MongoURIForTest)
 	playerColl, _ := GetPlayerCollection()
 	_, err := playerColl.GetPlayerRankOrderByScore()
