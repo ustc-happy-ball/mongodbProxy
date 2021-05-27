@@ -8,6 +8,7 @@ service AccountService {
   rpc AccountFindByPhone(AccountFindByPhoneRequest) returns (AccountFindByPhoneResponse) {}
   rpc AccountAdd(AccountAddRequest) returns (AccountAddResponse) {}
   rpc AccountFindPlayerByAccountId(AccountFindPlayerByAccountIdRequest) returns (AccountFindPlayerByAccountIdResponse) {}
+  rpc AccountGetAccountByPlayerId(AccountGetAccountInfoByPlayerIdRequest) returns (AccountGetAccountInfoByPlayerIdResponse) {}
 }
 
 message AccountFindByPhoneRequest {
@@ -33,6 +34,15 @@ message AccountFindPlayerByAccountIdRequest {
 message AccountFindPlayerByAccountIdResponse {
   Player playerInfo = 1;
 }
+
+message AccountGetAccountInfoByPlayerIdRequest {
+  int32 PlayerId = 1;
+}
+
+message AccountGetAccountInfoByPlayerIdResponse {
+  Account accountInfo = 1;
+}
+
 
 message Account {
   string objectId = 1; //objectId

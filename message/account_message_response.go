@@ -23,6 +23,24 @@ func NewAccountFindByPhoneResponse(acc *model.Account) *databaseGrpc.AccountFind
 	return &databaseGrpc.AccountFindByPhoneResponse{}
 }
 
+func NewAccountGetAccountByPlayerIdResponse(acc *model.Account) *databaseGrpc.AccountGetAccountInfoByPlayerIdResponse {
+	if acc != nil {
+		return &databaseGrpc.AccountGetAccountInfoByPlayerIdResponse{
+			AccountInfo: &databaseGrpc.Account{
+				ObjectId:      acc.ID.Hex(),
+				PlayerId:      acc.PlayerId,
+				LoginPassword: acc.LoginPassword,
+				Delete:        acc.Delete,
+				Phone:         acc.Phone,
+				RecentLogin:   acc.RecentLogin,
+				CreateAt:      acc.CreateAt,
+				UpdateAt:      acc.UpdateAt,
+			},
+		}
+	}
+	return &databaseGrpc.AccountGetAccountInfoByPlayerIdResponse{}
+}
+
 func NewAccountAddResponse(objectId string) *databaseGrpc.AccountAddResponse {
 	return &databaseGrpc.AccountAddResponse{ObjectId: objectId}
 }

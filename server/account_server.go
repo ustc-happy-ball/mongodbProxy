@@ -112,3 +112,30 @@ func (*AccountRpcServer) AccountFindPlayerByAccountId(ctx context.Context, req *
 	}
 	return resMsg, nil
 }
+
+func (*AccountRpcServer) AccountGetAccountByPlayerId(ctx context.Context, req *databaseGrpc.AccountGetAccountInfoByPlayerIdRequest) (*databaseGrpc.AccountGetAccountInfoByPlayerIdResponse, error) {
+	accountColl, err := collection.GetAccountCollection()
+	if err != nil {
+		err = ErrorHandler(err)
+		return nil, err
+	}
+	go logrus.Debug("Finding account by phone...\n")
+	accounts, err := accountColl.FindItemsByKey([]*db.MatchItem{
+		{
+			Key:      "player_id",
+			MatchVal: req.PlayerId,
+		},
+	})
+	if err != nil {
+		err = ErrorHandler(err)
+		return nil, err
+	}
+	var resMsg *databaseGrpc.AccountGetAccountInfoByPlayerIdResponse
+	if len(accounts) == 0 {
+		go logrus.Debug("Fail to find account by phone number\n")
+		resMsg = message.NewAccountGetAccountByPlayerIdResponse(nil)
+	} else {
+		resMsg = message.NewAccountGetAccountByPlayerIdResponse(accounts[0])
+	}
+	return resMsg, nil
+}
